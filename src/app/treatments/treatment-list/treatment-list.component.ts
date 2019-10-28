@@ -4,6 +4,8 @@ import { Treatments } from '../treatments.model';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { NewTreatmentComponent } from '../new-treatment/new-treatment.component';
 import { Router } from '@angular/router';
+import { DataService } from 'src/app/core/services/data.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-treatment-list',
@@ -11,19 +13,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./treatment-list.component.scss']
 })
 export class TreatmentListComponent implements OnInit {
+  module: string;
   treatmentList: Treatments[];
   departmentList = [
     "Spa Care", "Salon Care", "Skin Care"
   ];
+
   constructor(
+    private route: Router, private location: Location,
     private treatmentService: TreatmentService,
     public dialog: MatDialog,
-    public route: Router
+    private data: DataService
   ) {
   }
 
   ngOnInit() {
     this.loadTreatments();
+    this.data.currentModule.subscribe(module => this.module = module);
+    this.data.changeModule("Treatments");
   }
 
   loadTreatments() {
