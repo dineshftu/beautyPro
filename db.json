@@ -1,0 +1,28 @@
+{
+  "treatments": [
+    {
+      "id": 1,
+      "name": "Facial",
+      "department": "Spa",
+      "duration": "1 Hr 30 Min",
+      "cost": "370.00",
+      "price": "650.00"
+    },
+    {
+      "id": 2,
+      "name": "Facial-2",
+      "department": "Spa-1",
+      "duration": "1 Hr 30 Min",
+      "cost": "370.00",
+      "price": "650.00"
+    },
+    {
+      "id": 3,
+      "name": "Facial-3",
+      "department": "Spa-2",
+      "duration": "1 Hr 30 Min",
+      "cost": "370.00",
+      "price": "650.00"
+    }
+  ]
+}
