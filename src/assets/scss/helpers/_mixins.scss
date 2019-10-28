@@ -1,0 +1,82 @@
+/* responsive mixins */
+@mixin respond-to($media) {
+  @if $media == mobile {
+    @media only screen and (max-width: 568px) { @content; }
+  }
+  @else if $media == phablet {
+    @media only screen and (max-width: 767px) { @content; }
+  }
+  @else if $media == tab {
+    @media only screen and (max-width: 1023px) { @content; }
+  }
+  @else if $media == desktop {
+    @media only screen and (max-width: 1280px) { @content; }
+  }
+  @else if $media == large {
+    @media only screen and (max-width: 1440px) { @content; }
+  }
+  @else if $media == wide-screens {
+    @media only screen and (min-width: 1441px) { @content; }
+  }
+}
+
+/* opacity */
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+/* transition */
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+/* box shadow */
+@mixin box-shadow($top, $left, $blur, $color) {
+  -webkit-box-shadow: $top $left $blur $color;
+  -moz-box-shadow: $top $left $blur $color;
+  box-shadow: $top $left $blur $color;
+}
+
+/* border radius */
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  border-radius: $radius;
+}
+
+/* placeholder color */
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}
+}
+
+@mixin font-normal{
+  font-family: 'Gotham-Book', sans-serif;
+  font-weight: normal;
+}
+
+@mixin li-width($col, $width) {
+  #{$col} {
+    width: $width;
+  }
+}
+
+@mixin list-columns($widths...) {
+  $n: 1;
+  $var: "&:nth-child(" + $n + ")";
+  @each $width in $widths {
+    @include li-width($var, $width);
+    $n: $n + 1;
+    $var: "&:nth-child(" + $n + ")";
+  }
+}

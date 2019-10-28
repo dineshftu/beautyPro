@@ -1,0 +1,26 @@
+.form-control {
+  display: block;
+  width: 100%;
+  height: 36px;
+  padding: 0 15px;
+  background: none;
+  font-size: 13px;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: $color-2;
+  line-height: 36px;
+  border: 1px solid $color-2;
+  background: $white;
+  border-radius: 10px;
+
+  @include placeholder {
+    color: $menu-font-color;
+    @include opacity(0.45);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

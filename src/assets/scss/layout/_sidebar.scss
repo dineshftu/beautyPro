@@ -1,0 +1,50 @@
+/*---------- Starting  Styles ----------*/
+
+#sidebar{
+  position: fixed;
+  width: 260px;
+  height: 100%;
+  z-index: 1;
+  min-height: 100%;
+  display: block;
+  box-sizing: border-box;
+  left: 0;
+  overflow: hidden;
+  @include transition(all, 0.3s, ease-in);
+
+  .panel-nav {
+    width:100%;
+    padding: 40px;
+    overflow: auto;
+
+    .main-menu {
+      background: $white;
+      padding: 15px 0;
+      border-radius: 10px;
+      @include box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.22));
+
+      ul {
+        height: auto;
+
+        li {
+          padding-left: 30px;
+          color: $black;
+          display: block;
+          position: relative;
+          overflow: hidden;
+          height: 50px;
+          line-height: 50px;
+          font-size: 13px;
+          font-family: 'Gotham';
+          font-weight: 600;       
+          @include transition(all 0.3s ease-in-out);
+
+          &:hover {
+            background: $color-2;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}

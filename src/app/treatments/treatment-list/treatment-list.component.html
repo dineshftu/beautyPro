@@ -1,0 +1,66 @@
+<!-- main content area -->
+<div id="wrapper-content">
+
+  <!-- start: filter section -->
+  <div id="filter-section">
+    <div class="form-group">
+      <select class="form-control select">
+        <option value="{{department}}" *ngFor="let department of departmentList">{{department}}
+        </option>
+        <!-- <option value="Value 1">Select departmrnt</option>
+        <option value="Value 2">Salon care</option>
+        <option value="Value 3">Spa care</option> -->
+      </select>
+    </div>
+
+    <button type="button" class="btn-default" (click)="addNewTreatment()">Add new treatment</button>
+  </div>
+
+  <!-- start: table section -->
+  <div class="table-gen treatment-list">
+
+    <!-- start: table header -->
+    <div class="table-header">
+
+      <div class="row">
+        <div>Treatment name</div>
+        <div>Department</div>
+        <div>Duration</div>
+        <div>Cost</div>
+        <div>Price</div>
+        <div></div>
+      </div>
+    </div>
+    <!-- end: table header -->
+
+    <!-- start: table body -->
+    <div id="table-body">
+      <div class="table-row">
+        <div class="row" *ngFor="let treatment of treatmentList">
+          <div>{{treatment.name}}</div>
+          <div>{{treatment.department}}</div>
+          <div>{{treatment.duration}}</div>
+          <div>{{treatment.price | currency : 'LKR'}}</div>
+          <div>{{treatment.cost | currency : 'LKR'}}</div>
+          <div class="action-btns align-right">
+            <button class="icon-btn">
+              <i class="material-icons">pageview</i>
+            </button>
+            <button class="icon-btn">
+              <i class="material-icons">edit</i>
+            </button>
+            <button class="icon-btn">
+              <i class="material-icons">delete</i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end: table body -->
+
+  </div>
+  <!-- end: table section -->
+
+</div>
+<!-- end: main wrapper -->
