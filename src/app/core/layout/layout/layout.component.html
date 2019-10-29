@@ -1,16 +1,14 @@
 <app-header></app-header>
-  <!-- start: sidebar -->
-  <nav id="sidebar">
-      <div class="panel-nav">
-          <div class="main-menu">
-              <ul>
-                  <li *ngFor ="let item of modules" [routerLink]="[item]" routerLinkActive="router-link-active">
-                    {{item | titlecase}}
-                  </li>
-                </ul>
-          </div>
-      </div>
-  </nav>
-  <!-- end: sidebar -->
-
-
+<!-- start: sidebar -->
+<nav id="sidebar">
+  <div class="panel-nav">
+    <div class="main-menu">
+      <ul>
+        <li *ngFor="let item of modules" [routerLink]="[item]" routerLinkActive="router-link-active">
+          {{item | titlecase}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- end: sidebar -->

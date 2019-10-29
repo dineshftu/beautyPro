@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { Treatments } from './treatments.model';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TreatmentService {
 
   private apiTreatmentUrl = 'treatments';
