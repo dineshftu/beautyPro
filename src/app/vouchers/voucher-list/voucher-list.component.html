@@ -1,0 +1,52 @@
+<div id="wrapper-content">
+
+  <!-- start: filter section -->
+  <div id="filter-section">
+    <div class="form-group">
+      <select class="form-control select">
+        <option value="{{status}}" *ngFor="let status of statusList">{{status}}
+        </option>
+      </select>
+    </div>
+
+    <button type="button" class="btn-default">Issue new voucher</button>
+  </div>
+
+  <!-- start: table section -->
+  <div class="table-gen voucher-list">
+
+    <!-- start: table header -->
+    <div class="table-header">
+
+      <div class="row">
+        <div>Voucher No</div>
+        <div>Customer</div>
+        <div>Issued By</div>
+        <div>Issued Date</div>
+        <div>Status</div>
+        <div>Amount</div>
+      </div>
+    </div>
+    <!-- end: table header -->
+
+    <!-- start: table body -->
+    <div id="table-body">
+      <div class="table-row">
+        <div class="row" *ngFor="let voucher of voucherList">
+          <div>{{voucher.number}}</div>
+          <div>{{voucher.customer}}</div>
+          <div>{{voucher.issuedBy}}</div>
+          <div>{{voucher.issuedDate | date}}</div>
+          <div>{{voucher.status}}</div>
+          <div>{{voucher.amount | currency : 'LKR'}}</div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end: table body -->
+
+  </div>
+  <!-- end: table section -->
+
+</div>
+<!-- end: main wrapper -->

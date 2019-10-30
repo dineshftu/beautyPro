@@ -5,6 +5,7 @@
   <div id="filter-section">
     <div class="form-group">
       <select class="form-control select">
+        <option value="" disabled selected>Select departmnet</option>
         <option value="{{department}}" *ngFor="let department of departmentList">{{department}}
         </option>
         <!-- <option value="Value 1">Select departmrnt</option>

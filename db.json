@@ -24,5 +24,66 @@
       "cost": "370.00",
       "price": "650.00"
     }
+  ],
+  "vouchers": [
+    {
+      "id": 1,
+      "number": "VOU12345",
+      "customer": "John Doe",
+      "issuedBy": "Jane Doe",
+      "issuedDate": "2019.12.28",
+      "status": "Redeemed",
+      "amount": 1500
+    },
+    {
+      "id": 2,
+      "number": "VOU5321",
+      "customer": "Camilia Doe",
+      "issuedBy": "Supun Doe",
+      "issuedDate": "2019.10.05",
+      "status": "Status",
+      "amount": 2400
+    },
+    {
+      "id": 3,
+      "number": "VOU8974",
+      "customer": "Sandi Doe",
+      "issuedBy": "Keneth Doe",
+      "issuedDate": "2018.02.01",
+      "status": "Pending",
+      "amount": 5400
+    }
+  ],
+  "appointments": [
+    {
+      "id": 1,
+      "customer": "Sandi Doe",
+      "treatment": "Hair Cut",
+      "date": "2019.10.05",
+      "time": "14.13",
+      "duration": "1 Hr 30 Min",
+      "therapist": "John Doe",
+      "price": "650.00"
+    },
+    {
+      "id": 1,
+      "customer": "Sherif Doe",
+      "treatment": "Full Body Massage",
+      "date": "2019.10.05",
+      "time": "10.13",
+      "duration": "1 Hr 30 Min",
+      "therapist": "John Doe",
+      "price": "1500.00"
+    },
+    {
+      "id": 1,
+      "customer": "Jane Doe",
+      "treatment": "Hair Color",
+      "date": "2019.10.05",
+      "time": "17.13",
+      "duration": "1 Hr 30 Min",
+      "therapist": "John Doe",
+      "price": "2400.00"
+    }
   ]
 }

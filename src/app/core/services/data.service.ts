@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DataService {
 
-  private moduleSource = new BehaviorSubject('Fuck');
+  private moduleSource = new BehaviorSubject('');
   currentModule = this.moduleSource.asObservable();
 
   constructor() { }

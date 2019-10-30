@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './core/layout/layout/layout.component';
+import { AuthGuard } from './authGuard/auth.guard';
+import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
+import { LoginComponent } from './core/login/login.component';
 
 
 const routes: Routes = [
@@ -10,8 +13,14 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: 'home',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: '',
@@ -25,9 +34,22 @@ const routes: Routes = [
       {
         path: 'clients',
         loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule)
-      }
+      },
+      {
+        path: 'appointments',
+        loadChildren: () => import('./appointments/appointments.module').then(m => m.AppointmentsModule)
+      },
+      {
+        path: 'vouchers',
+        loadChildren: () => import('./vouchers/vouchers.module').then(m => m.VouchersModule)
+      },
+
     ]
-  }
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  },
 ];
 
 @NgModule({
