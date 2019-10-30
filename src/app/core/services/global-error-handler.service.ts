@@ -10,7 +10,6 @@ export class GlobalErrorHandlerService implements ErrorHandler {
   ) { }
 
   handleError(error: Error | HttpErrorResponse) {
-    this.toastr.error()
     if (error instanceof HttpErrorResponse) {
       this.toastr.error(error.message, error.statusText);
     } else {
