@@ -20,6 +20,9 @@ import { TreatmentService } from './treatment.service';
   ],
   providers: [
     TreatmentService
+  ],
+  entryComponents: [
+    NewTreatmentComponent
   ]
 })
 export class TreatmentsModule { }

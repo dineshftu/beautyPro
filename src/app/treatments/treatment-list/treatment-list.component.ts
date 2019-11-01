@@ -44,7 +44,8 @@ export class TreatmentListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    // dialogConfig.width = "600px";
+    dialogConfig.width = "600px";
+    dialogConfig.height = "400px";
     this.dialog.open(NewTreatmentComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         //console.log(response);

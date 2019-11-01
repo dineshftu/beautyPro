@@ -5,12 +5,14 @@ import { AppointmentsRoutingModule } from './appointments-routing.module';
 import { AppointmentListComponent } from './appointment-list/appointment-list.component';
 import { AppointmentsService } from './appointments.service';
 import { ViewAppointmentComponent } from './view-appointment/view-appointment.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 @NgModule({
   declarations: [
     AppointmentListComponent,
-    ViewAppointmentComponent
+    ViewAppointmentComponent,
+    CheckoutComponent
   ],
   imports: [
     CommonModule,

@@ -8,6 +8,7 @@ import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
 import { GlobalErrorHandlerService } from './core/services/global-error-handler.service';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { GlobalErrorHandlerService } from './core/services/global-error-handler.
     CoreModule
   ],
   providers: [
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
   ],

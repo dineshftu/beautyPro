@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { TreatmentService } from '../treatment.service';
 
 @Component({
@@ -14,7 +14,6 @@ export class NewTreatmentComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<NewTreatmentComponent>,
-    public dialog: MatDialog,
     public treatmentService: TreatmentService
   ) { }
 
