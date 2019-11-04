@@ -8,6 +8,7 @@ import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
 import { GlobalErrorHandlerService } from './core/services/global-error-handler.service';
+import { MaterialModule } from './material.module';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     ),
     AppRoutingModule,
     HttpClientModule,
+    MaterialModule,
     CoreModule
   ],
   providers: [

@@ -43,6 +43,10 @@ const routes: Routes = [
         path: 'vouchers',
         loadChildren: () => import('./vouchers/vouchers.module').then(m => m.VouchersModule)
       },
+      {
+        path: 'scheduler',
+        loadChildren: () => import('./schedulers/schedulers.module').then(m => m.SchedulersModule)
+      },
 
     ]
   },

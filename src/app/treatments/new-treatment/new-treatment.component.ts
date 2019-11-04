@@ -13,8 +13,8 @@ export class NewTreatmentComponent implements OnInit {
   ];
 
   constructor(
-    public dialogRef: MatDialogRef<NewTreatmentComponent>,
-    public treatmentService: TreatmentService
+    // public dialogRef: MatDialogRef<NewTreatmentComponent>,
+    // public treatmentService: TreatmentService
   ) { }
 
   ngOnInit() {

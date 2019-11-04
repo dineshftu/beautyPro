@@ -7,11 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
   modules = [
-    "schedular", "appointments", "staff", "clients", "treatments", "products", "vouchers"
+    "scheduler", "appointments", "staff", "clients", "treatments", "products", "vouchers"
   ];
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }
