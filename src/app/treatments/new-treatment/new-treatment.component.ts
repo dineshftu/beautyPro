@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { TreatmentService } from '../treatment.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-treatment',
@@ -13,11 +14,18 @@ export class NewTreatmentComponent implements OnInit {
   ];
 
   constructor(
-    // public dialogRef: MatDialogRef<NewTreatmentComponent>,
+    public dialogRef: MatDialogRef<NewTreatmentComponent>,
+    private route: Router
     // public treatmentService: TreatmentService
   ) { }
 
   ngOnInit() {
+  }
+
+  cancel() {
+    this.dialogRef.close();
+    // this.route.navigate(['home/treatments']);
+
   }
 
 }

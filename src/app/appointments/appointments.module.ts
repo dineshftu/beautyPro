@@ -7,6 +7,7 @@ import { AppointmentsService } from './appointments.service';
 import { ViewAppointmentComponent } from './view-appointment/view-appointment.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
   ],
   imports: [
     CommonModule,
+    MatDialogModule,
     AppointmentsRoutingModule
   ],
   providers: [

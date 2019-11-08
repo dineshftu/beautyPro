@@ -2,14 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SchedulersRoutingModule } from './schedulers-routing.module';
-import { SchedulersComponent } from './schedulers.component';
+import { SchedulerItemComponent } from './scheduler-item/scheduler-item.component';
+import { SchedulerListComponent } from './scheduler-list/scheduler-list.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
-  declarations: [SchedulersComponent],
+  declarations: [SchedulerItemComponent, SchedulerListComponent],
   imports: [
+    MatDialogModule,
     CommonModule,
-    SchedulersRoutingModule
+    SchedulersRoutingModule,
   ]
 })
 export class SchedulersModule { }

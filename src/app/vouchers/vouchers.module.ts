@@ -5,6 +5,7 @@ import { VouchersRoutingModule } from './vouchers-routing.module';
 import { VoucherListComponent } from './voucher-list/voucher-list.component';
 import { VouchersService } from './vouchers.service';
 import { NewVoucherComponent } from './new-voucher/new-voucher.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { NewVoucherComponent } from './new-voucher/new-voucher.component';
   ],
   imports: [
     CommonModule,
+    MatDialogModule,
     VouchersRoutingModule
   ],
   providers: [

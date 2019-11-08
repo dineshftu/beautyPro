@@ -8,8 +8,9 @@ import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
 import { GlobalErrorHandlerService } from './core/services/global-error-handler.service';
-import { MaterialModule } from './material.module';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+// import { MaterialModule } from './material.module';
+// import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,11 +25,12 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     ),
     AppRoutingModule,
     HttpClientModule,
-    MaterialModule,
-    CoreModule
+    // MaterialModule,
+    CoreModule,
+    BrowserAnimationsModule
   ],
   providers: [
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    // { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
   ],

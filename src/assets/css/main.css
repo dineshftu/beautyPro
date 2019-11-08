@@ -1,85 +1,17 @@
 @charset "UTF-8";
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -89,17 +21,8 @@ video {
 }
 
 /* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
@@ -107,21 +30,17 @@ body {
   line-height: 1;
 }
 
-ol,
-ul {
+ol, ul {
   list-style: none;
 }
 
-blockquote,
-q {
+blockquote, q {
   quotes: none;
 }
 
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
   content: none;
 }
 
@@ -137,52 +56,33 @@ img {
 }
 
 @font-face {
-  font-family: "Gotham";
+  font-family: 'Gotham';
   src: url("../fonts/font-gotham/Gotham-Light.eot");
-  src: url("../fonts/font-gotham/Gotham-Light.eot?#iefix")
-      format("embedded-opentype"),
-    url("../fonts/font-gotham/Gotham-Light.woff2") format("woff2"),
-    url("../fonts/font-gotham/Gotham-Light.woff") format("woff"),
-    url("../fonts/font-gotham/Gotham-Light.ttf") format("truetype"),
-    url("../fonts/font-gotham/Gotham-Light.svg#Gotham-Light") format("svg");
+  src: url("../fonts/font-gotham/Gotham-Light.eot?#iefix") format("embedded-opentype"), url("../fonts/font-gotham/Gotham-Light.woff2") format("woff2"), url("../fonts/font-gotham/Gotham-Light.woff") format("woff"), url("../fonts/font-gotham/Gotham-Light.ttf") format("truetype"), url("../fonts/font-gotham/Gotham-Light.svg#Gotham-Light") format("svg");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Gotham";
+  font-family: 'Gotham';
   src: url("../fonts/font-gotham/GothamMedium.eot");
-  src: url("../fonts/font-gotham/GothamMedium.eot?#iefix")
-      format("embedded-opentype"),
-    url("../fonts/font-gotham/GothamMedium.woff2") format("woff2"),
-    url("../fonts/font-gotham/GothamMedium.woff") format("woff"),
-    url("../fonts/font-gotham/GothamMedium.ttf") format("truetype"),
-    url("../fonts/font-gotham/GothamMedium.svg#GothamMedium") format("svg");
+  src: url("../fonts/font-gotham/GothamMedium.eot?#iefix") format("embedded-opentype"), url("../fonts/font-gotham/GothamMedium.woff2") format("woff2"), url("../fonts/font-gotham/GothamMedium.woff") format("woff"), url("../fonts/font-gotham/GothamMedium.ttf") format("truetype"), url("../fonts/font-gotham/GothamMedium.svg#GothamMedium") format("svg");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Gotham";
+  font-family: 'Gotham';
   src: url("../fonts/font-gotham/Gotham-Bold.eot");
-  src: url("../fonts/font-gotham/Gotham-Bold.eot?#iefix")
-      format("embedded-opentype"),
-    url("../fonts/font-gotham/Gotham-Bold.woff2") format("woff2"),
-    url("../fonts/font-gotham/Gotham-Bold.woff") format("woff"),
-    url("../fonts/font-gotham/Gotham-Bold.ttf") format("truetype"),
-    url("../fonts/font-gotham/Gotham-Bold.svg#Gotham-Bold") format("svg");
+  src: url("../fonts/font-gotham/Gotham-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/font-gotham/Gotham-Bold.woff2") format("woff2"), url("../fonts/font-gotham/Gotham-Bold.woff") format("woff"), url("../fonts/font-gotham/Gotham-Bold.ttf") format("truetype"), url("../fonts/font-gotham/Gotham-Bold.svg#Gotham-Bold") format("svg");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Gotham-Book";
+  font-family: 'Gotham-Book';
   src: url("../fonts/font-gotham/Gotham-Book.eot");
-  src: url("../fonts/font-gotham/Gotham-Book.woff2") format("woff2"),
-    url("../fonts/font-gotham/Gotham-Book.woff") format("woff"),
-    url("../fonts/font-gotham/Gotham-Book.ttf") format("truetype"),
-    url("../fonts/font-gotham/Gotham-Book.eot?#iefix")
-      format("embedded-opentype");
+  src: url("../fonts/font-gotham/Gotham-Book.woff2") format("woff2"), url("../fonts/font-gotham/Gotham-Book.woff") format("woff"), url("../fonts/font-gotham/Gotham-Book.ttf") format("truetype"), url("../fonts/font-gotham/Gotham-Book.eot?#iefix") format("embedded-opentype");
   font-weight: normal;
   font-style: normal;
 }
@@ -195,19 +95,16 @@ img {
 }
 
 @font-face {
-  font-family: "Material Icons";
+  font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
   src: url(../fonts/icon-font/MaterialIcons-Regular.eot);
   /* For IE6-8 */
-  src: local("Material Icons"), local("MaterialIcons-Regular"),
-    url(../fonts/icon-font/MaterialIcons-Regular.woff2) format("woff2"),
-    url(../fonts/icon-font/MaterialIcons-Regular.woff) format("woff"),
-    url(../fonts/icon-font/MaterialIcons-Regular.ttf) format("truetype");
+  src: local("Material Icons"), local("MaterialIcons-Regular"), url(../fonts/icon-font/MaterialIcons-Regular.woff2) format("woff2"), url(../fonts/icon-font/MaterialIcons-Regular.woff) format("woff"), url(../fonts/icon-font/MaterialIcons-Regular.ttf) format("truetype");
 }
 
 .material-icons {
-  font-family: "Material Icons";
+  font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -226,8 +123,8 @@ img {
   /* Support for Firefox. */
   -moz-osx-font-smoothing: grayscale;
   /* Support for IE. */
-  -webkit-font-feature-settings: "liga";
-  font-feature-settings: "liga";
+  -webkit-font-feature-settings: 'liga';
+          font-feature-settings: 'liga';
 }
 
 /* ***************** */
@@ -240,7 +137,7 @@ img {
 body {
   background-image: none !important;
   background: #fff;
-  font-family: "Gotham", sans-serif;
+  font-family: 'Gotham', sans-serif;
   color: #000;
   -webkit-text-stroke: 1px transparent;
   position: relative;
@@ -252,14 +149,12 @@ body {
   box-sizing: border-box;
 }
 
-*:before,
-*:after {
+*:before, *:after {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
   height: 100% !important;
   min-height: 100%;
 }
@@ -283,7 +178,7 @@ hr {
 
 p {
   padding-bottom: 16px;
-  font-family: "Gotham-Book", sans-serif;
+  font-family: 'Gotham-Book', sans-serif;
   font-size: 13px;
   line-height: 21px;
 }
@@ -357,8 +252,8 @@ header .header-main {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: calc(100% - 260px);
 }
 
@@ -378,7 +273,7 @@ header .logged-in-user {
   width: auto;
   line-height: 15px;
   font-size: 12px;
-  font-family: "Gotham-Book", sans-serif;
+  font-family: 'Gotham-Book', sans-serif;
   padding-top: 18px;
   float: left;
   height: 70px;
@@ -416,7 +311,7 @@ header .logged-in-user .username span {
   min-height: 100%;
   display: block;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+          box-sizing: border-box;
   left: 0;
   overflow: hidden;
   -webkit-transition: all, 0.3s, ease-in;
@@ -450,7 +345,7 @@ header .logged-in-user .username span {
   height: 50px;
   line-height: 50px;
   font-size: 13px;
-  font-family: "Gotham";
+  font-family: 'Gotham';
   font-weight: 600;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
@@ -476,8 +371,8 @@ header .logged-in-user .username span {
   width: 100%;
   height: auto;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  font-family: "Gotham-Book", sans-serif;
+          box-sizing: border-box;
+  font-family: 'Gotham-Book', sans-serif;
   font-weight: normal;
   padding: 50px 0 15px;
 }
@@ -492,8 +387,7 @@ header .logged-in-user .username span {
 }
 
 /*--------General Table----------*/
-.table-gen .table-header .row,
-.table-gen .table-row .row {
+.table-gen .table-header .row, .table-gen .table-row .row {
   width: 100%;
   height: 50px;
   display: table;
@@ -502,17 +396,16 @@ header .logged-in-user .username span {
   padding: 0 10px;
 }
 
-.table-gen .table-header .row div,
-.table-gen .table-row .row div {
+.table-gen .table-header .row div, .table-gen .table-row .row div {
   display: table-cell;
   text-align: left;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+          box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   list-style: none;
-  font-family: "Gotham-Book";
+  font-family: 'Gotham-Book';
   padding: 0 10px;
   vertical-align: middle;
   cursor: pointer;
@@ -572,146 +465,118 @@ header .logged-in-user .username span {
 }
 
 /* treatment listing */
-.table-gen.treatment-list .table-header .row div:nth-child(1),
-.table-gen.treatment-list .table-row .row div:nth-child(1) {
+.table-gen.treatment-list .table-header .row div:nth-child(1), .table-gen.treatment-list .table-row .row div:nth-child(1) {
   width: 32%;
 }
 
-.table-gen.treatment-list .table-header .row div:nth-child(2),
-.table-gen.treatment-list .table-row .row div:nth-child(2) {
+.table-gen.treatment-list .table-header .row div:nth-child(2), .table-gen.treatment-list .table-row .row div:nth-child(2) {
   width: 17%;
 }
 
-.table-gen.treatment-list .table-header .row div:nth-child(3),
-.table-gen.treatment-list .table-row .row div:nth-child(3) {
+.table-gen.treatment-list .table-header .row div:nth-child(3), .table-gen.treatment-list .table-row .row div:nth-child(3) {
   width: 17%;
 }
 
-.table-gen.treatment-list .table-header .row div:nth-child(4),
-.table-gen.treatment-list .table-row .row div:nth-child(4) {
+.table-gen.treatment-list .table-header .row div:nth-child(4), .table-gen.treatment-list .table-row .row div:nth-child(4) {
   width: 17%;
 }
 
-.table-gen.treatment-list .table-header .row div:nth-child(5),
-.table-gen.treatment-list .table-row .row div:nth-child(5) {
+.table-gen.treatment-list .table-header .row div:nth-child(5), .table-gen.treatment-list .table-row .row div:nth-child(5) {
   width: 17%;
 }
 
-.table-gen.treatment-list .table-header .row div:nth-child(6),
-.table-gen.treatment-list .table-row .row div:nth-child(6) {
+.table-gen.treatment-list .table-header .row div:nth-child(6), .table-gen.treatment-list .table-row .row div:nth-child(6) {
   width: 150px;
 }
 
 /* voucher listing */
-.table-gen.voucher-list .table-header .row div:nth-child(1),
-.table-gen.voucher-list .table-row .row div:nth-child(1) {
+.table-gen.voucher-list .table-header .row div:nth-child(1), .table-gen.voucher-list .table-row .row div:nth-child(1) {
   width: 25%;
 }
 
-.table-gen.voucher-list .table-header .row div:nth-child(2),
-.table-gen.voucher-list .table-row .row div:nth-child(2) {
+.table-gen.voucher-list .table-header .row div:nth-child(2), .table-gen.voucher-list .table-row .row div:nth-child(2) {
   width: 15%;
 }
 
-.table-gen.voucher-list .table-header .row div:nth-child(3),
-.table-gen.voucher-list .table-row .row div:nth-child(3) {
+.table-gen.voucher-list .table-header .row div:nth-child(3), .table-gen.voucher-list .table-row .row div:nth-child(3) {
   width: 15%;
 }
 
-.table-gen.voucher-list .table-header .row div:nth-child(4),
-.table-gen.voucher-list .table-row .row div:nth-child(4) {
+.table-gen.voucher-list .table-header .row div:nth-child(4), .table-gen.voucher-list .table-row .row div:nth-child(4) {
   width: 15%;
 }
 
-.table-gen.voucher-list .table-header .row div:nth-child(5),
-.table-gen.voucher-list .table-row .row div:nth-child(5) {
+.table-gen.voucher-list .table-header .row div:nth-child(5), .table-gen.voucher-list .table-row .row div:nth-child(5) {
   width: 15%;
 }
 
-.table-gen.voucher-list .table-header .row div:nth-child(6),
-.table-gen.voucher-list .table-row .row div:nth-child(6) {
+.table-gen.voucher-list .table-header .row div:nth-child(6), .table-gen.voucher-list .table-row .row div:nth-child(6) {
   width: 15%;
 }
 
 /* appointment lisitng */
-.table-gen.appointment-list .table-header .row div:nth-child(1),
-.table-gen.appointment-list .table-row .row div:nth-child(1) {
+.table-gen.appointment-list .table-header .row div:nth-child(1), .table-gen.appointment-list .table-row .row div:nth-child(1) {
   width: 15%;
 }
 
-.table-gen.appointment-list .table-header .row div:nth-child(2),
-.table-gen.appointment-list .table-row .row div:nth-child(2) {
+.table-gen.appointment-list .table-header .row div:nth-child(2), .table-gen.appointment-list .table-row .row div:nth-child(2) {
   width: 15%;
 }
 
-.table-gen.appointment-list .table-header .row div:nth-child(3),
-.table-gen.appointment-list .table-row .row div:nth-child(3) {
+.table-gen.appointment-list .table-header .row div:nth-child(3), .table-gen.appointment-list .table-row .row div:nth-child(3) {
   width: 14%;
 }
 
-.table-gen.appointment-list .table-header .row div:nth-child(4),
-.table-gen.appointment-list .table-row .row div:nth-child(4) {
+.table-gen.appointment-list .table-header .row div:nth-child(4), .table-gen.appointment-list .table-row .row div:nth-child(4) {
   width: 13%;
 }
 
-.table-gen.appointment-list .table-header .row div:nth-child(5),
-.table-gen.appointment-list .table-row .row div:nth-child(5) {
+.table-gen.appointment-list .table-header .row div:nth-child(5), .table-gen.appointment-list .table-row .row div:nth-child(5) {
   width: 14%;
 }
 
-.table-gen.appointment-list .table-header .row div:nth-child(6),
-.table-gen.appointment-list .table-row .row div:nth-child(6) {
+.table-gen.appointment-list .table-header .row div:nth-child(6), .table-gen.appointment-list .table-row .row div:nth-child(6) {
   width: 14%;
 }
 
-.table-gen.appointment-list .table-header .row div:nth-child(7),
-.table-gen.appointment-list .table-row .row div:nth-child(7) {
+.table-gen.appointment-list .table-header .row div:nth-child(7), .table-gen.appointment-list .table-row .row div:nth-child(7) {
   width: 15%;
 }
 
-.table-gen.appointment-list .table-header .row div:nth-child(8),
-.table-gen.appointment-list .table-row .row div:nth-child(8) {
+.table-gen.appointment-list .table-header .row div:nth-child(8), .table-gen.appointment-list .table-row .row div:nth-child(8) {
   width: 140px;
 }
 
 /* client lisitng */
-.table-gen.client-list .table-header .row div:nth-child(1),
-.table-gen.client-list .table-row .row div:nth-child(1) {
+.table-gen.client-list .table-header .row div:nth-child(1), .table-gen.client-list .table-row .row div:nth-child(1) {
   width: 13%;
 }
 
-.table-gen.client-list .table-header .row div:nth-child(2),
-.table-gen.client-list .table-row .row div:nth-child(2) {
+.table-gen.client-list .table-header .row div:nth-child(2), .table-gen.client-list .table-row .row div:nth-child(2) {
   width: 20%;
 }
 
-.table-gen.client-list .table-header .row div:nth-child(3),
-.table-gen.client-list .table-row .row div:nth-child(3) {
+.table-gen.client-list .table-header .row div:nth-child(3), .table-gen.client-list .table-row .row div:nth-child(3) {
   width: 12%;
 }
 
-.table-gen.client-list .table-header .row div:nth-child(4),
-.table-gen.client-list .table-row .row div:nth-child(4) {
+.table-gen.client-list .table-header .row div:nth-child(4), .table-gen.client-list .table-row .row div:nth-child(4) {
   width: 17%;
 }
 
-.table-gen.client-list .table-header .row div:nth-child(5),
-.table-gen.client-list .table-row .row div:nth-child(5) {
+.table-gen.client-list .table-header .row div:nth-child(5), .table-gen.client-list .table-row .row div:nth-child(5) {
   width: 10%;
 }
 
-.table-gen.client-list .table-header .row div:nth-child(6),
-.table-gen.client-list .table-row .row div:nth-child(6) {
+.table-gen.client-list .table-header .row div:nth-child(6), .table-gen.client-list .table-row .row div:nth-child(6) {
   width: 12%;
 }
 
-.table-gen.client-list .table-header .row div:nth-child(7),
-.table-gen.client-list .table-row .row div:nth-child(7) {
+.table-gen.client-list .table-header .row div:nth-child(7), .table-gen.client-list .table-row .row div:nth-child(7) {
   width: 14%;
 }
 
-.table-gen.client-list .table-header .row div:nth-child(8),
-.table-gen.client-list .table-row .row div:nth-child(8) {
+.table-gen.client-list .table-header .row div:nth-child(8), .table-gen.client-list .table-row .row div:nth-child(8) {
   width: 110px;
 }
 
@@ -785,7 +650,7 @@ button.btn-link.logout:hover {
 }
 
 a {
-  font-family: "Gotham-Book", sans-serif;
+  font-family: 'Gotham-Book', sans-serif;
   font-weight: normal;
   text-decoration: none !important;
   opacity: 1;
@@ -860,7 +725,7 @@ a {
   background: none;
   font-size: 13px;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+          box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -909,8 +774,8 @@ a {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-left: -10px;
   margin-right: -10px;
 }
@@ -942,7 +807,7 @@ a {
   background: #fff;
   width: 500px;
   margin: 70px auto 0;
-  /* z-index: 1072; */
+  z-index: 1072;
 }
 
 .pop-up-header {
@@ -951,8 +816,8 @@ a {
   display: flex;
   padding: 30px 40px;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .pop-up-header .icon-btn {
@@ -1038,8 +903,7 @@ a {
   padding-bottom: 15px;
 }
 
-.checkout-item-block .inline-form .form-group:nth-child(1),
-.checkout-item-block .inline-form .form-group:nth-child(2) {
+.checkout-item-block .inline-form .form-group:nth-child(1), .checkout-item-block .inline-form .form-group:nth-child(2) {
   width: 30%;
 }
 
@@ -1121,8 +985,8 @@ a {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-bottom: 15px;
 }
 
@@ -1147,5 +1011,131 @@ a {
   font-size: 14px;
   font-weight: 600;
   color: #2e3854;
+}
+
+.time-lapse {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  width: 40px;
+  float: left;
+  margin-right: 6px;
+  margin-top: 66px;
+}
+
+.time-lapse .time-intvl {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2e3854;
+  height: 180px;
+  letter-spacing: 0.03em;
+}
+
+/* schedular grid */
+.schd-grid {
+  display: -webkit-box;
+  overflow: auto;
+}
+
+.schd-grid .schd-blc {
+  width: 220px;
+  margin-right: 15px;
+}
+
+.schd-blc-usr {
+  background: #fff;
+  border-radius: 4px;
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 8px;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+
+.schd-blc-usr .schd-blc-usr-img {
+  width: 38px;
+  height: 38px;
+  background: #d3d3d3;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.schd-blc-usr .schd-blc-usr-name {
+  font-size: 13px;
+  color: #2e3854;
+  font-weight: 600;
+}
+
+.schd-blc-usr .schd-blc-usr-name span {
+  color: #311dd2;
+  font-weight: normal;
+  font-size: 12px;
+  display: block;
+}
+
+.schd-blc-tl {
+  background: #fff;
+  border: 1px solid #b3b9bd;
+  border-radius: 4px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.schd-blc-tl .tl-gap-hr {
+  border-bottom: 1px solid #b3b9bd;
+  position: relative;
+}
+
+.schd-blc-tl .tl-gap-hr .tl-gap-seg {
+  height: 30px;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.schd-blc-tl .bk-seg {
+  display: block;
+  position: absolute;
+  height: 90px;
+  width: 100%;
+  top: 60px;
+  padding: 4px 5px;
+}
+
+.schd-blc-tl .bk-seg .bk-seg-client {
+  color: #2e3854;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.schd-blc-tl .bk-seg .bk-seg-trt {
+  color: #2e3854;
+  font-size: 10px;
+}
+
+.schd-blc-tl .bk-seg .bk-seg-status {
+  position: absolute;
+  background: #5d5959;
+  top: 4px;
+  right: 5px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 300;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.schd-blc-tl .bk-seg-type {
+  background: yellow;
 }
 /*# sourceMappingURL=main.css.map */
