@@ -20,8 +20,8 @@ export class TreatmentListComponent implements OnInit {
   ];
 
   constructor(
-    private route: Router, private location: Location,
     private treatmentService: TreatmentService,
+    private route: Router, private location: Location,
     public dialog: MatDialog,
     private data: DataService
   ) {
@@ -40,7 +40,6 @@ export class TreatmentListComponent implements OnInit {
   }
 
   addNewTreatment() {
-    console.log("addNewTreatment")
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;

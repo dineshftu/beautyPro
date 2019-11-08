@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
+import { ClientsService } from '../clients.service';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ClientRegistrationComponent } from '../client-registration/client-registration.component';
 
 @Component({
   selector: 'app-client-list',
@@ -14,9 +18,9 @@ export class ClientListComponent implements OnInit {
   ];
 
   constructor(
-    // private route: Router, private location: Location,
-    // private treatmentService: TreatmentService,
-    // public dialog: MatDialog,
+    private route: Router,
+    private clientsService: ClientsService,
+    public dialog: MatDialog,
     private data: DataService
   ) {
   }
@@ -25,6 +29,25 @@ export class ClientListComponent implements OnInit {
     // this.loadTreatments();
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Clients");
+  }
+
+  addNewClient() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = '';
+    this.dialog.open(ClientRegistrationComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        //console.log(response);
+        if (!!response) {
+          if (response.message == 'success') {
+            this.route.navigate(['']);
+          }
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
   }
 
 

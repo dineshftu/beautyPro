@@ -28,4 +28,9 @@ export class NewTreatmentComponent implements OnInit {
 
   }
 
+  save() {
+    this.dialogRef.close();
+
+  }
+
 }

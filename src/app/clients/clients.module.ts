@@ -5,6 +5,7 @@ import { ClientsRoutingModule } from './clients-routing.module';
 import { ClientRegistrationComponent } from './client-registration/client-registration.component';
 import { ClientListComponent } from './client-list/client-list.component';
 import { ClientsService } from './clients.service';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -14,11 +15,14 @@ import { ClientsService } from './clients.service';
   ],
   imports: [
     CommonModule,
-    ClientsRoutingModule
+    ClientsRoutingModule,
+    MatDialogModule
   ],
   providers: [
     ClientsService
+  ],
+  entryComponents: [
+    ClientRegistrationComponent
   ]
-
 })
 export class ClientsModule { }
