@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './core/layout/layout/layout.component';
-import { AuthGuard } from './authGuard/auth.guard';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 import { LoginComponent } from './core/login/login.component';
+import { AuthGuard } from './_helpers/auth.guard';
 
 
 const routes: Routes = [
@@ -20,7 +20,6 @@ const routes: Routes = [
     path: 'home',
     component: LayoutComponent,
     canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
     children: [
       {
         path: '',

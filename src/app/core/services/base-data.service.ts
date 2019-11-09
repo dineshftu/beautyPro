@@ -27,7 +27,7 @@ export class BaseDataService {
 
 
   private getToken() {
-    return sessionStorage.getItem('token');
+    return localStorage.getItem('token');
   }
 
   private constructUrl(path: string) {
