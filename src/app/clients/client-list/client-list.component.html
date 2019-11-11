@@ -4,7 +4,14 @@
   <div id="filter-section">
     <div class="form-group search">
       <i class="material-icons">search</i>
-      <input type="search" class="form-control" />
+      <input type="search" 
+        [(ngModel)]="searchText"
+        #searchInput
+        class="form-control" 
+        autocomplete="off" 
+        autocorrect="off" 
+        autocapitalize="off" 
+        spellcheck="false"/>
     </div>
 
     <button type="button" class="btn-default" (click)="addNewClient()">Add new client</button>
@@ -32,14 +39,14 @@
     <!-- start: table body -->
     <div id="table-body">
       <div class="table-row">
-        <div class="row">
-          <div>Suresh Chamara</div>
-          <div>422/A, Nugegoda</div>
-          <div>1125468946</div>
-          <div>sureshbpro@bpro.com</div>
-          <div>Male</div>
-          <div>Engineer</div>
-          <div>112356448789</div>
+        <div class="row" *ngFor="let customer of customers">
+          <div>{{customer.name}}</div>
+          <div>{{customer.address}}</div>
+          <div>{{customer.contactNumber}}</div>
+          <div>{{customer.email}}</div>
+          <div>{{customer.gender}}</div>
+          <div>{{customer.profession}}</div>
+          <div>{{customer.loyaltyCardNo}}</div>
           <div class="action-btns align-right">
             <button class="icon-btn">
               <i class="material-icons">edit</i>

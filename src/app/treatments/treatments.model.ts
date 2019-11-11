@@ -6,3 +6,7 @@ export class Treatments {
   cost: string;
   price: string;
 }
+
+export class CustomerSearchRequest {
+  searchText: string;
+}
