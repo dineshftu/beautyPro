@@ -13,7 +13,7 @@ export class ClientsService {
 
   public getCustomerList(request: CustomerSearchRequest): Observable<Array<Customer>> {
     let queryString = `searchText=${request.searchText}`;
-    return this.baseDataService.makeGetCall(`${this.apiClientsUrl}?${queryString}`);
+    return this.baseDataService.makeGetCall(`${this.apiClientsUrl}${'/search'}?${queryString}`);
   }
 
   public getTreatment(treatmentId: number): Observable<Customer> {

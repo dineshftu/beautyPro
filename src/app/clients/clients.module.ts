@@ -6,6 +6,7 @@ import { ClientRegistrationComponent } from './client-registration/client-regist
 import { ClientListComponent } from './client-list/client-list.component';
 import { ClientsService } from './clients.service';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule,
     ClientsRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
   ],
   providers: [
     ClientsService

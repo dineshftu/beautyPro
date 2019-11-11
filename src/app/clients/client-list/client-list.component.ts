@@ -54,7 +54,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
 
   loadCustomers() {
     this.clientsService
-      .getCustomerList(this.createCustomerRequest(this.searchInput.nativeElement))
+      .getCustomerList(this.createCustomerRequest(this.searchInput.nativeElement.value))
       .subscribe((customers: Customer[]) => {
         this.customers = customers
       });
