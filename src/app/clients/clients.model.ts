@@ -1,7 +1,7 @@
 export interface Customer {
   id: string;
   fullName: string;
-  contactNumber: string;
+  mobileNo: string;
   address: string;
   email: string;
   gender: string;
@@ -11,4 +11,13 @@ export interface Customer {
 
 export interface CustomerSearchRequest {
   searchText: string;
+}
+
+export class Client {
+  name: string;
+  address: string;
+  contactNo: string;
+  email: string;
+  gender: string;
+  loyaltyCardNo: string;
 }
