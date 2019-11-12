@@ -48,7 +48,9 @@
 
           </div>
         </div>
+
         <div class="inline-form">
+
           <div class="form-group form-amnt">
             <label>Price</label>
             <span class="form-prefix">LKR</span>
@@ -61,7 +63,9 @@
             </div>
 
           </div>
+
           <div class="form-group form-amnt">
+            
             <label>Cost</label>
             <span class="form-prefix">LKR</span>
             <input type="number" class="form-control" [(ngModel)]="newTreatmentRequest.cost" name="cost"
@@ -71,7 +75,9 @@
             <div *ngIf="f.submitted && cost.invalid">
               <div *ngIf="cost.errors.required">Cost is required</div>
             </div>
+
           </div>
+
         </div>
 
         <div class="pop-up-btns">

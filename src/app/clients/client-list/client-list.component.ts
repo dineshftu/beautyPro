@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
 import { ClientsService } from '../clients.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ClientRegistrationComponent } from '../client-registration/client-registration.component';
 import { CustomerSearchRequest, Customer } from '../clients.model';
@@ -33,6 +33,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private data: DataService
   ) {
+    this.routeReload();
   }
 
   ngOnInit() {
@@ -42,11 +43,21 @@ export class ClientListComponent implements OnInit, OnDestroy {
     this.data.changeModule("Clients");
   }
 
+  private routeReload() {
+    this.route
+      .events
+      .subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+          this.loadCustomers();
+        }
+      })
+  }
+
   searchCustomers() {
 
     fromEvent(this.searchInput.nativeElement, 'keyup')
       .pipe(debounceTime(500),
-      distinctUntilChanged()
+        distinctUntilChanged()
       ).subscribe(() => {
         this.loadCustomers();
       });
@@ -61,7 +72,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
   }
 
   createCustomerRequest(searchText: string) {
-    return <CustomerSearchRequest> {
+    return <CustomerSearchRequest>{
       searchText: searchText
     };
   }
