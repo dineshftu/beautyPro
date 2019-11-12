@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from '../core/services/base-data.service';
 import { Observable } from 'rxjs';
-import { Customer, CustomerSearchRequest } from './clients.model';
+import { Customer, CustomerSearchRequest, Client } from './clients.model';
 
 @Injectable()
 export class ClientsService {
@@ -20,7 +20,7 @@ export class ClientsService {
     return this.baseDataService.makeGetCall(`${this.apiClientsUrl}/${treatmentId}`);
   }
 
-  public addNewCustomer(body: Customer): Observable<Customer> {
+  public addNewCustomer(body: Client): Observable<Customer> {
     return this.baseDataService.makePostCall(`${this.apiClientsUrl}`, body);
   }
 
