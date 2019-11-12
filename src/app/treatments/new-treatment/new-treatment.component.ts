@@ -16,6 +16,7 @@ export class NewTreatmentComponent implements OnInit {
   private ngUnSubscription = new Subject();
   public departments: Department[];
   public newTreatmentRequest = new NewTreatmentRequest();
+  public isDepartmentNotSelected: boolean = false;
 
   constructor(
     private treatmentService: TreatmentService,
@@ -39,8 +40,18 @@ export class NewTreatmentComponent implements OnInit {
   }
 
   onDepartmentChange(e: any) {
+    this.isDepartmentNotSelected = false;
     this.newTreatmentRequest.departmentId = e.target.value;
     console.log(this.newTreatmentRequest.departmentId);
+  }
+
+  numericOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
+      return false;
+    }
+    return true;
+
   }
 
   cancel() {
@@ -48,6 +59,12 @@ export class NewTreatmentComponent implements OnInit {
   }
 
   save() {
+
+    if (!this.newTreatmentRequest.departmentId) {
+      this.isDepartmentNotSelected = true;
+      return;
+    }
+
     this.treatmentService
       .addNewTreatment(this.newTreatmentRequest)
       .pipe(takeUntil(this.ngUnSubscription))
