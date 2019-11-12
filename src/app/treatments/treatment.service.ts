@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from '../core/services/base-data.service';
 import { Observable } from 'rxjs';
-import { Treatments } from './treatments.model';
-
+import { Treatment, TreatmentFilterRequest, Department, NewTreatmentRequest } from './treatments.model';
 
 @Injectable()
 export class TreatmentService {
@@ -13,20 +12,28 @@ export class TreatmentService {
     private baseDataService: BaseDataService
   ) { }
 
-  public getTreatmentList(): Observable<Array<Treatments>> {
+  public getFilteredTreatmentList(request: TreatmentFilterRequest): Observable<Array<Treatment>> {
+    let queryString = `departmentId=${request.departmentId}`;
+    return this.baseDataService.makeGetCall(`${this.apiTreatmentUrl}${'/filter'}?${queryString}`);
+  }
+
+  public getTreatmentList(): Observable<Array<Treatment>> {
     return this.baseDataService.makeGetCall(`${this.apiTreatmentUrl}`);
   }
 
-  public getTreatment(treatmentId: number): Observable<Treatments> {
+  public getTreatment(treatmentId: number): Observable<Treatment> {
     return this.baseDataService.makeGetCall(`${this.apiTreatmentUrl}/${treatmentId}`);
   }
 
-  public addNewTreatment(body: Treatments): Observable<Treatments> {
-    return this.baseDataService.makePostCall(`${this.apiTreatmentUrl}`, body);
+  public addNewTreatment(body: NewTreatmentRequest): Observable<any> {
+    return this.baseDataService.makePostCall(`${this.apiTreatmentUrl}/${'save'}`, body);
   }
 
-  public editTreatment(body: Treatments): Observable<Treatments> {
+  public editTreatment(body: Treatment): Observable<Treatment> {
     return this.baseDataService.makePostCall(`${this.apiTreatmentUrl}/${'edit'}`, body);
   }
 
+  public getAllDepartments(): Observable<Array<Department>> {
+    return this.baseDataService.makeGetCall(`${this.apiTreatmentUrl}/${'departments'}`)
+  }
 }

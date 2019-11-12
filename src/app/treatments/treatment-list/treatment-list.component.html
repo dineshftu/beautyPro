@@ -4,9 +4,11 @@
   <!-- start: filter section -->
   <div id="filter-section">
     <div class="form-group">
-      <select class="form-control select">
+      <select class="form-control select" (change)="onDepartmentChange($event)">
         <option value="" disabled selected>Select departmnet</option>
-        <option value="{{department}}" *ngFor="let department of departmentList">{{department}}
+        <option value="{{department.departmentId}}" 
+          *ngFor="let department of departments"
+        >{{department.name}}
         </option>
         <!-- <option value="Value 1">Select departmrnt</option>
         <option value="Value 2">Salon care</option>
@@ -38,7 +40,7 @@
     <div id="table-body">
       <div class="table-row">
         <div class="row" *ngFor="let treatment of treatmentList">
-          <div>{{treatment.name}}</div>
+          <div>{{treatment.ttname}}</div>
           <div>{{treatment.department}}</div>
           <div>{{treatment.duration}}</div>
           <div>{{treatment.price | currency : 'LKR'}}</div>

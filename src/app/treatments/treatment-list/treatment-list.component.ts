@@ -1,23 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { TreatmentService } from '../treatment.service';
-import { Treatments } from '../treatments.model';
+import { Treatment, Department, TreatmentFilterRequest } from '../treatments.model';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { NewTreatmentComponent } from '../new-treatment/new-treatment.component';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from 'src/app/core/services/data.service';
 import { Location } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-treatment-list',
   templateUrl: './treatment-list.component.html',
   styleUrls: ['./treatment-list.component.scss']
 })
-export class TreatmentListComponent implements OnInit {
+export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy {
   module: string;
-  treatmentList: Treatments[];
+  treatmentList: Treatment[];
+  public selectedDepartment = 0;
+  private ngUnSubscription = new Subject();
+
   departmentList = [
     "Spa Care", "Salon Care", "Skin Care"
   ];
+
+  departments: Department[];
 
   constructor(
     private treatmentService: TreatmentService,
@@ -25,6 +32,16 @@ export class TreatmentListComponent implements OnInit {
     public dialog: MatDialog,
     private data: DataService
   ) {
+    this.routeReload();
+  }
+
+  ngAfterViewInit() {
+    this.treatmentService
+      .getAllDepartments()
+      .pipe(takeUntil(this.ngUnSubscription))
+      .subscribe((departments: Department[]) => {
+        this.departments = departments;
+      })
   }
 
   ngOnInit() {
@@ -33,10 +50,33 @@ export class TreatmentListComponent implements OnInit {
     this.data.changeModule("Treatments");
   }
 
+  private routeReload() {
+    this.route
+      .events
+      .subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+          this.loadTreatments();
+        }
+      })
+  }
+
+  onDepartmentChange(e: any) {
+    this.selectedDepartment = e.target.value;
+    this.loadTreatments();
+  }
+
   loadTreatments() {
-    this.treatmentService.getTreatmentList().subscribe((treatments: Treatments[]) => {
-      this.treatmentList = treatments;
-    });
+    this.treatmentService
+      .getFilteredTreatmentList(this.generateTreatmentFilterRequest())
+      .subscribe((treatments: Treatment[]) => {
+        this.treatmentList = treatments;
+      });
+  }
+
+  private generateTreatmentFilterRequest() {
+    return <TreatmentFilterRequest> {
+      departmentId: this.selectedDepartment
+    }
   }
 
   addNewTreatment() {
@@ -56,6 +96,11 @@ export class TreatmentListComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.ngUnSubscription.next(true);
+    this.ngUnSubscription.complete();
   }
 
 }

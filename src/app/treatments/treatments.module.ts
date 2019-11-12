@@ -6,7 +6,7 @@ import { TreatmentListComponent } from './treatment-list/treatment-list.componen
 import { NewTreatmentComponent } from './new-treatment/new-treatment.component';
 import { TreatmentService } from './treatment.service';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,8 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule,
     TreatmentsRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
   ],
   providers: [
     TreatmentService
