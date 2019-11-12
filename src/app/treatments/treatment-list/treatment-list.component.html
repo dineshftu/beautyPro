@@ -6,9 +6,7 @@
     <div class="form-group">
       <select class="form-control select" (change)="onDepartmentChange($event)">
         <option value="" disabled selected>Select departmnet</option>
-        <option value="{{department.departmentId}}" 
-          *ngFor="let department of departments"
-        >{{department.name}}
+        <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
         </option>
         <!-- <option value="Value 1">Select departmrnt</option>
         <option value="Value 2">Salon care</option>

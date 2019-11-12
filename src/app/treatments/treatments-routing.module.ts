@@ -4,7 +4,10 @@ import { TreatmentListComponent } from './treatment-list/treatment-list.componen
 
 
 const routes: Routes = [
-  { path: '', component: TreatmentListComponent },
+  {
+    path: '',
+    component: TreatmentListComponent
+  },
 ];
 
 @NgModule({

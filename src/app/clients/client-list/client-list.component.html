@@ -4,14 +4,8 @@
   <div id="filter-section">
     <div class="form-group search">
       <i class="material-icons">search</i>
-      <input type="search" 
-        [(ngModel)]="searchText"
-        #searchInput
-        class="form-control" 
-        autocomplete="off" 
-        autocorrect="off" 
-        autocapitalize="off" 
-        spellcheck="false"/>
+      <input type="search" [(ngModel)]="searchText" #searchInput class="form-control" autocomplete="off"
+        autocorrect="off" autocapitalize="off" spellcheck="false" />
     </div>
 
     <button type="button" class="btn-default" (click)="addNewClient()">Add new client</button>

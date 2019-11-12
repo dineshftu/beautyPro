@@ -7,7 +7,7 @@ import { Vouchers } from './vouchers.model';
 @Injectable()
 export class VouchersService {
 
-  private apiTreatmentUrl = 'vouchers';
+  private apiTreatmentUrl = '/vouchers';
 
   constructor(
     private baseDataService: BaseDataService

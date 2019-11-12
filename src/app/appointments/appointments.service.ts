@@ -7,26 +7,26 @@ import { Appointments } from './appointments.model';
 @Injectable()
 export class AppointmentsService {
 
-  private apiTreatmentUrl = 'appointments';
+  private apiAppointmentUrl = '/appointments';
 
   constructor(
     private baseDataService: BaseDataService
   ) { }
 
   public getAppointmenttList(): Observable<Array<Appointments>> {
-    return this.baseDataService.makeGetCall(`${this.apiTreatmentUrl}`);
+    return this.baseDataService.makeGetCall(`${this.apiAppointmentUrl}`);
   }
 
-  public getTreatment(treatmentId: number): Observable<Appointments> {
-    return this.baseDataService.makeGetCall(`${this.apiTreatmentUrl}/${treatmentId}`);
+  public getAppointment(treatmentId: number): Observable<Appointments> {
+    return this.baseDataService.makeGetCall(`${this.apiAppointmentUrl}/${treatmentId}`);
   }
 
-  public addNewTreatment(body: Appointments): Observable<Appointments> {
-    return this.baseDataService.makePostCall(`${this.apiTreatmentUrl}`, body);
+  public addNewAppointment(body: Appointments): Observable<Appointments> {
+    return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}`, body);
   }
 
-  public editTreatment(body: Appointments): Observable<Appointments> {
-    return this.baseDataService.makePostCall(`${this.apiTreatmentUrl}/${'edit'}`, body);
+  public editAppointment(body: Appointments): Observable<Appointments> {
+    return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}/${'edit'}`, body);
   }
 
 }
