@@ -3,13 +3,15 @@
   <!-- start: filter section -->
   <div id="filter-section">
     <div class="form-group">
-      <select class="form-control select">
-        <option value="{{status}}" *ngFor="let status of statusList">{{status}}
-        </option>
+      <select class="form-control select" (change)="onStatusChange($event)">
+        <option value="1" selected>All</option>
+        <option value="2">Issued</option>
+        <option value="3">Redeemed</option>
+        <option value="4">Cancelled</option>
       </select>
     </div>
 
-    <button type="button" class="btn-default" (click)="addNewVoucher()">Issue new voucher</button>
+    <button type="button" class="btn-default" (click)="addNewVoucher()">Issue New Voucher</button>
   </div>
 
   <!-- start: table section -->
@@ -33,12 +35,12 @@
     <div id="table-body">
       <div class="table-row">
         <div class="row" *ngFor="let voucher of voucherList">
-          <div>{{voucher.number}}</div>
-          <div>{{voucher.customer}}</div>
-          <div>{{voucher.issuedBy}}</div>
-          <div>{{voucher.issuedDate | date}}</div>
+          <div>{{voucher.gvinvoiceNo}}</div>
+          <div>{{voucher.customerName}}</div>
+          <div>{{voucher.enteredBy}}</div>
+          <div>{{voucher.enteredDate | date}}</div>
           <div>{{voucher.status}}</div>
-          <div>{{voucher.amount | currency : 'LKR'}}</div>
+          <div>{{voucher.dueAmount | currency : 'LKR'}}</div>
         </div>
       </div>
 

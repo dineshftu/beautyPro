@@ -35,8 +35,6 @@ export class NewTreatmentComponent implements OnInit {
       .subscribe((departments: Department[]) => {
         this.departments = departments;
       });
-
-    console.log("ngAfterViewInit");
   }
 
   onDepartmentChange(e: any) {
@@ -51,7 +49,6 @@ export class NewTreatmentComponent implements OnInit {
       return false;
     }
     return true;
-
   }
 
   cancel() {

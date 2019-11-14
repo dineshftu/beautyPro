@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from 'src/app/core/services/data.service';
-import { Vouchers } from '../vouchers.model';
+import { Vouchers, VoucherFilterRequest } from '../vouchers.model';
 import { VouchersService } from '../vouchers.service';
 import { Location } from '@angular/common';
 import { NewVoucherComponent } from '../new-voucher/new-voucher.component';
@@ -13,29 +13,60 @@ import { NewVoucherComponent } from '../new-voucher/new-voucher.component';
   styleUrls: ['./voucher-list.component.scss']
 })
 export class VoucherListComponent implements OnInit {
-  module: string;
-  voucherList: Vouchers[];
-  statusList = [
-    "Status 1", "Status 2", "Status 3"
-  ];
+
+  public selectedStatus = 1;
+  public voucherList: Vouchers[];
+
+  //public module: string;
+
+  // statusList = [
+  //   "All", "Issued", "Redeemed", "Cancelled"
+  // ];
 
   constructor(
     private data: DataService,
     private voucherService: VouchersService,
     private route: Router, private location: Location,
     public dialog: MatDialog
-  ) { }
+  ) {
+    this.routeReload();
+  }
 
   ngOnInit() {
+    //this.selectedStatus = 1;
     this.loadVouchers();
-    this.data.currentModule.subscribe(module => this.module = module);
+    //this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Vouchers");
   }
 
+  private routeReload() {
+    this.route
+      .events
+      .subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+          this.loadVouchers();
+        }
+      })
+  }
+
   loadVouchers() {
-    this.voucherService.getVoucherList().subscribe((vouchers: Vouchers[]) => {
-      this.voucherList = vouchers;
-    });
+    this.voucherService
+      .getFilteredVoucherList(this.generateVoucherFilterRequest())
+      .subscribe((vouchers: Vouchers[]) => {
+        this.voucherList = vouchers;
+        this.voucherList.map(voucher => voucher.status = (voucher.isRedeem ? "Redeemed" : voucher.isCanceled ? "Cancelled" : "Issued"));
+      });
+  }
+
+  private generateVoucherFilterRequest() {
+    return <VoucherFilterRequest>{
+      status: this.selectedStatus
+    }
+  }
+
+  onStatusChange(e: any) {
+    this.selectedStatus = e.target.value;
+    this.loadVouchers();
   }
 
   addNewVoucher() {
