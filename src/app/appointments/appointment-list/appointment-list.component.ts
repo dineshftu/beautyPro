@@ -1,17 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
-import { Appointments } from '../appointments.model';
+import { Appointments, AppointmentFilterRequest } from '../appointments.model';
 import { AppointmentsService } from '../appointments.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { NewAppointmentComponent } from 'src/app/core/new-appointment/new-appointment.component';
+// import { NewAppointmentComponent } from 'src/app/core/new-appointment/new-appointment.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { NewAppointmentComponent } from 'src/app/shared/new-appointments/new-appointments.component';
 
 @Component({
   selector: 'app-appointment-list',
   templateUrl: './appointment-list.component.html',
   styleUrls: ['./appointment-list.component.scss']
 })
-export class AppointmentListComponent implements OnInit {
+export class AppointmentListComponent implements OnInit, OnDestroy {
+
+  private ngUnSubscription = new Subject();
   module: string;
   appointmentList: Appointments[];
   departmentList = [
@@ -36,9 +41,18 @@ export class AppointmentListComponent implements OnInit {
   }
 
   loadAppointments() {
-    this.appoinmentService.getAppointmenttList().subscribe((appointments: Appointments[]) => {
+    this.appoinmentService
+      .getAppointmentList(this.createCustomerRequest(1))
+      .pipe(takeUntil(this.ngUnSubscription))
+      .subscribe((appointments: Appointments[]) => {
       this.appointmentList = appointments;
     });
+  }
+
+  createCustomerRequest(departmentId: number) {
+    return <AppointmentFilterRequest>{
+      departmentId: departmentId
+    };
   }
 
   addNewAppointment() {
@@ -60,4 +74,8 @@ export class AppointmentListComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(){
+    this.ngUnSubscription.next(true);
+    this.ngUnSubscription.complete();
+  }
 }
