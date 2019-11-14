@@ -6,7 +6,7 @@ import { Treatment, TreatmentFilterRequest, Department, NewTreatmentRequest } fr
 @Injectable()
 export class TreatmentService {
 
-  private apiTreatmentUrl = '/treatments';
+  private apiTreatmentUrl = 'treatments';
 
   constructor(
     private baseDataService: BaseDataService

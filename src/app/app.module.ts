@@ -12,7 +12,7 @@ import { GlobalErrorHandlerService } from './core/services/global-error-handler.
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
-
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
   ],
   imports: [
     BrowserModule,
+    AutocompleteLibModule,
     ToastrModule.forRoot({
       preventDuplicates: true,
       newestOnTop: true

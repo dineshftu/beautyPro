@@ -1,32 +1,129 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { NewTreatmentComponent } from 'src/app/treatments/new-treatment/new-treatment.component';
 import { Router } from '@angular/router';
 import { VouchersService } from '../vouchers.service';
+import { ClientsService } from '../../clients/clients.service';
+import { Customer, CustomerSearchRequest } from 'src/app/clients/clients.model';
+import { NewVoucherRequest, PaymentType } from '../vouchers.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Treatment, TreatmentFilterRequest } from 'src/app/treatments/treatments.model';
+import { TreatmentService } from '../../treatments/treatment.service';
 
 @Component({
   selector: 'app-new-voucher',
   templateUrl: './new-voucher.component.html',
   styleUrls: ['./new-voucher.component.scss']
 })
+
 export class NewVoucherComponent implements OnInit {
 
+  private ngUnSubscription = new Subject();
+  public customers: Customer[];
+  public paymentTypes: PaymentType[];
+  public newVoucherRequest = new NewVoucherRequest();
+  public isPaymentTypeNotSelected: boolean = false;
+  public keyword = 'fullName';
+  public keywordTreatment = 'ttname';
+  public treatmentList: Treatment[];
+
   constructor(
-    public dialogRef: MatDialogRef<NewTreatmentComponent>,
+    public dialogRef: MatDialogRef<NewVoucherComponent>,
     private route: Router,
-    private voucherService: VouchersService
+    private voucherService: VouchersService,
+    private treatmentService: TreatmentService,
+    public clientsService: ClientsService
   ) { }
 
   ngOnInit() {
+    this.getCustomerList();
+  }
+
+  ngAfterViewInit() {
+    this.getPaymentTypes();
+    this.loadTreatments();
+  }
+
+  numericOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
+      return false;
+    }
+    return true;
+  }
+
+  getPaymentTypes() {
+    this.voucherService
+      .getAllPaymentTypes()
+      .pipe(takeUntil(this.ngUnSubscription))
+      .subscribe((paymentTypes: PaymentType[]) => {
+        this.paymentTypes = paymentTypes;
+      });
+  }
+
+  loadTreatments() {
+    this.treatmentService
+      .getFilteredTreatmentList(this.generateTreatmentFilterRequest())
+      .subscribe((treatments: Treatment[]) => {
+        this.treatmentList = treatments;
+      });
+  }
+
+  private generateTreatmentFilterRequest() {
+    return <TreatmentFilterRequest>{
+      departmentId: 0
+    }
+  }
+
+  onPaymentTypeChange(e: any) {
+    this.isPaymentTypeNotSelected = false;
+    this.newVoucherRequest.ptid = e.target.value;
+  }
+
+  getCustomerList() {
+    this.clientsService
+      .getCustomerList(this.createCustomerRequest())
+      .subscribe((customers: Customer[]) => {
+        this.customers = customers
+      });
+  }
+
+  createCustomerRequest() {
+    return <CustomerSearchRequest>{
+      searchText: ''
+    };
+  }
+
+  selectCustomerEvent(e: any) {
+    this.newVoucherRequest.customerId = e.customerId;
+  }
+
+  selectTreatmentEvent(e: any) {
+    this.newVoucherRequest.ttid = e.ttid;
   }
 
   cancel() {
     this.dialogRef.close();
-    // this.route.navigate(['home/treatments']);
-
   }
 
   save() {
+
+    if (!this.newVoucherRequest.ptid) {
+      this.isPaymentTypeNotSelected = true;
+      return;
+    }
+
+    this.voucherService
+      .addNewVoucher(this.newVoucherRequest)
+      .pipe(takeUntil(this.ngUnSubscription))
+      .subscribe((result: any) => {
+        console.log(result);
+      }, (error: any) => {
+
+      }, () => {
+        this.route.navigate(['home/vouchers']);
+        this.dialogRef.close();
+      })
 
   }
 
