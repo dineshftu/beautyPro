@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from '../core/services/base-data.service';
 import { Observable } from 'rxjs';
-import { Appointments } from './appointments.model';
+import { Appointments, AppointmentFilterRequest } from './appointments.model';
 
 
 @Injectable()
 export class AppointmentsService {
 
-  private apiAppointmentUrl = '/appointments';
+  private apiAppointmentUrl = 'appointments';
 
   constructor(
     private baseDataService: BaseDataService
   ) { }
 
-  public getAppointmenttList(): Observable<Array<Appointments>> {
-    return this.baseDataService.makeGetCall(`${this.apiAppointmentUrl}`);
+  public getAppointmentList(request: AppointmentFilterRequest): Observable<Array<Appointments>> {
+    let queryString = `departmentId=${request.departmentId}`;
+    return this.baseDataService.makeGetCall(`${this.apiAppointmentUrl}${'/filter'}?${queryString}`);
   }
 
   public getAppointment(treatmentId: number): Observable<Appointments> {

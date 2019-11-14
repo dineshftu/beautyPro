@@ -8,6 +8,8 @@ import { ViewAppointmentComponent } from './view-appointment/view-appointment.co
 import { CheckoutComponent } from './checkout/checkout.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { SharedModule } from '../shared/shared.module';
+import { NewAppointmentComponent } from '../shared/new-appointments/new-appointments.component';
 
 @NgModule({
   declarations: [
@@ -18,10 +20,14 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule,
     MatDialogModule,
-    AppointmentsRoutingModule
+    AppointmentsRoutingModule,
+    SharedModule
   ],
   providers: [
     AppointmentsService
+  ],
+  entryComponents: [
+    NewAppointmentComponent
   ]
 })
 export class AppointmentsModule { }

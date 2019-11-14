@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NewAppointmentComponent } from './new-appointment/new-appointment.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
@@ -14,8 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     HeaderComponent,
     LayoutComponent,
     LoginComponent,
-    PageNotFoundComponent,
-    NewAppointmentComponent
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +27,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     PageNotFoundComponent
   ],
   entryComponents: [
-    NewAppointmentComponent
   ]
 
 })
