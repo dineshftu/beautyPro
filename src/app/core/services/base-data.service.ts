@@ -25,6 +25,10 @@ export class BaseDataService {
     return this.http.post(this.constructUrl(path), bodyJson, { headers: headers })
   }
 
+  makeDeleteCall(path: string): Observable<any> {
+    let headers = new HttpHeaders({ 'X-Requested-With': 'XMLHttpRequest', 'Authorization': 'bearer ' + this.getToken() });
+    return this.http.delete(this.constructUrl(path), { headers: headers});
+  }
 
   private getToken() {
     return localStorage.getItem('token');
