@@ -13,11 +13,11 @@
         <img class="icon" src="../../../../assets/img/user-icon.png" alt="user-icon">
         <div class="username">
           <span>welcome</span><br>
-          Admin user
+          {{loggedInUser()}}
         </div>
       </div>
 
-      <button type="button" class="btn-link logout">Logout</button>
+      <button type="button" class="btn-link logout" (click)="logout()">Logout</button>
 
     </div>
 
