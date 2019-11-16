@@ -21,11 +21,12 @@ export class NewVoucherComponent implements OnInit {
   private ngUnSubscription = new Subject();
   public customers: Customer[];
   public paymentTypes: PaymentType[];
+  public treatmentList: Treatment[];
   public newVoucherRequest = new NewVoucherRequest();
   public isPaymentTypeNotSelected: boolean = false;
   public keyword = 'fullName';
   public keywordTreatment = 'ttname';
-  public treatmentList: Treatment[];
+  
 
   constructor(
     public dialogRef: MatDialogRef<NewVoucherComponent>,
@@ -36,12 +37,13 @@ export class NewVoucherComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getCustomerList();
+
   }
 
   ngAfterViewInit() {
+    this.getCustomerList();
     this.getPaymentTypes();
-    this.loadTreatments();
+    this.getTreatments();
   }
 
   numericOnly(event): boolean {
@@ -61,7 +63,7 @@ export class NewVoucherComponent implements OnInit {
       });
   }
 
-  loadTreatments() {
+  getTreatments() {
     this.treatmentService
       .getFilteredTreatmentList(this.generateTreatmentFilterRequest())
       .subscribe((treatments: Treatment[]) => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from 'src/app/core/services/base-data.service';
-import { NewAppointmentRequest } from '../models/appointment.model';
+import { NewAppointmentRequest, EmployeeFilterRequest, Employees } from '../models/appointment.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,11 +10,16 @@ export class AppointmentService {
 
   private apiAppointmentUrl = 'appointments';
 
-    constructor(
+  constructor(
     private baseDataService: BaseDataService
   ) { }
 
   public addNewAppointment(request: NewAppointmentRequest): Observable<any> {
     return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}`, request);
+  }
+
+  public getFilteredEmployees(request: EmployeeFilterRequest): Observable<Array<Employees>> {
+    let queryString = `departmentId=${request.departmentId}`;
+    return this.baseDataService.makeGetCall(`${this.apiAppointmentUrl}${'/employees'}?${queryString}`);
   }
 }

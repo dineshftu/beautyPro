@@ -13,6 +13,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { MatFormFieldModule, MatDatepickerModule, MatInputModule } from '@angular/material';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import * as moment from 'moment';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
 
 @NgModule({
   declarations: [
@@ -21,6 +26,12 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
   imports: [
     BrowserModule,
     AutocompleteLibModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatMomentDateModule,
+    MatInputModule,
+    NgxMaterialTimepickerModule,
+    MaterialTimePickerModule,
     ToastrModule.forRoot({
       preventDuplicates: true,
       newestOnTop: true
@@ -32,11 +43,17 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
     CoreModule,
     BrowserAnimationsModule
   ],
+  exports: [
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule
+  ],
   providers: [
     // { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: 'moment', useValue: moment }
   ],
   bootstrap: [AppComponent]
 })

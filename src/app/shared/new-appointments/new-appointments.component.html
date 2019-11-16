@@ -1,61 +1,142 @@
-<div>
+<div class="pop-up-bg">
 
-    <div class="pop-up" style="width: 700px;">
-      <div class="pop-up-header">
-        <div class="pop-up-title">New Appointment</div>
-        <button class="icon-btn">
-          <i class="material-icons">close</i>
-        </button>
-      </div>
-      <div class="pop-up-body">
+  <div class="pop-up" style="width: 700px;">
+    <div class="pop-up-header">
+      <div class="pop-up-title">New Appointment</div>
+      <button class="icon-btn">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+    <div class="pop-up-body">
+
+      <form name="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+
         <div class="form-group">
-          <label>Client name</label>
-          <input class="form-control" placeholder="Search client..." />
-        </div>
-  
-        <div class="add-appointment-blc">
-          <div class="inline-form">
-            <div class="form-group">
-              <label>Section</label>
-              <select class="form-control select">
-                <option value="Value 1">Section 1</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Service</label>
-              <select class="form-control select">
-                <option value="Value 1">Service 1</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Staff</label>
-              <select class="form-control select">
-                <option value="Value 1">Staff 1</option>
-              </select>
-            </div>
+
+          <div class="ng-autocomplete">
+
+            <ng-autocomplete [data]="customers" [searchKeyword]="keyword" historyIdentifier="customers"
+              placeHolder="Enter Customer Name" (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate"
+              [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item.fullName"></a>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+
           </div>
-  
+
+        </div>
+
+        <div class="add-appointment-blc">
+
           <div class="inline-form">
+
             <div class="form-group">
-              <label>Date</label>
-              <input class="form-control" placeholder="" />
+              <label>Department</label>
+              <select class="form-control select" (change)="onDepartmentChange($event)">
+                <option value="" disabled selected>Select departmnet</option>
+                <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
+                </option>
+              </select>
+
+              <div *ngIf="f.submitted && isDepartmentNotSelected">
+                <div>Department Id is required</div>
+              </div>
+
             </div>
+
             <div class="form-group">
+
+              <div class="ng-autocomplete">
+
+                <ng-autocomplete [data]="treatmentList" [searchKeyword]="keywordTreatment"
+                  historyIdentifier="treatmentList" placeHolder="Enter Treatment Name"
+                  (selected)='selectTreatmentEvent($event)' [itemTemplate]="itemTemplate1"
+                  [notFoundTemplate]="notFoundTemplate1">
+                </ng-autocomplete>
+
+                <ng-template #itemTemplate1 let-item>
+                  <a [innerHTML]="item.ttname"></a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate1 let-notFound>
+                  <div [innerHTML]="notFound"></div>
+                </ng-template>
+
+              </div>
+
+            </div>
+
+            <div class="form-group">
+
+              <div class="ng-autocomplete">
+
+                <ng-autocomplete [data]="employeesList" [searchKeyword]="keywordEmployee"
+                  placeHolder="Enter Employee Name" (selected)='selectEmployeeEvent($event)'
+                  [itemTemplate]="itemTemplate2" [notFoundTemplate]="notFoundTemplate2">
+                </ng-autocomplete>
+
+                <ng-template #itemTemplate2 let-item>
+                  <a [innerHTML]="item.name"></a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate2 let-notFound>
+                  <div [innerHTML]="notFound"></div>
+                </ng-template>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="inline-form">
+
+            <div class="form-group">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)"
+                  placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <!-- <div class="form-group">
               <label>Start time</label>
-              <input class="form-control" placeholder="" />
-            </div>
+              <div class="24hr-example">
+                <mat-form-field>
+                  <input matInput placeholder="24hr format" aria-label="24hr format" [ngxTimepicker]="fullTime"
+                    [format]="24" readonly>
+                  <ngx-material-timepicker #fullTime></ngx-material-timepicker>
+                </mat-form-field>
+              </div>
+            </div> -->
+
             <div class="form-group">
               <label>Duration</label>
-              <input class="form-control" placeholder="" />
+              <material-timepicker color="primary" label="Hour 2" appearance="fill" [userTime]="exportTime"
+                (change)="onChangeHour($event)" revertLabel="Remove" submitLabel="Ok"></material-timepicker>
             </div>
+
           </div>
         </div>
-  
-        <button class="btn-default">Add Another Appointment</button>
-      </div>
-      <div class="pop-up-btns">
-        <button class="btn-primary">Cancel</button>
-        <button class="btn-default">Save Appointment</button>
-      </div>
+
+        <button type="button" class="btn-default">Add Another Appointment</button>
+
+        <div class="pop-up-btns">
+          <button type="button" class="btn-primary" (click)="cancel()">Cancel</button>
+          <button type="submit" class="btn-default">Save Appointment</button>
+        </div>
+
+      </form>
+
     </div>
-  
+
+  </div>
+
+</div>
