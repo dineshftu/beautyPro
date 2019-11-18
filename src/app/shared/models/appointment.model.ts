@@ -10,8 +10,8 @@ export class NewAppointmentRequest {
 export class AppointmentTreatment {
     ttid: number;
     empNo: number;
-    startTime: Date;
-    duration: number;
+    startTime: string;
+    endTime: string;
 }
 
 export class Employees {

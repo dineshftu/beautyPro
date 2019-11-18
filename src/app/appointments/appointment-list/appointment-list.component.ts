@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
 import { Appointments, AppointmentFilterRequest } from '../appointments.model';
 import { AppointmentsService } from '../appointments.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 // import { NewAppointmentComponent } from 'src/app/core/new-appointment/new-appointment.component';
 import { Subject } from 'rxjs';
@@ -32,7 +32,9 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
     private appoinmentService: AppointmentsService,
     private route: Router,
     public dialog: MatDialog,
-  ) { }
+  ) {
+    this.routeReload();
+  }
 
   ngOnInit() {
     this.loadAppointments();
@@ -40,13 +42,23 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
     this.data.changeModule("Appointments");
   }
 
+  private routeReload() {
+    this.route
+      .events
+      .subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+          this.loadAppointments();
+        }
+      })
+  }
+
   loadAppointments() {
     this.appoinmentService
       .getAppointmentList(this.createCustomerRequest(1))
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((appointments: Appointments[]) => {
-      this.appointmentList = appointments;
-    });
+        this.appointmentList = appointments;
+      });
   }
 
   createCustomerRequest(departmentId: number) {
@@ -74,7 +86,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.ngUnSubscription.next(true);
     this.ngUnSubscription.complete();
   }
