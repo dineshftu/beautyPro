@@ -135,11 +135,11 @@ export class NewAppointmentComponent implements OnInit {
     let totalMinutes = ((parseInt(e.hour) * 60) + parseInt(e.minute)) + this.treatmentDuration;
     let hours = Math.floor(totalMinutes / 60);
     let seconds = 0;
-    let minutes = (totalMinutes % 60);
+    let minutes = ((totalMinutes - (hours * 60)) % 60);
     this.exportEndTime = { hour: hours, minute: minutes, meriden: 'AM', format: 24 };
 
     this.startTimespan = this.getTimeSpan(e.hour, e.minute, seconds);
-    this.endTimespan = this.getTimeSpan(hours, hours, seconds);
+    this.endTimespan = this.getTimeSpan(hours, minutes, seconds);
     //  parseInt(e.hour).toString().padStart(2, '0') + ':' +
     //   parseInt(e.minute).toString().padStart(2, '0') + ':' +
     //   seconds.toString().padStart(2, '0');

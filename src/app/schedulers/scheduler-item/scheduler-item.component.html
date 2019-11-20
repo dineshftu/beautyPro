@@ -3,11 +3,25 @@
     <img src="../../../assets/img/user.png" alt="">
   </div>
   <div class="schd-blc-usr-name">
-    Suresh Chamara
-    <span>Hair Stylist</span>
+    {{scheduleResponse.employeeName}}
+    <span>{{scheduleResponse.designation}}</span>
   </div>
 </div>
 <div class="schd-blc-tl">
+  <ng-container *ngFor="let schedule of response">
+    <ng-container *ngFor="let timeIndex of schedule.timeIndexes">
+
+
+      <div *ngIf="timeIndex === 'start'" class="bk-seg bk-seg-type">
+        <div class="bk-seg-client">{{schedule.clientName}}</div>
+        <div class="bk-seg-trt">{{schedule.treatmentType}}</div>
+        <div class="bk-seg-status">{{schedule.scheduleStatus}}</div>
+      </div>
+
+      <div *ngIf="timeIndex === 'start'" class="tl-gap-hr">
+
+    </ng-container>
+  </ng-container>
   <div class="bk-seg bk-seg-type">
     <div class="bk-seg-client">John doe</div>
     <div class="bk-seg-trt">Haircut</div>

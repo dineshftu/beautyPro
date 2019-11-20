@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ScheduleResponse } from '../scheduler.model';
 
 @Component({
   selector: 'app-scheduler-item',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./scheduler-item.component.scss']
 })
 export class SchedulerItemComponent implements OnInit {
+  @Input() scheduleResponse: ScheduleResponse
 
   constructor() { }
 

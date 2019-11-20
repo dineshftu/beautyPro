@@ -27,8 +27,8 @@
 
   <div class="schd-container">
     <div class="schd-grid">
-      <div class="schd-blc" *ngFor="let treatment of schedulesList">
-        <app-scheduler-item></app-scheduler-item>
+      <div class="schd-blc" *ngFor="let response of scheduleResponseList">
+        <app-scheduler-item [scheduleResponse]="response"></app-scheduler-item>
 
       </div>
     </div>
