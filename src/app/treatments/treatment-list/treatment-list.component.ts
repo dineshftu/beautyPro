@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { TreatmentService } from '../treatment.service';
-import { Treatment, Department, TreatmentFilterRequest } from '../treatments.model';
+import { Treatment, TreatmentFilterRequest } from '../treatments.model';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { NewTreatmentComponent } from '../new-treatment/new-treatment.component';
 import { Router, NavigationEnd } from '@angular/router';
@@ -8,6 +8,8 @@ import { DataService } from 'src/app/core/services/data.service';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DepartmentService } from 'src/app/shared/services/department.service';
+import { Department } from 'src/app/shared/models/department.model';
 
 @Component({
   selector: 'app-treatment-list',
@@ -20,14 +22,11 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
   public selectedDepartment = 0;
   private ngUnSubscription = new Subject();
 
-  departmentList = [
-    "Spa Care", "Salon Care", "Skin Care"
-  ];
-
   departments: Department[];
 
   constructor(
     private treatmentService: TreatmentService,
+    private departmentService: DepartmentService,
     private route: Router, private location: Location,
     public dialog: MatDialog,
     private data: DataService
@@ -36,7 +35,7 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    this.treatmentService
+    this.departmentService
       .getAllDepartments()
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((departments: Department[]) => {
@@ -74,7 +73,7 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   private generateTreatmentFilterRequest() {
-    return <TreatmentFilterRequest> {
+    return <TreatmentFilterRequest>{
       departmentId: this.selectedDepartment
     }
   }

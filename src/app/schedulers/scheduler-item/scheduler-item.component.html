@@ -8,9 +8,8 @@
   </div>
 </div>
 <div class="schd-blc-tl">
-  <ng-container *ngFor="let schedule of response">
+  <ng-container *ngFor="let schedule of scheduleResponse">
     <ng-container *ngFor="let timeIndex of schedule.timeIndexes">
-
 
       <div *ngIf="timeIndex === 'start'" class="bk-seg bk-seg-type">
         <div class="bk-seg-client">{{schedule.clientName}}</div>
@@ -19,14 +18,11 @@
       </div>
 
       <div *ngIf="timeIndex === 'start'" class="tl-gap-hr">
-
+      </div>
     </ng-container>
   </ng-container>
-  <div class="bk-seg bk-seg-type">
-    <div class="bk-seg-client">John doe</div>
-    <div class="bk-seg-trt">Haircut</div>
-    <div class="bk-seg-status">Pending</div>
-  </div>
+
+
   <div class="tl-gap-hr">
     <div class="tl-gap-seg"></div>
     <div class="tl-gap-seg"></div>

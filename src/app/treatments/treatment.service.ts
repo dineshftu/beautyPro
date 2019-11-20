@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from '../core/services/base-data.service';
 import { Observable } from 'rxjs';
-import { Treatment, TreatmentFilterRequest, Department, NewTreatmentRequest } from './treatments.model';
+import { Treatment, TreatmentFilterRequest, NewTreatmentRequest } from './treatments.model';
 
 @Injectable()
 export class TreatmentService {
@@ -31,9 +31,5 @@ export class TreatmentService {
 
   public editTreatment(body: Treatment): Observable<Treatment> {
     return this.baseDataService.makePostCall(`${this.apiTreatmentUrl}/${'edit'}`, body);
-  }
-
-  public getAllDepartments(): Observable<Array<Department>> {
-    return this.baseDataService.makeGetCall(`${this.apiTreatmentUrl}/${'departments'}`)
   }
 }

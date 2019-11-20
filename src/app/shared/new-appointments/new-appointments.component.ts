@@ -8,8 +8,10 @@ import { TreatmentService } from 'src/app/treatments/treatment.service';
 import { ClientsService } from 'src/app/clients/clients.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Department, Treatment, TreatmentFilterRequest } from 'src/app/treatments/treatments.model';
+import { Treatment, TreatmentFilterRequest } from 'src/app/treatments/treatments.model';
 import * as moment from 'moment';
+import { Department } from '../models/department.model';
+import { DepartmentService } from '../services/department.service';
 
 @Component({
   selector: 'app-new-appointments',
@@ -42,6 +44,7 @@ export class NewAppointmentComponent implements OnInit {
     private appointmentService: AppointmentService,
     private route: Router,
     private treatmentService: TreatmentService,
+    private departmentService: DepartmentService,
     public clientsService: ClientsService
   ) { }
 
@@ -74,7 +77,7 @@ export class NewAppointmentComponent implements OnInit {
   }
 
   getDepartments() {
-    this.treatmentService
+    this.departmentService
       .getAllDepartments()
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((departments: Department[]) => {

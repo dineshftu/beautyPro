@@ -3,10 +3,10 @@
   <!-- start: filter section -->
   <div id="filter-section">
     <div class="form-group">
-      <select class="form-control select">
-        <option value="Value 1">Select department</option>
-        <option value="Value 2">Salon care</option>
-        <option value="Value 3">Spa care</option>
+      <select class="form-control select" (change)="onDepartmentChange($event)">
+        <option value="" disabled selected>Select departmnet</option>
+        <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
+        </option>
       </select>
     </div>
   </div>

@@ -4,7 +4,9 @@ import { TreatmentService } from '../treatment.service';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Department, NewTreatmentRequest } from '../treatments.model';
+import { NewTreatmentRequest } from '../treatments.model';
+import { Department } from 'src/app/shared/models/department.model';
+import { DepartmentService } from 'src/app/shared/services/department.service';
 
 @Component({
   selector: 'app-new-treatment',
@@ -20,6 +22,7 @@ export class NewTreatmentComponent implements OnInit {
 
   constructor(
     private treatmentService: TreatmentService,
+    private departmentService: DepartmentService,
     public dialogRef: MatDialogRef<NewTreatmentComponent>,
     private route: Router
   ) { }
@@ -29,7 +32,7 @@ export class NewTreatmentComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.treatmentService
+    this.departmentService
       .getAllDepartments()
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((departments: Department[]) => {

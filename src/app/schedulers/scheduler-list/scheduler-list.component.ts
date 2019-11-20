@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SchedulerService } from '../scheduler.service';
 import { SchedulerFilterRequest, ScheduleResponse } from '../scheduler.model';
+import { DepartmentService } from 'src/app/shared/services/department.service';
+import { Department } from 'src/app/shared/models/department.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-scheduler-list',
@@ -15,10 +19,14 @@ export class SchedulerListComponent implements OnInit {
 
   public selectedDepartment = 0;
   public scheduleResponseList: ScheduleResponse[];
+  departments: Department[];
+  private ngUnSubscription = new Subject();
+
 
   module: string;
 
   constructor(
+    private departmentService: DepartmentService,
     private data: DataService,
     public dialog: MatDialog,
     private schedulerService: SchedulerService
@@ -30,7 +38,23 @@ export class SchedulerListComponent implements OnInit {
     this.loadSchedules();
   }
 
+  ngAfterViewInit() {
+    this.departmentService
+      .getAllDepartments()
+      .pipe(takeUntil(this.ngUnSubscription))
+      .subscribe((departments: Department[]) => {
+        this.departments = departments;
+      })
+  }
+
+  onDepartmentChange(e: any) {
+    this.selectedDepartment = e.target.value;
+    this.loadSchedules();
+  }
+
   loadSchedules() {
+    console.log('this.scheduleResponseList', this.scheduleResponseList);
+
     this.schedulerService
       .getFilteredScheduleList(this.generateScheduleFilterRequest())
       .subscribe((schedules: ScheduleResponse[]) => {
@@ -69,7 +93,4 @@ export class SchedulerListComponent implements OnInit {
     });
     console.log('this.scheduleResponseList', this.scheduleResponseList);
   }
-
-
-
 }
