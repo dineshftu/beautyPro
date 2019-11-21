@@ -8,99 +8,22 @@
   </div>
 </div>
 <div class="schd-blc-tl">
-  <ng-container *ngFor="let schedule of scheduleResponse">
-    <ng-container *ngFor="let timeIndex of schedule.timeIndexes">
+  <ng-container *ngFor="let timeIndex of scheduleResponse.timeIndexes; index as i">
+    <!-- in every six hour when (i%6)===0 thick hour line should appeared css -->
+    <div class="tl-gap-hr">
+      <ng-container *ngIf="timeIndex != 'default'">
+        <div class="bk-seg bk-seg-type">
+          <ng-container *ngFor="let schedule of scheduleResponse.schedules">
+            <ng-container *ngIf="i === schedule.startIndex">
+              <div class="bk-seg-client">{{schedule.clientName}}</div>
+              <div class="bk-seg-trt">{{schedule.treatmentType}}</div>
+              <div class="bk-seg-status">{{schedule.scheduleStatus}}</div>
+            </ng-container>
 
-      <div *ngIf="timeIndex === 'start'" class="bk-seg bk-seg-type">
-        <div class="bk-seg-client">{{schedule.clientName}}</div>
-        <div class="bk-seg-trt">{{schedule.treatmentType}}</div>
-        <div class="bk-seg-status">{{schedule.scheduleStatus}}</div>
-      </div>
-
-      <div *ngIf="timeIndex === 'start'" class="tl-gap-hr">
-      </div>
-    </ng-container>
+          </ng-container>
+        </div>
+      </ng-container>
+      <div class="tl-gap-seg"></div>
+    </div>
   </ng-container>
-
-
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
-  <div class="tl-gap-hr">
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-    <div class="tl-gap-seg"></div>
-  </div>
 </div>

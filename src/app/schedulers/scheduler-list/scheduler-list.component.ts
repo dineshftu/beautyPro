@@ -53,8 +53,6 @@ export class SchedulerListComponent implements OnInit {
   }
 
   loadSchedules() {
-    console.log('this.scheduleResponseList', this.scheduleResponseList);
-
     this.schedulerService
       .getFilteredScheduleList(this.generateScheduleFilterRequest())
       .subscribe((schedules: ScheduleResponse[]) => {
@@ -80,16 +78,14 @@ export class SchedulerListComponent implements OnInit {
       var timeIndexes = Array.apply(null, Array(48)).map(function () { return 'default' })
 
       emp.schedules.forEach(function (sched) {
-
         let startingIndex = ((((parseInt(sched.startTime.split(":")[0]) * 60) + parseInt(sched.startTime.split(":")[1])) - 480) / 10);
         let endIndex = ((((parseInt(sched.endTime.split(":")[0]) * 60) + parseInt(sched.endTime.split(":")[1])) - 480) / 10);
-
+        sched.startIndex = startingIndex;
         timeIndexes.fill('start', startingIndex, ++startingIndex);
         timeIndexes.fill('hasAppoinment', startingIndex, endIndex);
-
-        sched.timeIndexes = timeIndexes;
       });
 
+      emp.timeIndexes = timeIndexes;
     });
     console.log('this.scheduleResponseList', this.scheduleResponseList);
   }
