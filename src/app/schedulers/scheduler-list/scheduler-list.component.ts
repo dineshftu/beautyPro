@@ -9,6 +9,7 @@ import { DepartmentService } from 'src/app/shared/services/department.service';
 import { Department } from 'src/app/shared/models/department.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-scheduler-list',
@@ -16,7 +17,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./scheduler-list.component.scss']
 })
 export class SchedulerListComponent implements OnInit {
-
+  // public date = formatDate(new Date(), 'yyyy-mm-dd', '', '');
+  public date = '2019-05-22';
   public selectedDepartment = 0;
   public scheduleResponseList: ScheduleResponse[];
   departments: Department[];

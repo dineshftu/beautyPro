@@ -2,13 +2,16 @@
 
   <!-- start: filter section -->
   <div id="filter-section">
-    <div class="form-group">
+    <input type="date" name="start_date" (change)="loadSchedules()" [(ngModel)]="date" class="form-control"
+      placeholder="Date" autocomplete="off" required>
+    <div class="form-group select">
       <select class="form-control select" (change)="onDepartmentChange($event)">
         <option value="" disabled selected>Select departmnet</option>
         <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
         </option>
       </select>
     </div>
+
   </div>
 
   <div class="time-lapse">

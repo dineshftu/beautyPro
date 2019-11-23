@@ -36,8 +36,8 @@ export class NewAppointmentComponent implements OnInit {
   private endTimespan: string;
 
   title = 'demo';
-  private exportTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
-  private exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
+  public exportTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
+  public exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
 
   constructor(
     public dialogRef: MatDialogRef<NewAppointmentComponent>,
