@@ -4,7 +4,7 @@
     <div class="pop-up-header">
       <div class="pop-up-title">New Appointment</div>
       <button class="icon-btn">
-        <i class="material-icons">close</i>
+        <i class="material-icons" (click)="cancel()">close</i>
       </button>
     </div>
     <div class="pop-up-body">
@@ -27,6 +27,10 @@
             <ng-template #notFoundTemplate let-notFound>
               <div [innerHTML]="notFound"></div>
             </ng-template>
+
+            <div *ngIf="f.submitted && isCustomerNotSelected">
+              <div>Customer Name is required</div>
+            </div>
 
           </div>
 
@@ -54,7 +58,7 @@
 
               <div class="ng-autocomplete">
 
-                <ng-autocomplete [data]="treatmentList" [searchKeyword]="keywordTreatment"
+                <ng-autocomplete #autoTreatment [data]="treatmentList" [searchKeyword]="keywordTreatment"
                   historyIdentifier="treatmentList" placeHolder="Enter Treatment Name"
                   (selected)='selectTreatmentEvent($event)' [itemTemplate]="itemTemplate1"
                   [notFoundTemplate]="notFoundTemplate1">
@@ -68,6 +72,10 @@
                   <div [innerHTML]="notFound"></div>
                 </ng-template>
 
+                <div *ngIf="f.submitted && isTreatmentNotSelected">
+                  <div>Treatment is required</div>
+                </div>
+
               </div>
 
             </div>
@@ -76,7 +84,7 @@
 
               <div class="ng-autocomplete">
 
-                <ng-autocomplete [data]="employeesList" [searchKeyword]="keywordEmployee"
+                <ng-autocomplete #auto [data]="employeesList" [searchKeyword]="keywordEmployee"
                   placeHolder="Enter Employee Name" (selected)='selectEmployeeEvent($event)'
                   [itemTemplate]="itemTemplate2" [notFoundTemplate]="notFoundTemplate2">
                 </ng-autocomplete>
@@ -88,6 +96,10 @@
                 <ng-template #notFoundTemplate2 let-notFound>
                   <div [innerHTML]="notFound"></div>
                 </ng-template>
+
+                <div *ngIf="f.submitted && isEmployeeNotSelected">
+                  <div>Employee Name is required</div>
+                </div>
 
               </div>
 
@@ -104,6 +116,11 @@
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
+
+              <div *ngIf="f.submitted && isDateNotSelected">
+                <div>Appoinment Date is required</div>
+              </div>
+
             </div>
 
             <!-- <div class="form-group">
@@ -121,6 +138,11 @@
               <label>Start Time</label>
               <material-timepicker color="primary" label="Hour 2" appearance="fill" [userTime]="exportTime"
                 (change)="onChangeHour($event)" revertLabel="Remove" submitLabel="Ok"></material-timepicker>
+
+              <div *ngIf="f.submitted && isStartTimeNotSelected">
+                <div>Appoinment Start Time is required</div>
+              </div>
+
             </div>
 
             <div class="form-group">
