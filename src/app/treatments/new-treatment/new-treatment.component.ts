@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { NewTreatmentRequest } from '../treatments.model';
 import { Department } from 'src/app/shared/models/department.model';
 import { DepartmentService } from 'src/app/shared/services/department.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-treatment',
@@ -24,7 +25,8 @@ export class NewTreatmentComponent implements OnInit {
     private treatmentService: TreatmentService,
     private departmentService: DepartmentService,
     public dialogRef: MatDialogRef<NewTreatmentComponent>,
-    private route: Router
+    private route: Router,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit() {
@@ -70,6 +72,7 @@ export class NewTreatmentComponent implements OnInit {
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((result: any) => {
         console.log(result);
+        this.toastr.success("New Treatment added", "Success");
         //this.route.navigate(['home/treatments']);
       }, (error: any) => {
 

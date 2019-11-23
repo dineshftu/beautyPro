@@ -9,7 +9,7 @@ import { DepartmentService } from 'src/app/shared/services/department.service';
 import { Department } from 'src/app/shared/models/department.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { formatDate } from '@angular/common';
+import { HelperService } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'app-scheduler-list',
@@ -18,7 +18,7 @@ import { formatDate } from '@angular/common';
 })
 export class SchedulerListComponent implements OnInit {
   // public date = formatDate(new Date(), 'yyyy-mm-dd', '', '');
-  public date = '2019-05-22';
+  public date;
   public selectedDepartment = 0;
   public scheduleResponseList: ScheduleResponse[];
   departments: Department[];
@@ -31,10 +31,12 @@ export class SchedulerListComponent implements OnInit {
     private departmentService: DepartmentService,
     private data: DataService,
     public dialog: MatDialog,
-    private schedulerService: SchedulerService
+    private schedulerService: SchedulerService,
+    private helperService: HelperService
   ) { }
 
   ngOnInit() {
+    this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Schedulers");
     this.loadSchedules();
@@ -60,7 +62,6 @@ export class SchedulerListComponent implements OnInit {
       .subscribe((schedules: ScheduleResponse[]) => {
         this.scheduleResponseList = schedules;
         console.log('this.scheduleResponseList', this.scheduleResponseList);
-
         this.generateTimeIndexes();
       });
   }

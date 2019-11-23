@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Treatment, TreatmentFilterRequest } from 'src/app/treatments/treatments.model';
 import { TreatmentService } from '../../treatments/treatment.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-voucher',
@@ -33,7 +34,8 @@ export class NewVoucherComponent implements OnInit {
     private route: Router,
     private voucherService: VouchersService,
     private treatmentService: TreatmentService,
-    public clientsService: ClientsService
+    public clientsService: ClientsService,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit() {
@@ -120,6 +122,7 @@ export class NewVoucherComponent implements OnInit {
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((result: any) => {
         console.log(result);
+        this.toastr.success("New Voucher Added", "Success");
       }, (error: any) => {
 
       }, () => {
