@@ -19,9 +19,13 @@ import { HelperService } from 'src/app/core/services/helper.service';
 export class SchedulerListComponent implements OnInit {
   // public date = formatDate(new Date(), 'yyyy-mm-dd', '', '');
   public date;
+  minTime = 5;
   public selectedDepartment = 0;
   public scheduleResponseList: ScheduleResponse[];
   departments: Department[];
+  timeInterval = [
+    '8am', '9am', '10am', '11am', '12am', '13pm', '14pm', '15pm', '16pm'
+  ];
   private ngUnSubscription = new Subject();
 
 
@@ -77,12 +81,16 @@ export class SchedulerListComponent implements OnInit {
   }
 
   generateTimeIndexes() {
+    let timeIndexLength = (this.timeInterval.length - 1) * (60 / this.minTime),
+      workingMin = (this.timeInterval.length - 1) * 60,
+      minWorkTime = this.minTime;
+
     this.scheduleResponseList.forEach(function (emp) {
-      var timeIndexes = Array.apply(null, Array(48)).map(function () { return 'default' })
+      var timeIndexes = Array.apply(null, Array(timeIndexLength)).map(function () { return 'default' })
 
       emp.schedules.forEach(function (sched) {
-        let startingIndex = ((((parseInt(sched.startTime.split(":")[0]) * 60) + parseInt(sched.startTime.split(":")[1])) - 480) / 10);
-        let endIndex = ((((parseInt(sched.endTime.split(":")[0]) * 60) + parseInt(sched.endTime.split(":")[1])) - 480) / 10);
+        let startingIndex = ((((parseInt(sched.startTime.split(":")[0]) * 60) + parseInt(sched.startTime.split(":")[1])) - workingMin) / minWorkTime);
+        let endIndex = ((((parseInt(sched.endTime.split(":")[0]) * 60) + parseInt(sched.endTime.split(":")[1])) - workingMin) / minWorkTime);
         sched.startIndex = startingIndex;
         timeIndexes.fill('start', startingIndex, ++startingIndex);
         timeIndexes.fill('hasAppoinment', startingIndex, endIndex);
