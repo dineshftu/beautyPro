@@ -19,6 +19,7 @@ export class CheckoutComponent implements OnInit {
   public checkoutTreatmentRequest = new CheckoutTreatmentRequest();
 
   public treatments = ['sf', 'sf', 'sdfs', 'sdf', 'sdfs'];
+  public products = ['sf', 'sf', 'sdfs'];
 
   constructor(
     public clientsService: ClientsService,
@@ -55,9 +56,11 @@ export class CheckoutComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    // dialogConfig.data = ;
+    dialogConfig.data =Object.assign([],this.products);
     this.dialog.open(AddProductComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
+        if (!!response.data)
+          this.products = response.data;
         console.log(response);
       }, (error) => {
         console.log(error);

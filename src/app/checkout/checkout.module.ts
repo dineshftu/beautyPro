@@ -6,6 +6,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { ClientsService } from '../clients/clients.service';
 import { MatDialogModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { MatDialogModule } from '@angular/material';
     CommonModule,
     CheckoutRoutingModule,
     AutocompleteLibModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
   ],
   providers: [
     ClientsService
