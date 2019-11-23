@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { SchedulersRoutingModule } from './schedulers-routing.module';
 import { SchedulerItemComponent } from './scheduler-item/scheduler-item.component';
@@ -13,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
     CommonModule,
     SchedulersRoutingModule,
+    FormsModule
   ]
 })
 export class SchedulersModule { }

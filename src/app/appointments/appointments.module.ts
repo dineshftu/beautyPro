@@ -5,7 +5,6 @@ import { AppointmentsRoutingModule } from './appointments-routing.module';
 import { AppointmentListComponent } from './appointment-list/appointment-list.component';
 import { AppointmentsService } from './appointments.service';
 import { ViewAppointmentComponent } from './view-appointment/view-appointment.component';
-import { CheckoutComponent } from './checkout/checkout.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '../shared/shared.module';
@@ -14,8 +13,7 @@ import { NewAppointmentComponent } from '../shared/new-appointments/new-appointm
 @NgModule({
   declarations: [
     AppointmentListComponent,
-    ViewAppointmentComponent,
-    CheckoutComponent
+    ViewAppointmentComponent
   ],
   imports: [
     CommonModule,
