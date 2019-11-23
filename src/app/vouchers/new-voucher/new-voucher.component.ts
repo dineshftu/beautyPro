@@ -26,7 +26,7 @@ export class NewVoucherComponent implements OnInit {
   public isPaymentTypeNotSelected: boolean = false;
   public keyword = 'fullName';
   public keywordTreatment = 'ttname';
-  
+
 
   constructor(
     public dialogRef: MatDialogRef<NewVoucherComponent>,
