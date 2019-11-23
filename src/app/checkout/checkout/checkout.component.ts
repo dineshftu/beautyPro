@@ -3,6 +3,9 @@ import { DataService } from 'src/app/core/services/data.service';
 import { Customer, CustomerSearchRequest } from 'src/app/clients/clients.model';
 import { CheckoutTreatmentRequest } from '../checkout.model';
 import { ClientsService } from 'src/app/clients/clients.service';
+import { ToastrService } from 'ngx-toastr';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { AddProductComponent } from '../add-product/add-product.component';
 
 @Component({
   selector: 'app-checkout',
@@ -15,9 +18,13 @@ export class CheckoutComponent implements OnInit {
   public keyword = 'fullName';
   public checkoutTreatmentRequest = new CheckoutTreatmentRequest();
 
+  public treatments = ['sf', 'sf', 'sdfs', 'sdf', 'sdfs'];
+
   constructor(
     public clientsService: ClientsService,
-    private data: DataService
+    private data: DataService,
+    private toastr: ToastrService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -43,5 +50,18 @@ export class CheckoutComponent implements OnInit {
   selectCustomerEvent(e: any) {
     this.checkoutTreatmentRequest.customerId = e.customerId;
 
+  }
+  addProduct() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    // dialogConfig.data = ;
+    this.dialog.open(AddProductComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      }
+    );
   }
 }

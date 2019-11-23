@@ -28,8 +28,146 @@
 
   </div>
 
+  <!--Header part-->
+  <div class="inline-form">
+    <div>
+      Invoice
+    </div>
+    <div>
+      <input class="form-control" type="date">
+    </div>
+  </div>
+
+  <!-- start: treatment table section -->
+  <div class="table-gen client-list">
+    <!-- start: treatment table header -->
+    <div class="table-header">
+      <div class="row">
+        <div> Treatment </div>
+        <div> Price </div>
+        <div> QTY </div>
+        <div> Amount </div>
+        <div> Therapist Name </div>
+      </div>
+      <!-- start: treatment table body -->
+      <div id="table-body">
+        <div class="table-row">
+          <div class="row" *ngFor="let treatment of treatments;let i=index">
+            <div> {{i+1}} Happy End </div>
+            <div> 100 </div>
+            <div> 01 </div>
+            <div> 100 </div>
+            <div> Nsdf </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- start: treatment total section -->
+    <div class="checkout-total">
+      <div class="checkout-total-row">
+        <div class="total-label"> Sub Total </div>
+        <div class="total-amount"> 500 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Discount </div>
+        <div class="total-amount"> (200) </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Net Amount </div>
+        <div class="total-amount"> 480 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Tax 6% </div>
+        <div class="total-amount"> 48 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Due </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- start: product table section -->
+  <div class="table-gen client-list">
+    <!-- start: product table header -->
+    <div class="table-header">
+      <div class="row">
+        <div>Product </div>
+        <div> Price </div>
+        <div> QTY </div>
+        <div> Amount </div>
+        <div> Therapist Name </div>
+      </div>
+      <!-- start: product table body -->
+      <div id="table-body">
+        <div class="table-row">
+          <div class="row" *ngFor="let treatment of treatments;let i=index">
+            <div> {{i+1}} Happy End </div>
+            <div> 100 </div>
+            <div> 01 </div>
+            <div> 100 </div>
+            <div> Nsdf </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn-default" (click)="addProduct()">Add Product</button>
+
+    <!-- start: product table total section -->
+    <div class="checkout-total">
+      <div class="checkout-total-row">
+        <div class="total-label"> Sub Total </div>
+        <div class="total-amount"> 500 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Tax 6% </div>
+        <div class="total-amount"> 48 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Due </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+    </div>
+    <!--start Sub Total section-->
+    <div class="checkout-total">
+      <div class="checkout-total-row">
+        <div class="total-label"> Bill Sub </div>
+        <div class="total-amount"> 500 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Discount</div>
+        <div class="total-amount"> 48 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Net Amount </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Tax 9% </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Due Total </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+    </div>   
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
   <!-- start: table section -->
-  <div class="table-gen appointment-list">
+  <!-- <div class="table-gen appointment-list">
     <div class="appointment-main">
       <div class="client-name">Jane Doe</div>
       <div class="appointment-date">Tuesday, 8th Oct 2019</div>
@@ -110,5 +248,7 @@
   </div>
   <div class="pop-up-btns">
     <button class="btn-default w-100">Complete Sale</button>
-  </div>
+  </div> -->
+
+
 </div>
