@@ -3,7 +3,7 @@
   <div class="pop-up">
     <div class="pop-up-header">
       <div class="pop-up-title">New Voucher</div>
-      <button class="icon-btn">
+      <button class="icon-btn" (click)="cancel()">
         <i class="material-icons">close</i>
       </button>
     </div>
@@ -15,7 +15,7 @@
         <div class="inline-form">
 
           <div class="form-group">
-
+            <label>Customer</label>
             <div class="ng-autocomplete">
 
               <ng-autocomplete [data]="customers" [searchKeyword]="keyword" historyIdentifier="customers"
@@ -52,12 +52,8 @@
 
         </div>
 
-        <div class="inline-form">
-
-
-
           <div class="form-group">
-
+              <label>Treatment</label> 
             <div class="ng-autocomplete">
 
               <ng-autocomplete [data]="treatmentList" [searchKeyword]="keywordTreatment"
@@ -75,8 +71,6 @@
               </ng-template>
 
             </div>
-
-          </div>
 
 
         </div>
@@ -109,17 +103,14 @@
 
         </div>
 
-        <div class="pop-up-btns">
-          <button class="btn-primary" (click)="cancel()">Cancel</button>
-          <button class="btn-default">Save</button>
-        </div>
-
       </form>
 
     </div>
 
-
-
+    <div class="pop-up-btns">
+      <button class="btn-primary" (click)="cancel()">Cancel</button>
+      <button class="btn-default">Save</button>
+    </div>
 
   </div>
 

@@ -1,12 +1,12 @@
 <div>
 
-  <div class="pop-up">
+  <div class="">
 
     <div class="pop-up-header">
 
       <div class="pop-up-title">Client Registration</div>
 
-      <button type="button" class="icon-btn">
+      <button type="button" class="icon-btn" (click)="cancel()">
         <i class="material-icons">close</i>
       </button>
 
@@ -70,15 +70,14 @@
 
         </div>
 
-        <div class="pop-up-btns">
-          <button type="button" class="btn-primary" (click)="cancel()">Cancel</button>
-          <button type="submit" class="btn-default">Save Client</button>
-        </div>
-
       </form>
 
     </div>
 
+    <div class="pop-up-btns">
+      <button type="button" class="btn-primary" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn-default">Save Client</button>
+    </div>
 
   </div>
 
