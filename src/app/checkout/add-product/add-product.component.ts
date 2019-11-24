@@ -10,7 +10,7 @@ export class AddProductComponent implements OnInit {
 
 
   constructor(
-    private dialogRef: MatDialogRef<AddProductComponent>,
+    public dialogRef: MatDialogRef<AddProductComponent>,
     @Inject(MAT_DIALOG_DATA) public products: any[],
   ) { }
 
@@ -22,7 +22,7 @@ export class AddProductComponent implements OnInit {
     this.dialogRef.close({ data: this.products });
   }
   addProduct() {
-    this.products.push('ne1');   
+    this.products.push('ne1');
   }
   removeProduct(index: number) {
     this.products.splice(index, 1);

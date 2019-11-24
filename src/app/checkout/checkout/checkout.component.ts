@@ -49,8 +49,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   selectCustomerEvent(e: any) {
-    this.checkoutTreatmentRequest.customerId = e.customerId;
-
+    this.checkoutTreatmentRequest.CustomerId = e.CustomerId;
   }
   addProduct() {
     const dialogConfig = new MatDialogConfig();
