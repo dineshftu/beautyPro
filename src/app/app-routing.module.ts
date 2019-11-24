@@ -47,6 +47,11 @@ const routes: Routes = [
         path: 'scheduler',
         loadChildren: () => import('./schedulers/schedulers.module').then(m => m.SchedulersModule)
       },
+      {
+        path: 'checkout',
+        loadChildren: () => import('./checkout/checkout.module').then(m => m.CheckoutModule)
+      },
+
 
     ]
   },

@@ -1,89 +1,86 @@
 {
-  "treatments": [
+  "shedules": [
     {
-      "id": 1,
-      "name": "Facial",
-      "department": "Spa",
-      "duration": "1 Hr 30 Min",
-      "cost": "370.00",
-      "price": "650.00"
+      "employeeName": "Nayanai",
+      "designation": "Cashier",
+      "schedules": [
+        {
+          "clientName": "Priyalal liyanarachchi",
+          "scheduleStatus": "New",
+          "treatmentType": "test1treatment",
+          "startTime": "08:15:00",
+          "endTime": "08:20:00"
+        },
+        {
+          "clientName": "dhanushka liyanarachchi",
+          "scheduleStatus": "New",
+          "treatmentType": "test1treatment",
+          "startTime": "09:00:00",
+          "endTime": "09:20:00"
+        },
+        {
+          "clientName": "dhanushka liyanarachchi",
+          "scheduleStatus": "New",
+          "treatmentType": "test1treatment",
+          "startTime": "10:00:00",
+          "endTime": "10:20:00"
+        },
+        {
+          "clientName": "dhanushka liyanarachchi",
+          "scheduleStatus": "New",
+          "treatmentType": "test1treatment",
+          "startTime": "14:00:00",
+          "endTime": "14:45:00"
+        },
+        {
+          "clientName": "dhanushka liyanarachchi",
+          "scheduleStatus": "New",
+          "treatmentType": "test1treatment",
+          "startTime": "15:00:00",
+          "endTime": "15:55:00"
+        }
+      ]
     },
     {
-      "id": 2,
-      "name": "Facial-2",
-      "department": "Spa-1",
-      "duration": "1 Hr 30 Min",
-      "cost": "370.00",
-      "price": "650.00"
-    },
-    {
-      "id": 3,
-      "name": "Facial-3",
-      "department": "Spa-2",
-      "duration": "1 Hr 30 Min",
-      "cost": "370.00",
-      "price": "650.00"
-    }
-  ],
-  "vouchers": [
-    {
-      "id": 1,
-      "number": "VOU12345",
-      "customer": "John Doe",
-      "issuedBy": "Jane Doe",
-      "issuedDate": "2019.12.28",
-      "status": "Redeemed",
-      "amount": 1500
-    },
-    {
-      "id": 2,
-      "number": "VOU5321",
-      "customer": "Camilia Doe",
-      "issuedBy": "Supun Doe",
-      "issuedDate": "2019.10.05",
-      "status": "Status",
-      "amount": 2400
-    },
-    {
-      "id": 3,
-      "number": "VOU8974",
-      "customer": "Sandi Doe",
-      "issuedBy": "Keneth Doe",
-      "issuedDate": "2018.02.01",
-      "status": "Pending",
-      "amount": 5400
-    }
-  ],
-  "appointments": [
-    {
-      "id": 1,
-      "customer": "Sandi Doe",
-      "treatment": "Hair Cut",
-      "date": "2019.10.05",
-      "time": "14.13",
-      "duration": "1 Hr 30 Min",
-      "therapist": "John Doe",
-      "price": "650.00"
-    },
-    {
-      "id": 1,
-      "customer": "Sherif Doe",
-      "treatment": "Full Body Massage",
-      "date": "2019.10.05",
-      "time": "10.13",
-      "duration": "1 Hr 30 Min",
-      "therapist": "John Doe",
-      "price": "1500.00"
-    },
-    {
-      "id": 1,
-      "customer": "Jane Doe",
-      "treatment": "Hair Color",
-      "date": "2019.10.05",
-      "time": "17.13",
-      "duration": "1 Hr 30 Min",
-      "therapist": "John Doe",
-      "price": "2400.00"
+      "employeeName": "Bindula",
+      "designation": "Chakablas",
+      "schedules": [
+        {
+          "clientName": "Suresh liyanarachchi",
+          "scheduleStatus": "New",
+          "treatmentType": "test1treatment",
+          "startTime": "08:00:00",
+          "endTime": "08:45:00"
+        },
+        {
+          "clientName": "Koggala liyanarachchi",
+          "scheduleStatus": "Old",
+          "treatmentType": "test1treatment",
+          "startTime": "09:30:00",
+          "endTime": "09:45:00"
+        },
+        {
+          "clientName": "Suresh liyanarachchi",
+          "scheduleStatus": "New",
+          "treatmentType": "test1treatment",
+          "startTime": "12:00:00",
+          "endTime": "13:45:00"
+        },
+        {
+          "clientName": "Chandika liyanarachchi",
+          "scheduleStatus": "New",
+          "treatmentType": "test1treatment",
+          "startTime": "14:00:00",
+          "endTime": "14:30:00"
+        },
+        {
+          "clientName": "Amila liyanarachchi",
+          "scheduleStatus": "New",
+          "treatmentType": "test1treatment",
+          "startTime": "14:35:00",
+          "endTime": "15:05:00"
+        }
+      ]
     }
   ]
 }

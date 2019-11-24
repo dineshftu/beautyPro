@@ -19,6 +19,11 @@ export class BaseDataService {
     return this.http.get(this.constructUrl(path), { headers: headers })
   }
 
+  makeGetCallTemp(path: string): Observable<any> {
+    let headers = new HttpHeaders({ 'X-Requested-With': 'XMLHttpRequest', 'Authorization': 'bearer ' + this.getToken() });
+    return this.http.get(path, { headers: headers })
+  }
+
   makePostCall(path: string, body: any): Observable<any> {
     let bodyJson = JSON.stringify(body);
     let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'Authorization': 'bearer ' + this.getToken() });
@@ -27,7 +32,7 @@ export class BaseDataService {
 
   makeDeleteCall(path: string): Observable<any> {
     let headers = new HttpHeaders({ 'X-Requested-With': 'XMLHttpRequest', 'Authorization': 'bearer ' + this.getToken() });
-    return this.http.delete(this.constructUrl(path), { headers: headers});
+    return this.http.delete(this.constructUrl(path), { headers: headers });
   }
 
   private getToken() {

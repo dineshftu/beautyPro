@@ -11,9 +11,9 @@ export class GlobalErrorHandlerService implements ErrorHandler {
 
   handleError(error: Error | HttpErrorResponse) {
     if (error instanceof HttpErrorResponse) {
-      //this.toastr.error(error.message, error.statusText);
+      this.toastr.error(error.message, error.statusText);
     } else {
-      //this.toastr.error(error.message, "Error");
+      this.toastr.error(error.message, "Error");
     }
 
     console.error(error);

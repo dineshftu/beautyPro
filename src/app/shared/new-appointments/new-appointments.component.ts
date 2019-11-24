@@ -12,6 +12,7 @@ import { Treatment, TreatmentFilterRequest } from 'src/app/treatments/treatments
 import * as moment from 'moment';
 import { Department } from '../models/department.model';
 import { DepartmentService } from '../services/department.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-appointments',
@@ -36,8 +37,8 @@ export class NewAppointmentComponent implements OnInit {
   private endTimespan: string;
 
   title = 'demo';
-  private exportTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
-  private exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
+  public exportTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
+  public exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
 
   constructor(
     public dialogRef: MatDialogRef<NewAppointmentComponent>,
@@ -45,7 +46,8 @@ export class NewAppointmentComponent implements OnInit {
     private route: Router,
     private treatmentService: TreatmentService,
     private departmentService: DepartmentService,
-    public clientsService: ClientsService
+    public clientsService: ClientsService,
+    private toastr:ToastrService
   ) { }
 
   public newAppointmentRequest = new NewAppointmentRequest();
@@ -178,6 +180,7 @@ export class NewAppointmentComponent implements OnInit {
     this.appointmentService
       .addNewAppointment(this.generateAppointmentRequest())
       .subscribe((result: any) => {
+        this.toastr.success("New Appointment Added", "Success");
         console.log(result);
       }, (error: any) => {
 
