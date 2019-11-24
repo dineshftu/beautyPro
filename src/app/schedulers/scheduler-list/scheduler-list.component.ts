@@ -61,6 +61,11 @@ export class SchedulerListComponent implements OnInit {
     this.loadSchedules();
   }
 
+  onDateChange(e: any) {
+    this.date = new Date(e.target.value);
+    this.loadSchedules();
+  }
+
   loadSchedules() {
     this.schedulerService
       .getFilteredScheduleList(this.generateScheduleFilterRequest())
@@ -73,7 +78,8 @@ export class SchedulerListComponent implements OnInit {
 
   private generateScheduleFilterRequest() {
     return <SchedulerFilterRequest>{
-      departmentId: this.selectedDepartment
+      departmentId: this.selectedDepartment,
+      workingDate: this.date
     }
   }
 

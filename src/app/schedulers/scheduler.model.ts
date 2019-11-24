@@ -1,5 +1,6 @@
 export interface SchedulerFilterRequest {
   departmentId: number;
+  workingDate: Date;
 }
 
 export class ScheduleResponse {

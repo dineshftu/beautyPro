@@ -15,7 +15,8 @@ export class SchedulerService {
   ) { }
 
   public getFilteredScheduleList(request: SchedulerFilterRequest): Observable<Array<ScheduleResponse>> {
-    let queryString = `departmentId=${request.departmentId}`;
+    let queryString = `departmentId=${request.departmentId}
+                        &workingDate=${request.workingDate}`;
     return this.baseDataService.makeGetCall(`${this.apiSchedulerUrl}${'/filter'}?${queryString}`);
   }
 

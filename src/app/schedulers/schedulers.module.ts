@@ -6,7 +6,8 @@ import { SchedulersRoutingModule } from './schedulers-routing.module';
 import { SchedulerItemComponent } from './scheduler-item/scheduler-item.component';
 import { SchedulerListComponent } from './scheduler-list/scheduler-list.component';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { MatFormFieldModule, MatDatepickerModule, MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [SchedulerItemComponent, SchedulerListComponent],
@@ -14,7 +15,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
     CommonModule,
     SchedulersRoutingModule,
-    FormsModule
+    FormsModule,
+    MatMomentDateModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule
   ]
 })
 export class SchedulersModule { }

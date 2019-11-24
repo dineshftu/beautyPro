@@ -73,7 +73,6 @@ export class NewAppointmentComponent implements OnInit {
   }
 
   getCustomerList() {
-    console.log('date', moment().format('YYYY, MM, DD'));
     this.clientsService
       .getCustomerList(this.createCustomerRequest())
       .subscribe((customers: Customer[]) => {
