@@ -1,6 +1,5 @@
-<div>
 
-  <div class="">
+<div class="pop-up">
 
     <div class="pop-up-header">
 
@@ -12,9 +11,9 @@
 
     </div>
 
-    <div class="pop-up-body">
+    <form (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
 
-      <form (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+      <div class="pop-up-body">
 
         <div class="form-group">
           <label>Name</label>
@@ -70,15 +69,13 @@
 
         </div>
 
-        <div class="pop-up-btns">
-          <button type="button" class="btn-primary" (click)="cancel()">Cancel</button>
-          <button type="submit" class="btn-default">Save Client</button>
-        </div>
+      </div>
 
-      </form>
+      <div class="pop-up-btns">
+        <button type="button" class="btn-primary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn-default">Save Client</button>
+      </div>
 
-    </div>
-
-  </div>
+    </form>
 
 </div>

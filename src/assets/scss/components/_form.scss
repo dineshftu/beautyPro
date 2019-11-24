@@ -58,7 +58,7 @@
   position: relative;
 
   @include placeholder {
-    color: $menu-font-color;
+    color: $color-3;
     @include opacity(0.45);
   }
 
@@ -73,7 +73,6 @@
 
 .inline-form {
   display: flex;
-  align-items: center;
   margin-left: -10px;
   margin-right: -10px;
 
@@ -92,4 +91,9 @@
     margin-right: 10px;
     width: 50%;
   }
+}
+
+.error-msg {
+  color: $red;
+  font-size: 13px;
 }

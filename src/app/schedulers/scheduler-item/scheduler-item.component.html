@@ -14,8 +14,9 @@
       <div class="bk-seg bk-seg-type">
         <ng-container *ngFor="let schedule of scheduleResponse.schedules">
           <ng-container *ngIf="i === schedule.startIndex">
-            <div class="bk-seg-client">{{schedule.clientName}}</div>
-            <div class="bk-seg-trt">{{schedule.treatmentType}}</div>
+            <div class="bk-seg-name">
+                {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
+            </div>
             <div class="bk-seg-status">{{schedule.scheduleStatus}}</div>
           </ng-container>
         </ng-container>
