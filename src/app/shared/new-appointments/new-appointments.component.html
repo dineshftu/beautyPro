@@ -82,6 +82,14 @@
 
             <div class="form-group">
 
+              <label>Quantity</label>
+              <input type="number" class="form-control" name="qty" [(ngModel)]="treatmentQty"
+                (keypress)="numericOnly($event)" (input)="onQtyChange($event)" placeholder="Quantity..." />
+
+            </div>
+
+            <div class="form-group">
+
               <div class="ng-autocomplete">
 
                 <ng-autocomplete #auto [data]="employeesList" [searchKeyword]="keywordEmployee"
@@ -111,7 +119,7 @@
 
             <div class="form-group">
               <mat-form-field>
-                <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)"
+                <input [min]="minDate" matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)"
                   placeholder="Choose a date">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -137,10 +145,15 @@
             <div class="form-group">
               <label>Start Time</label>
               <material-timepicker color="primary" label="Hour 2" appearance="fill" [userTime]="exportTime"
-                (change)="onChangeHour($event)" revertLabel="Remove" submitLabel="Ok"></material-timepicker>
+                (change)="onChangeHour($event)" revertLabel="Remove" submitLabel="Ok">
+              </material-timepicker>
 
               <div *ngIf="f.submitted && isStartTimeNotSelected">
                 <div>Appoinment Start Time is required</div>
+              </div>
+
+              <div *ngIf="f.submitted && isStartTimeInvalid">
+                <div>Appoinment Start Time is earlier than the openning time</div>
               </div>
 
             </div>
@@ -148,7 +161,12 @@
             <div class="form-group">
               <label>End Time</label>
               <material-timepicker color="primary" label="Hour 2" appearance="fill" [userTime]="exportEndTime"
-                (change)="onChangeHour($event)" revertLabel="Remove" submitLabel="Ok"></material-timepicker>
+                revertLabel="Remove" submitLabel="Ok"></material-timepicker>
+
+              <div *ngIf="f.submitted && isEndTimeInvalid">
+                <div>Appoinment End Time is later than the openning time</div>
+              </div>
+
             </div>
 
           </div>
