@@ -12,6 +12,7 @@ export class AppointmentTreatment {
     empNo: number;
     startTime: string;
     endTime: string;
+    qty: number;
 }
 
 export class Employees {
