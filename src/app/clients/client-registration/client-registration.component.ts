@@ -37,7 +37,7 @@ export class ClientRegistrationComponent implements OnInit {
     this.clientService
       .addNewCustomer(this.client)
       .subscribe((result: any) => {
-        this.toastr.error("New Customer Added", "Success");
+        this.toastr.success("New Customer Added", "Success");
         console.log(result);
       }, (error: any) => {
 

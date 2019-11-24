@@ -16,6 +16,7 @@ import { HelperService } from 'src/app/core/services/helper.service';
   templateUrl: './scheduler-list.component.html',
   styleUrls: ['./scheduler-list.component.scss']
 })
+
 export class SchedulerListComponent implements OnInit {
   // public date = formatDate(new Date(), 'yyyy-mm-dd', '', '');
   public date;

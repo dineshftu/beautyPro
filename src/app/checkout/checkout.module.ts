@@ -7,6 +7,7 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { ClientsService } from '../clients/clients.service';
 import { MatDialogModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { CheckoutService } from './checkout.service';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   providers: [
+    CheckoutService,
     ClientsService
   ],
   entryComponents: [AddProductComponent]
