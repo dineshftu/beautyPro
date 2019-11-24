@@ -1,14 +1,14 @@
 /*--------General Table----------*/
 .table-gen {
-  .table-header,
-  .table-row {
+
+  .table-header, .table-row {
+
     .row {
       width: 100%;
       height: 50px;
       display: table;
-      table-layout: fixed;
+      table-layout:fixed;
       border-bottom: 1px solid $border-color;
-      padding-bottom: 10px;
       padding: 0 10px;
 
       div {
@@ -19,7 +19,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         list-style: none;
-        font-family: "Gotham-Book";
+        font-family: 'Gotham-Book';
         padding: 0 10px;
         vertical-align: middle;
         cursor: pointer;
@@ -28,6 +28,7 @@
   }
 
   .table-header {
+
     .row {
       height: 50px;
 
@@ -43,12 +44,14 @@
 
   #table-body {
     .table-row {
+
       .row {
-        @include transition(all 0.25s ease-in-out);
+        @include transition(all .25s ease-in-out);
         background: $white;
         @include box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.22));
         border-radius: 10px;
         border: 1px solid $white;
+        margin-bottom: 12px;
 
         div {
           color: $black;
@@ -56,7 +59,16 @@
 
           &.action-btns button {
             opacity: 0;
-            @include transition(all 0.25s ease-in-out);
+            @include transition(all .25s ease-in-out);
+          }
+
+          .form-control {
+            height: 24px;
+            padding: 0 10px;
+            font-size: 12px;
+            background: #2a2a2a;
+            color: $white;
+            border-radius: 15px;
           }
         }
 
@@ -73,13 +85,45 @@
   }
 }
 
-/* supplier invoice listing table */
+/* treatment listing */
 .table-gen.treatment-list {
-  .table-header,
-  .table-row {
+  .table-header, .table-row {
     .row {
       div {
         @include list-columns(32%, 17%, 17%, 17%, 17%, 150px);
+      }
+    }
+  }
+}
+
+/* voucher listing */
+.table-gen.voucher-list {
+  .table-header, .table-row {
+    .row {
+      div {
+        @include list-columns(25%, 15%, 15%, 15%, 15%, 15%);
+      }
+    }
+  }
+}
+
+/* appointment lisitng */
+.table-gen.appointment-list {
+  .table-header, .table-row {
+    .row {
+      div {
+        @include list-columns(15%, 15%, 14%, 13%, 14%, 14%, 15%, 140px);
+      }
+    }
+  }
+}
+
+/* client lisitng */
+.table-gen.client-list {
+  .table-header, .table-row {
+    .row {
+      div {
+        @include list-columns(13%, 20%, 12%, 17%, 10%, 12%, 14%, 110px);
       }
     }
   }

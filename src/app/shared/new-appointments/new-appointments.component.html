@@ -3,8 +3,8 @@
   <div class="pop-up" style="width: 700px;">
     <div class="pop-up-header">
       <div class="pop-up-title">New Appointment</div>
-      <button class="icon-btn">
-        <i class="material-icons" (click)="cancel()">close</i>
+      <button class="icon-btn" (click)="cancel()">
+        <i class="material-icons">close</i>
       </button>
     </div>
     <div class="pop-up-body">
@@ -13,6 +13,7 @@
 
         <div class="form-group">
 
+          <label>Customer</label>
           <div class="ng-autocomplete">
 
             <ng-autocomplete [data]="customers" [searchKeyword]="keyword" historyIdentifier="customers"
@@ -55,7 +56,7 @@
             </div>
 
             <div class="form-group">
-
+              <label>Treatment</label>
               <div class="ng-autocomplete">
 
                 <ng-autocomplete #autoTreatment [data]="treatmentList" [searchKeyword]="keywordTreatment"
@@ -118,6 +119,7 @@
           <div class="inline-form">
 
             <div class="form-group">
+              <label>Date</label>
               <mat-form-field>
                 <input [min]="minDate" matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)"
                   placeholder="Choose a date">
@@ -172,7 +174,7 @@
           </div>
         </div>
 
-        <button type="button" class="btn-default">Add Another Appointment</button>
+        <!-- <button type="button" class="btn-default">Add Another Appointment</button> -->
 
         <div class="pop-up-btns">
           <button type="button" class="btn-primary" (click)="cancel()">Cancel</button>

@@ -5,6 +5,7 @@ button {
   @include border-radius(2px);
   height: 36px;
   padding: 0 15px;
+  letter-spacing: 0.03em;
 
   &.btn-link {
     background-color: transparent;
@@ -34,6 +35,25 @@ button {
 
 .btn-default {
   background: $color-2;
+  color: $white;
+  border-radius: 10px;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.btn-primary {
+  color: $color-1;
+  border-radius: 10px;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.btn-dark {
+  background: $font-color;
   color: $white;
   border-radius: 10px;
 

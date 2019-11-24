@@ -1,6 +1,9 @@
 #wrapper-content {
-  padding-left: 260px;
+  margin-left: 260px;
   padding-right: 50px;
+  padding-top: 70px;
+  position: relative;
+  height: 100%;
   @include transition(all 0.3s ease-in-out);
 }
 
@@ -11,10 +14,12 @@
     height: auto;
     box-sizing: border-box;
     @include font-normal;
-    padding: 50px 0 15px;
+    padding: 40px 0 15px;
 
     .form-group {
       width: 170px;
+      padding-bottom: 0;
+      margin-right: 15px;
     }
     
     button {
