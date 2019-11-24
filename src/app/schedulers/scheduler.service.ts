@@ -8,7 +8,8 @@ import { ScheduleResponse, SchedulerFilterRequest } from './scheduler.model';
 })
 export class SchedulerService {
 
-  private apiTreatmentUrl = 'schedulers';
+  private apiTreatmentUrl = 'http://localhost:3000/shedules';
+  // private apiTreatmentUrl = 'schedulers';
 
   constructor(
     private baseDataService: BaseDataService
@@ -16,7 +17,8 @@ export class SchedulerService {
 
   public getFilteredScheduleList(request: SchedulerFilterRequest): Observable<Array<ScheduleResponse>> {
     let queryString = `departmentId=${request.departmentId}`;
-    return this.baseDataService.makeGetCall(`${this.apiTreatmentUrl}${'/filter'}?${queryString}`);
+    // return this.baseDataService.makeGetCall(`${this.apiTreatmentUrl}${'/filter'}?${queryString}`);
+    return this.baseDataService.makeGetCallTemp(`${this.apiTreatmentUrl}`);
   }
 
 }

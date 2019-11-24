@@ -9,7 +9,7 @@
 </div>
 <div class="schd-blc-tl">
   <ng-container *ngFor="let timeIndex of scheduleResponse.timeIndexes; index as i">
-    <!-- in every six hour when (i%6)===0 thick hour line should appeared css -->
+    <!-- in every six hour when (i%12)===0 thick hour line should appeared css -->
     <div class="tl-gap-hr">
       <ng-container *ngIf="timeIndex != 'default'">
         <div class="bk-seg bk-seg-type">
@@ -19,7 +19,6 @@
               <div class="bk-seg-trt">{{schedule.treatmentType}}</div>
               <div class="bk-seg-status">{{schedule.scheduleStatus}}</div>
             </ng-container>
-
           </ng-container>
         </div>
       </ng-container>

@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { ClientsService } from '../clients.service';
 import { Client } from '../clients.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-client-registration',
@@ -16,7 +17,8 @@ export class ClientRegistrationComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ClientRegistrationComponent>,
     private route: Router,
-    private clientService: ClientsService
+    private clientService: ClientsService,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class ClientRegistrationComponent implements OnInit {
     this.clientService
       .addNewCustomer(this.client)
       .subscribe((result: any) => {
+        this.toastr.error("New Customer Added", "Success");
         console.log(result);
       }, (error: any) => {
 

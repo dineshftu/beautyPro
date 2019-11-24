@@ -3,6 +3,21 @@
   <!-- start: filter section -->
   <div id="filter-section">
     <div class="form-group">
+      <div class="ng-autocomplete">
+        <ng-autocomplete [data]="customers" [searchKeyword]="keyword" historyIdentifier="customers"
+          placeHolder="Enter Customer Name" (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+
+        <ng-template #itemTemplate let-item>
+          <a [innerHTML]="item.fullName"></a>
+        </ng-template>
+
+        <ng-template #notFoundTemplate let-notFound>
+          <div [innerHTML]="notFound"></div>
+        </ng-template>
+
+      </div>
       <!-- //auto complete here -->
       <!-- <select class="form-control select">
         <option value="" disabled selected>Select departmnet</option>
@@ -13,87 +28,227 @@
 
   </div>
 
-  <!-- start: table section -->
-  <div class="table-gen appointment-list">
-      <div class="appointment-main">
-        <div class="client-name">Jane Doe</div>
-        <div class="appointment-date">Tuesday, 8th Oct 2019</div>
-      </div>
-      <div class="checkout-item-block">
-        <div class="checkout-item">
-          <div class="chekout-items-quntity">1</div>
-          <div class="treatment-title">
-            <div class="treatment-name">Haircut</div>
-            <div class="treatment-details">
-              1h 40min with suresh Chamara
-            </div>
-          </div>
-          <div class="treatment-amount">LKR 500.00</div>
-          <div class="chekout-items-remove">
-            <i class="material-icons">close</i>
-          </div>
-        </div>
-        <div class="inline-form">
-          <div class="form-group">
-            <label>Quantity</label>
-            <input class="form-control" placeholder="Quantity" />
-          </div>
-          <div class="form-group form-amnt">
-            <label>Price</label>
-            <span class="form-prefix">LKR</span>
-            <input class="form-control" placeholder="0.00" />
-          </div>
-          <div class="form-group">
-            <label>Therapist</label>
-            <select class="form-control select">
-              <option value="Value 1">Therapist 1</option>
-              <option value="Value 2">Therapist 2</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="checkout-item-block">
-        <div class="checkout-item">
-          <div class="chekout-items-quntity">1</div>
-          <div class="treatment-title">
-            <div class="treatment-name">Haircut</div>
-            <div class="treatment-details">
-              1h 40min with suresh Chamara
-            </div>
-          </div>
-          <div class="treatment-amount">LKR 500.00</div>
-          <div class="chekout-items-remove">
-            <i class="material-icons">close</i>
-          </div>
-        </div>
-      </div>
-
-      <div class="inline-form">
-        <button type="button" class="btn-default">Add treatment</button>
-        <button type="button" class="btn-dark">Add product</button>
-      </div>
-
-      <div class="checkout-total">
-        <div class="checkout-total-row">
-          <div class="total-label">Total</div>
-          <div class="total-amount">LKR 625.00</div>
-        </div>
-        <div class="checkout-total-row">
-          <div class="total-label">Total</div>
-          <div class="form-group form-amnt">
-            <span class="form-prefix">LKR</span>
-            <input class="form-control" placeholder="0.00" />
-          </div>
-        </div>
-      </div>
-
-      <div class="appointment-total spc-pd">
-        <div class="total-label">Total amount payable</div>
-        <div class="total-amount">LKR 500.00</div>
-      </div>
+  <!--Header part-->
+  <div class="inline-form">
+    <div>
+      Invoice
     </div>
-    <div class="pop-up-btns">
-      <button class="btn-default w-100">Complete Sale</button>
+    <div>
+      <input class="form-control" type="date">
     </div>
   </div>
+
+  <!-- start: treatment table section -->
+  <div class="table-gen client-list">
+    <!-- start: treatment table header -->
+    <div class="table-header">
+      <div class="row">
+        <div> Treatment </div>
+        <div> Price </div>
+        <div> QTY </div>
+        <div> Amount </div>
+        <div> Therapist Name </div>
+      </div>
+      <!-- start: treatment table body -->
+      <div id="table-body">
+        <div class="table-row">
+          <div class="row" *ngFor="let treatment of treatments;let i=index">
+            <div> {{i+1}} Happy End </div>
+            <div> 100 </div>
+            <div> 01 </div>
+            <div> 100 </div>
+            <div> Nsdf </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- start: treatment total section -->
+    <div class="checkout-total">
+      <div class="checkout-total-row">
+        <div class="total-label"> Sub Total </div>
+        <div class="total-amount"> 500 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Discount </div>
+        <div class="total-amount"> (200) </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Net Amount </div>
+        <div class="total-amount"> 480 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Tax 6% </div>
+        <div class="total-amount"> 48 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Due </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- start: product table section -->
+  <div class="table-gen client-list">
+    <!-- start: product table header -->
+    <div class="table-header">
+      <div class="row">
+        <div>Product </div>
+        <div> Price </div>
+        <div> QTY </div>
+        <div> Amount </div>
+        <div> Therapist Name </div>
+      </div>
+    </div>
+    <!-- start: product table body -->
+    <div id="table-body">
+      <div class="table-row">
+        <div class="row" *ngFor="let product of products;let i=index">
+          <div> {{i+1}} Happy End </div>
+          <div> 100 </div>
+          <div> 01 </div>
+          <div> 100 </div>
+          <div> Nsdf </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn-default" (click)="addProduct()">Add Product</button>
+
+    <!-- start: product table total section -->
+    <div class="checkout-total">
+      <div class="checkout-total-row">
+        <div class="total-label"> Sub Total </div>
+        <div class="total-amount"> 500 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Tax 6% </div>
+        <div class="total-amount"> 48 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Due </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+    </div>
+    <!--start Sub Total section-->
+    <div class="checkout-total">
+      <div class="checkout-total-row">
+        <div class="total-label"> Bill Sub </div>
+        <div class="total-amount"> 500 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Discount</div>
+        <div class="total-amount"> 48 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Net Amount </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Tax 9% </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label"> Due Total </div>
+        <div class="total-amount"> 560 </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- start: table section -->
+  <!-- <div class="table-gen appointment-list">
+    <div class="appointment-main">
+      <div class="client-name">Jane Doe</div>
+      <div class="appointment-date">Tuesday, 8th Oct 2019</div>
+    </div>
+    <div class="checkout-item-block">
+      <div class="checkout-item">
+        <div class="chekout-items-quntity">1</div>
+        <div class="treatment-title">
+          <div class="treatment-name">Haircut</div>
+          <div class="treatment-details">
+            1h 40min with suresh Chamara
+          </div>
+        </div>
+        <div class="treatment-amount">LKR 500.00</div>
+        <div class="chekout-items-remove">
+          <i class="material-icons">close</i>
+        </div>
+      </div>
+      <div class="inline-form">
+        <div class="form-group">
+          <label>Quantity</label>
+          <input class="form-control" placeholder="Quantity" />
+        </div>
+        <div class="form-group form-amnt">
+          <label>Price</label>
+          <span class="form-prefix">LKR</span>
+          <input class="form-control" placeholder="0.00" />
+        </div>
+        <div class="form-group">
+          <label>Therapist</label>
+          <select class="form-control select">
+            <option value="Value 1">Therapist 1</option>
+            <option value="Value 2">Therapist 2</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-item-block">
+      <div class="checkout-item">
+        <div class="chekout-items-quntity">1</div>
+        <div class="treatment-title">
+          <div class="treatment-name">Haircut</div>
+          <div class="treatment-details">
+            1h 40min with suresh Chamara
+          </div>
+        </div>
+        <div class="treatment-amount">LKR 500.00</div>
+        <div class="chekout-items-remove">
+          <i class="material-icons">close</i>
+        </div>
+      </div>
+    </div>
+
+    <div class="inline-form">
+      <button type="button" class="btn-default">Add treatment</button>
+      <button type="button" class="btn-dark">Add product</button>
+    </div>
+
+    <div class="checkout-total">
+      <div class="checkout-total-row">
+        <div class="total-label">Total</div>
+        <div class="total-amount">LKR 625.00</div>
+      </div>
+      <div class="checkout-total-row">
+        <div class="total-label">Total</div>
+        <div class="form-group form-amnt">
+          <span class="form-prefix">LKR</span>
+          <input class="form-control" placeholder="0.00" />
+        </div>
+      </div>
+    </div>
+
+    <div class="appointment-total spc-pd">
+      <div class="total-label">Total amount payable</div>
+      <div class="total-amount">LKR 500.00</div>
+    </div>
+  </div>
+  <div class="pop-up-btns">
+    <button class="btn-default w-100">Complete Sale</button>
+  </div> -->
+
+
+</div>

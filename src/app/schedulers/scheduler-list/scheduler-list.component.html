@@ -15,17 +15,7 @@
   </div>
 
   <div class="time-lapse">
-    <div class="time-intvl">8am</div>
-    <div class="time-intvl">9am</div>
-    <div class="time-intvl">10am</div>
-    <div class="time-intvl">11am</div>
-    <div class="time-intvl">12am</div>
-    <div class="time-intvl">1pm</div>
-    <div class="time-intvl">2pm</div>
-    <div class="time-intvl">3pm</div>
-    <div class="time-intvl">4pm</div>
-    <!-- <div class="time-intvl">5pm</div>
-    <div class="time-intvl">6pm</div> -->
+    <div class="time-intvl" *ngFor="let time of timeInterval">{{time}}</div>
   </div>
 
   <div class="schd-container">
