@@ -9,21 +9,18 @@
 </div>
 <div class="schd-blc-tl">
   <ng-container *ngFor="let timeIndex of scheduleResponse.timeIndexes; index as i">
-    <!-- in every six hour when (i%6)===0 thick hour line should appeared css -->
-    <div class="tl-gap-hr">
-      <ng-container *ngIf="timeIndex != 'default'">
-        <div class="bk-seg bk-seg-type">
-          <ng-container *ngFor="let schedule of scheduleResponse.schedules">
-            <ng-container *ngIf="i === schedule.startIndex">
-              <div class="bk-seg-client">{{schedule.clientName}}</div>
-              <div class="bk-seg-trt">{{schedule.treatmentType}}</div>
-              <div class="bk-seg-status">{{schedule.scheduleStatus}}</div>
-            </ng-container>
-
+    <!-- in every six hour when (i%12)===0 thick hour line should appeared css -->
+    <ng-container *ngIf="timeIndex != 'default'">
+      <div class="bk-seg bk-seg-type">
+        <ng-container *ngFor="let schedule of scheduleResponse.schedules">
+          <ng-container *ngIf="i === schedule.startIndex">
+            <div class="bk-seg-client">{{schedule.clientName}}</div>
+            <div class="bk-seg-trt">{{schedule.treatmentType}}</div>
+            <div class="bk-seg-status">{{schedule.scheduleStatus}}</div>
           </ng-container>
-        </div>
-      </ng-container>
-      <div class="tl-gap-seg"></div>
-    </div>
+        </ng-container>
+      </div>
+    </ng-container>
+    <div class="tl-gap-seg"></div>
   </ng-container>
 </div>
