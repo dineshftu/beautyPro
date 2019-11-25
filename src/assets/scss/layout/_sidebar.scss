@@ -19,7 +19,7 @@
     overflow: auto;
 
     .main-menu {
-      background: $white;
+      background: #342a34;
       padding: 15px 0;
       border-radius: 10px;
       @include box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.22));
@@ -29,7 +29,7 @@
 
         li {
           padding-left: 30px;
-          color: $black;
+          color: #fff2ec;
           display: block;
           position: relative;
           overflow: hidden;
@@ -37,12 +37,13 @@
           line-height: 50px;
           font-size: 13px;
           font-family: 'Gotham';
-          font-weight: 600;       
+          font-weight: 600;
+          cursor: pointer;
           @include transition(all 0.3s ease-in-out);
 
           &:hover {
-            background: $color-2;
-            color: $white;
+            background: #b7b9b7;
+            color: #342a34;
           }
         }
       }
