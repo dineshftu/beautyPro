@@ -101,5 +101,11 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
     this.ngUnSubscription.next(true);
     this.ngUnSubscription.complete();
   }
+  deleteTreatment(){
+    this.treatmentService.deleteTreatment()
+    .subscribe((treatment:Treatment)=>{
+      console.log(treatment);
+    })
+  }
 
 }

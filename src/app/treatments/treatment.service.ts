@@ -32,4 +32,7 @@ export class TreatmentService {
   public editTreatment(body: Treatment): Observable<Treatment> {
     return this.baseDataService.makePostCall(`${this.apiTreatmentUrl}/${'edit'}`, body);
   }
+  public deleteTreatment():Observable<Treatment>{
+    return;
+  }
 }

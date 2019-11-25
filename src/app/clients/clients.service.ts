@@ -27,4 +27,7 @@ export class ClientsService {
   public editTreatment(body: Customer): Observable<Customer> {
     return this.baseDataService.makePostCall(`${this.apiClientsUrl}/${'edit'}`, body);
   }
+  public deleteClient(): Observable<Customer> {
+    return ;
+  }
 }

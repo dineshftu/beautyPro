@@ -100,4 +100,11 @@ export class ClientListComponent implements OnInit, OnDestroy {
     this.ngUnSubscription.next(true);
     this.ngUnSubscription.complete();
   }
+  deleteClient() {
+    this.clientsService.deleteClient()
+      .subscribe((client) => {
+        console.log(client);
+      })
+
+  }
 }
