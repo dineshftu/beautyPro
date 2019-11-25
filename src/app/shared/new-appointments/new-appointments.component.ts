@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { AppointmentService } from '../services/appointment.service';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { Department } from '../models/department.model';
 import { DepartmentService } from '../services/department.service';
 import { ToastrService } from 'ngx-toastr';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-new-appointments',
@@ -52,19 +53,20 @@ export class NewAppointmentComponent implements OnInit {
   public exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 12 };
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<NewAppointmentComponent>,
     private appointmentService: AppointmentService,
     private route: Router,
     private treatmentService: TreatmentService,
     private departmentService: DepartmentService,
     public clientsService: ClientsService,
-    private toastr:ToastrService
+    private toastr: ToastrService
   ) { }
 
   public newAppointmentRequest = new NewAppointmentRequest();
 
   ngOnInit() {
-
+    console.log(this.data)
   }
 
   ngAfterViewInit() {

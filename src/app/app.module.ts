@@ -18,10 +18,12 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import * as moment from 'moment';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
+//import { NewAppointmentComponent } from './shared/new-appointments/new-appointments.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    //NewAppointmentComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,7 @@ import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
   exports: [
     MatDatepickerModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   providers: [
     // { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

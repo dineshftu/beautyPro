@@ -15,13 +15,13 @@
         <ng-container *ngFor="let schedule of scheduleResponse.schedules">
           <ng-container *ngIf="i === schedule.startIndex">
             <div class="bk-seg-name">
-                {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
+              {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
             </div>
             <div class="bk-seg-status">{{schedule.scheduleStatus}}</div>
           </ng-container>
         </ng-container>
       </div>
     </ng-container>
-    <div class="tl-gap-seg"></div>
+    <div (click)="addNewAppointment()" class="tl-gap-seg"></div>
   </ng-container>
 </div>

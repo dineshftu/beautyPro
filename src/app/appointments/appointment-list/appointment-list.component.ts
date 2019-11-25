@@ -31,7 +31,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
     private data: DataService,
     private appoinmentService: AppointmentsService,
     private route: Router,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     this.routeReload();
   }

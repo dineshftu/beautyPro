@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule, MatDatepickerModule, MatInputModule } from '@angular/material';
 import { NewAppointmentComponent } from './new-appointments/new-appointments.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { TreatmentService } from '../treatments/treatment.service';
 import { ClientsService } from '../clients/clients.service';
@@ -23,7 +23,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatInputModule,
     NgxMaterialTimepickerModule,
     MaterialTimePickerModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    ReactiveFormsModule
   ],
   exports: [
     NewAppointmentComponent,

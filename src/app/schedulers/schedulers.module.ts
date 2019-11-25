@@ -8,6 +8,8 @@ import { SchedulerListComponent } from './scheduler-list/scheduler-list.componen
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { MatFormFieldModule, MatDatepickerModule, MatInputModule } from '@angular/material';
+import { NewAppointmentComponent } from '../shared/new-appointments/new-appointments.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [SchedulerItemComponent, SchedulerListComponent],
@@ -19,7 +21,9 @@ import { MatFormFieldModule, MatDatepickerModule, MatInputModule } from '@angula
     MatMomentDateModule,
     MatFormFieldModule,
     MatDatepickerModule,
-    MatInputModule
-  ]
+    MatInputModule,
+    SharedModule
+  ],
+  entryComponents: [NewAppointmentComponent]
 })
 export class SchedulersModule { }

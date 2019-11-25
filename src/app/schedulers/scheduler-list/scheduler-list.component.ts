@@ -19,7 +19,7 @@ import { HelperService } from 'src/app/core/services/helper.service';
 
 export class SchedulerListComponent implements OnInit {
   // public date = formatDate(new Date(), 'yyyy-mm-dd', '', '');
-  public date;
+  public selectedDate;
   minTime = 5;
   public selectedDepartment = 0;
   public scheduleResponseList: ScheduleResponse[];
@@ -41,7 +41,7 @@ export class SchedulerListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
+    this.selectedDate = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Schedulers");
     this.loadSchedules();
@@ -62,7 +62,7 @@ export class SchedulerListComponent implements OnInit {
   }
 
   onDateChange(e: any) {
-    this.date = new Date(e.target.value);
+    this.selectedDate = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
     this.loadSchedules();
   }
 
@@ -79,7 +79,7 @@ export class SchedulerListComponent implements OnInit {
   private generateScheduleFilterRequest() {
     return <SchedulerFilterRequest>{
       departmentId: this.selectedDepartment,
-      workingDate: this.date
+      workingDate: this.selectedDate
     }
   }
 

@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ScheduleResponse } from '../scheduler.model';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { NewAppointmentComponent } from 'src/app/shared/new-appointments/new-appointments.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scheduler-item',
@@ -8,10 +11,37 @@ import { ScheduleResponse } from '../scheduler.model';
 })
 export class SchedulerItemComponent implements OnInit {
   @Input() scheduleResponse: ScheduleResponse
+  @Input() selectedDate: Date
 
-  constructor() { }
+  constructor(
+    private route: Router,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
+  }
+
+  onDivClick() {
+    alert('hi');
+  }
+
+  addNewAppointment() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = { selectedDate: this.selectedDate };
+    this.dialog.open(NewAppointmentComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        //console.log(response);
+        if (!!response) {
+          if (response.message == 'success') {
+            this.route.navigate(['']);
+          }
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
   }
 
 }
