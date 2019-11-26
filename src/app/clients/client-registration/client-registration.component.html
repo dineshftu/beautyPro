@@ -20,7 +20,7 @@
           <input class="form-control" name="fullName" required [(ngModel)]="client.name" #fullName="ngModel"
             placeholder="Client name..." />
           <div *ngIf="f.submitted && fullName.invalid">
-            <div *ngIf="fullName.errors.required">Full Name is required</div>
+            <div class="error-msg" *ngIf="fullName.errors.required">Full Name is required</div>
           </div>
         </div>
 
@@ -29,7 +29,7 @@
           <input class="form-control" name="address" required [(ngModel)]="client.address" #address="ngModel"
             placeholder="Address..." />
           <div *ngIf="f.submitted && address.invalid">
-            <div *ngIf="address.errors.required">Address is required</div>
+            <div class="error-msg" *ngIf="address.errors.required">Address is required</div>
           </div>
         </div>
 
@@ -39,7 +39,7 @@
             <input class="form-control" name="mobileNo" required [(ngModel)]="client.contactNo" #mobileNo="ngModel"
               placeholder="Contact no" />
             <div *ngIf="f.submitted && mobileNo.invalid">
-              <div *ngIf="mobileNo.errors.required">Contact no is required</div>
+              <div class="error-msg" *ngIf="mobileNo.errors.required">Contact no is required</div>
             </div>
           </div>
 
