@@ -95,13 +95,17 @@ export class SchedulerListComponent implements OnInit {
     this.scheduleResponseList.forEach(function (emp) {
       var timeIndexes = Array.apply(null, Array(timeIndexLength)).map(function () { return 'default' })
 
-      emp.schedules.forEach(function (sched) {
-        let startingIndex = ((((parseInt(sched.startTime.split(":")[0]) * 60) + parseInt(sched.startTime.split(":")[1])) - workingMin) / minWorkTime);
-        let endIndex = ((((parseInt(sched.endTime.split(":")[0]) * 60) + parseInt(sched.endTime.split(":")[1])) - workingMin) / minWorkTime);
-        sched.startIndex = startingIndex;
-        timeIndexes.fill('start', startingIndex, ++startingIndex);
-        timeIndexes.fill('hasAppoinment', startingIndex, endIndex);
-      });
+      if (emp.schedules) {
+
+        emp.schedules.forEach(function (sched) {
+          let startingIndex = ((((parseInt(sched.startTime.split(":")[0]) * 60) + parseInt(sched.startTime.split(":")[1])) - workingMin) / minWorkTime);
+          let endIndex = ((((parseInt(sched.endTime.split(":")[0]) * 60) + parseInt(sched.endTime.split(":")[1])) - workingMin) / minWorkTime);
+          sched.startIndex = startingIndex;
+          timeIndexes.fill('start', startingIndex, ++startingIndex);
+          timeIndexes.fill('hasAppoinment', startingIndex, endIndex);
+        });
+
+      }
 
       emp.timeIndexes = timeIndexes;
     });

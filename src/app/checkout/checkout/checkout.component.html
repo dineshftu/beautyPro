@@ -33,9 +33,9 @@
     <div>
       Invoice
     </div>
-    <div>
+    <!-- <div>
       <input class="form-control" type="date">
-    </div>
+    </div> -->
   </div>
 
   <!-- start: treatment table section -->
@@ -52,12 +52,12 @@
       <!-- start: treatment table body -->
       <div id="table-body">
         <div class="table-row">
-          <div class="row" *ngFor="let treatment of treatments;let i=index">
-            <div> {{i+1}} Happy End </div>
-            <div> 100 </div>
-            <div> 01 </div>
-            <div> 100 </div>
-            <div> Nsdf </div>
+          <div class="row" *ngFor="let treatment of invoiceableTreatment; let i=index">
+            <div> {{i+1}} {{treatment.treatmentName}} </div>
+            <div> {{treatment.price}} </div>
+            <div> {{treatment.quantity}} </div>
+            <div> {{treatment.amount}} </div>
+            <div> {{treatment.employeeName}} </div>
           </div>
         </div>
       </div>

@@ -1,28 +1,29 @@
 
 export class CheckoutTreatmentRequest {
-  CustomerId: string;
-  DepartmentId: number;
+  customerId: string;
+  departmentId: number;
 }
 
 export class InvoiceSaveRequest {
-  CustomerId: string;
-  DepartmentId: number;
-  Treatments: InvoiceableTreatment[];
-  Products: InvoiceableProduct[];
+  customerId: string;
+  departmentId: number;
+  treatments: InvoiceableTreatment[];
+  products: InvoiceableProduct[];
 }
 
 export class InvoiceableProduct {
-  ProductId: string;
-  Quantity: number;
-  Price: number;
-  RecomendedBy: number;
+  productId: string;
+  quantity: number;
+  price: number;
+  recomendedBy: number;
 }
 
 export class InvoiceableTreatment {
-  CustomerScheduleTreatmentId: number;
-  TreatmentTypeId: number;
-  Quantity: number;
-  Price: number;
-  Discount: number;
-  EmployeeNo: number;
+  treatmentName: string;
+  amount: number;
+  quantity: number;
+  price: number;
+  //discount: number;
+  employeeNo: number;
+  employeeName: string;
 }

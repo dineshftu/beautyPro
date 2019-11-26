@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
 import { Customer, CustomerSearchRequest } from 'src/app/clients/clients.model';
-import { CheckoutTreatmentRequest } from '../checkout.model';
+import { CheckoutTreatmentRequest, InvoiceableTreatment } from '../checkout.model';
 import { ClientsService } from 'src/app/clients/clients.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { AddProductComponent } from '../add-product/add-product.component';
+import { CheckoutService } from '../checkout.service';
 
 @Component({
   selector: 'app-checkout',
@@ -15,6 +16,7 @@ import { AddProductComponent } from '../add-product/add-product.component';
 export class CheckoutComponent implements OnInit {
   module: string;
   public customers: Customer[];
+  public invoiceableTreatment: InvoiceableTreatment[];
   public keyword = 'fullName';
   public checkoutTreatmentRequest = new CheckoutTreatmentRequest();
 
@@ -23,6 +25,7 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     public clientsService: ClientsService,
+    public checkoutService: CheckoutService,
     private data: DataService,
     private toastr: ToastrService,
     public dialog: MatDialog,
@@ -49,13 +52,23 @@ export class CheckoutComponent implements OnInit {
   }
 
   selectCustomerEvent(e: any) {
-    this.checkoutTreatmentRequest.CustomerId = e.CustomerId;
+    this.checkoutTreatmentRequest.customerId = e.customerId;
+    this.getInvoiceTreatmentList();
   }
+
+  getInvoiceTreatmentList() {
+    this.checkoutService
+      .getInvoiceTreatmentList(this.checkoutTreatmentRequest)
+      .subscribe((treatments: InvoiceableTreatment[]) => {
+        this.invoiceableTreatment = treatments
+      });
+  }
+
   addProduct() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data =Object.assign([],this.products);
+    dialogConfig.data = Object.assign([], this.products);
     this.dialog.open(AddProductComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         if (!!response.data)
