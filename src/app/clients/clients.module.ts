@@ -7,6 +7,7 @@ import { ClientListComponent } from './client-list/client-list.component';
 import { ClientsService } from './clients.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -18,13 +19,14 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     ClientsRoutingModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   providers: [
     ClientsService
   ],
   entryComponents: [
-    ClientRegistrationComponent
+    ClientRegistrationComponent,
   ]
 })
 export class ClientsModule { }

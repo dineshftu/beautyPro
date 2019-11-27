@@ -1,5 +1,5 @@
 export interface Customer {
-  id: string;
+  customerId: string;
   fullName: string;
   mobileNo: string;
   address: string;
@@ -14,10 +14,12 @@ export interface CustomerSearchRequest {
 }
 
 export class Client {
+  customerId: string;
   name: string;
   address: string;
   contactNo: string;
   email: string;
   gender: string;
   loyaltyCardNo: string;
+  profession: string;
 }

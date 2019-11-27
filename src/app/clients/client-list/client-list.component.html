@@ -8,7 +8,7 @@
         autocorrect="off" autocapitalize="off" spellcheck="false" />
     </div>
 
-    <button type="button" class="btn-default" (click)="addNewClient()">Add new client</button>
+    <button type="button" class="btn-default" (click)="addEditClient(null)">Add new client</button>
   </div>
 
   <!-- start: table section -->
@@ -43,9 +43,9 @@
           <div>{{customer.loyaltyCardNo}}</div>
           <div class="action-btns align-right">
             <button class="icon-btn">
-              <i class="material-icons">edit</i>
+              <i class="material-icons" (click)="addEditClient(customer)">edit</i>
             </button>
-            <button class="icon-btn" (click)="deleteClient()">
+            <button class="icon-btn" (click)="delete(customer)">
               <i class="material-icons">delete</i>
             </button>
           </div>

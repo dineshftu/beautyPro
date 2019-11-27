@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { ClientsService } from '../clients.service';
 import { Client } from '../clients.model';
 import { ToastrService } from 'ngx-toastr';
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-client-registration',
@@ -13,16 +14,25 @@ import { ToastrService } from 'ngx-toastr';
 export class ClientRegistrationComponent implements OnInit {
 
   public client = new Client();
+  public isEdit: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<ClientRegistrationComponent>,
     private route: Router,
     private clientService: ClientsService,
-    private toastr:ToastrService
+    private toastr: ToastrService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
-    this.client.gender = "M";
+    if (this.data.client) {
+      this.client = this.data.client;
+      this.isEdit = true;
+    } else {
+      this.client.gender = "M";
+      this.isEdit = false;
+
+    }
   }
 
   onGenderChange(event: any) {
@@ -34,16 +44,22 @@ export class ClientRegistrationComponent implements OnInit {
   }
 
   save() {
+    let work = "Added!";
+    if (this.isEdit) {
+      work = "Updated!"
+    }
+
     this.clientService
       .addNewCustomer(this.client)
       .subscribe((result: any) => {
-        this.toastr.success("New Customer Added", "Success");
-        console.log(result);
-      }, (error: any) => {
-
-      }, () => {
-        this.route.navigate(['home/clients']);
         this.dialogRef.close();
+        this.toastr.success("Client " + work);
+      }, (error: any) => {
+        this.dialogRef.close();
+        this.toastr.error("Client Not " + work);
+      }, () => {
+        this.dialogRef.close();
+        this.route.navigate(['home/clients']);
       });
   }
 
