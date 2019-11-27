@@ -24,7 +24,13 @@ export class ClientsService {
     return this.baseDataService.makePostCall(`${this.apiClientsUrl}`, body);
   }
 
-  public editTreatment(body: Customer): Observable<Customer> {
+  public editTreatment(body: Client): Observable<Customer> {
     return this.baseDataService.makePostCall(`${this.apiClientsUrl}/${'edit'}`, body);
   }
+
+  public deleteClient(customerId: string): Observable<Customer> {
+    let queryString = `customerId=${customerId}`;
+    return this.baseDataService.makeDeleteCall(`${this.apiClientsUrl}?${queryString}`);
+  }
 }
+

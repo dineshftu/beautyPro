@@ -1,10 +1,10 @@
-<div class="pop-up-bg">
+<div>
 
   <div class="pop-up">
 
     <div class="pop-up-header">
       <div class="pop-up-title">View Appointment</div>
-      <button class="icon-btn">
+      <button class="icon-btn" (click)="dialogRef.close()">
         <i class="material-icons">close</i>
       </button>
     </div>
@@ -28,7 +28,7 @@
         <div class="total-amount">LKR 500.00</div>
       </div>
 
-      <div class="inline-form"> 
+      <div class="inline-form">
         <div class="form-group">
           <label>Appointment Status</label>
           <select class="form-control select">

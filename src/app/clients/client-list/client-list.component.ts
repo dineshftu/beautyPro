@@ -4,9 +4,12 @@ import { ClientsService } from '../clients.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ClientRegistrationComponent } from '../client-registration/client-registration.component';
-import { CustomerSearchRequest, Customer } from '../clients.model';
-import { fromEvent, Subject } from 'rxjs';
+import { CustomerSearchRequest, Client, Customer } from '../clients.model';
+import { fromEvent, Subject, throwError } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
 
 @Component({
   selector: 'app-client-list',
@@ -20,18 +23,14 @@ export class ClientListComponent implements OnInit, OnDestroy {
 
   public customers: Customer[];
   public searchText: string;
-
   module: string;
-  clientList: any[];
-  departmentList = [
-    "Spa Care", "Salon Care", "Skin Care"
-  ];
 
   constructor(
     private route: Router,
     private clientsService: ClientsService,
     public dialog: MatDialog,
-    private data: DataService
+    private data: DataService,
+    private toastr: ToastrService
   ) {
     this.routeReload();
   }
@@ -68,7 +67,10 @@ export class ClientListComponent implements OnInit, OnDestroy {
       .getCustomerList(this.createCustomerRequest(this.searchInput.nativeElement.value))
       .subscribe((customers: Customer[]) => {
         this.customers = customers
-      });
+      }, (error) => {
+        this.toastr.error("Client List Loading Failed!");
+      }
+      );
   }
 
   createCustomerRequest(searchText: string) {
@@ -77,21 +79,33 @@ export class ClientListComponent implements OnInit, OnDestroy {
     };
   }
 
-  addNewClient() {
+  addEditClient(customer: Customer) {
+    let client = new Client();
+    if (customer) {
+      client.customerId = customer.customerId;
+      client.name = customer.fullName;
+      client.address = customer.address;
+      client.contactNo = customer.mobileNo;
+      client.email = customer.email;
+      client.loyaltyCardNo = customer.loyaltyCardNo;
+      client.gender = customer.gender;
+      client.profession = customer.profession;
+    } else {
+      client = null;
+    }
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = '';
+    dialogConfig.data = { client: client };
     this.dialog.open(ClientRegistrationComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         //console.log(response);
         if (!!response) {
           if (response.message == 'success') {
-            this.route.navigate(['']);
+            this.route.navigate(['/home/clients']);
           }
         }
-      }, (error) => {
-        console.log(error);
       }
     );
   }
@@ -99,5 +113,33 @@ export class ClientListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnSubscription.next(true);
     this.ngUnSubscription.complete();
+  }
+
+  delete(client: Customer) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = 'Do you want to delete ' + client.fullName + '?';
+    // dialogConfig.width = "20%";
+    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        if (response.message) {
+          this.clientsService.deleteClient(client.customerId)
+            .subscribe(
+              (response) => {
+                this.toastr.success('Deleted!');
+                this.route.navigate(['/home/clients']);
+              },
+              (error) => {
+                this.toastr.error("Not Deleted!");
+                console.log(error);
+              }
+            );
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
+
   }
 }

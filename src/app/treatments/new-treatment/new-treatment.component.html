@@ -1,8 +1,9 @@
 
   <div class="pop-up">
     <div class="pop-up-header">
-      <div class="pop-up-title">New Treatments</div>
-      <button class="icon-btn" (click)="cancel()">
+      <div [hidden]='isEdit' class="pop-up-title">New Treatments</div>
+      <div [hidden]='!isEdit' class="pop-up-title">Update Treatments</div>
+      <button type="button" class="icon-btn" (click)="dialogRef.close()">
         <i class="material-icons">close</i>
       </button>
     </div>
@@ -85,10 +86,11 @@
         </div>
       </div>
 
-      <div class="pop-up-btns">
-        <button type="button" class="btn-primary" (click)="cancel()">Cancel</button>
-        <button type="submit" class="btn-default">Save Treatment</button>
-      </div>
+        <div class="pop-up-btns">
+          <button type="button" class="btn-primary" (click)="cancel()">Cancel</button>
+          <button [hidden]='isEdit' [disabled]='isEdit' type="submit" class="btn-default">Save Treatment</button>
+          <button [hidden]='!isEdit' [disabled]='!isEdit' type="submit" class="btn-default">Update Treatment</button>
+        </div>
 
     </form>
 

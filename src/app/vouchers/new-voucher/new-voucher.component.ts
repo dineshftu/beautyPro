@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { VouchersService } from '../vouchers.service';
 import { ClientsService } from '../../clients/clients.service';
-import { Customer, CustomerSearchRequest } from 'src/app/clients/clients.model';
+import { Customer, CustomerSearchRequest, Client } from 'src/app/clients/clients.model';
 import { NewVoucherRequest, PaymentType } from '../vouchers.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -20,7 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 export class NewVoucherComponent implements OnInit {
 
   private ngUnSubscription = new Subject();
-  public customers: Customer[];
+  public customers: Customer[]
   public paymentTypes: PaymentType[];
   public treatmentList: Treatment[];
   public newVoucherRequest = new NewVoucherRequest();
@@ -35,7 +35,7 @@ export class NewVoucherComponent implements OnInit {
     private voucherService: VouchersService,
     private treatmentService: TreatmentService,
     public clientsService: ClientsService,
-    private toastr:ToastrService
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {

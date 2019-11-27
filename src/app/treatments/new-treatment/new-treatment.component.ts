@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TreatmentService } from '../treatment.service';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
@@ -20,17 +20,25 @@ export class NewTreatmentComponent implements OnInit {
   public departments: Department[];
   public newTreatmentRequest = new NewTreatmentRequest();
   public isDepartmentNotSelected: boolean = false;
+  public isEdit: boolean;
 
   constructor(
     private treatmentService: TreatmentService,
     private departmentService: DepartmentService,
     public dialogRef: MatDialogRef<NewTreatmentComponent>,
     private route: Router,
-    private toastr:ToastrService
+    private toastr: ToastrService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
-
+    if (this.data.newTreatmentRequest) {
+      this.isEdit = true;
+      this.newTreatmentRequest = this.data.newTreatmentRequest;
+      this.isDepartmentNotSelected = false;
+    } else {
+      this.isEdit = false;
+    }
   }
 
   ngAfterViewInit() {
@@ -61,7 +69,10 @@ export class NewTreatmentComponent implements OnInit {
   }
 
   save() {
-
+    let work = "Added!";
+    if (this.isEdit) {
+      work = "Updated!"
+    }
     if (!this.newTreatmentRequest.departmentId) {
       this.isDepartmentNotSelected = true;
       return;
@@ -72,10 +83,10 @@ export class NewTreatmentComponent implements OnInit {
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((result: any) => {
         console.log(result);
-        this.toastr.success("New Treatment added", "Success");
-        //this.route.navigate(['home/treatments']);
+        this.toastr.success("Treatment " + work);
+        // this.route.navigate(['home/treatments']);
       }, (error: any) => {
-
+        this.toastr.error("Treatment Not " + work);
       }, () => {
 
         // this.route.navigateByUrl('/', { skipLocationChange: true }).then(() =>

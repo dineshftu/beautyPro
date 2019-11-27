@@ -7,6 +7,7 @@ import { NewTreatmentComponent } from './new-treatment/new-treatment.component';
 import { TreatmentService } from './treatment.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     TreatmentsRoutingModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   providers: [
     TreatmentService

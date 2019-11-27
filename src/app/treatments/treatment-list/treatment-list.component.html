@@ -11,7 +11,7 @@
       </select>
     </div>
 
-    <button type="button" class="btn-default" (click)="addNewTreatment()">Add new treatment</button>
+    <button type="button" class="btn-default" (click)="addEditTreatment(null)">Add new treatment</button>
   </div>
 
   <!-- start: table section -->
@@ -45,9 +45,9 @@
               <i class="material-icons">pageview</i>
             </button>
             <button class="icon-btn">
-              <i class="material-icons">edit</i>
+              <i class="material-icons" (click)='addEditTreatment(treatment)'>edit</i>
             </button>
-            <button class="icon-btn">
+            <button class="icon-btn" (click)="delete(treatment)">
               <i class="material-icons">delete</i>
             </button>
           </div>

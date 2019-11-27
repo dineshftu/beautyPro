@@ -1,10 +1,11 @@
 export class Treatment {
-  id: string;
+  ttid: number;
   ttname: string;
   department: string;
-  duration: boolean;
-  cost: string;
-  price: string;
+  departmentId: number;
+  duration: number;
+  cost: number;
+  price: number;
 }
 
 export interface TreatmentFilterRequest {
@@ -12,6 +13,7 @@ export interface TreatmentFilterRequest {
 }
 
 export class NewTreatmentRequest {
+  ttid: number;
   ttname: string;
   price: number;
   cost: number;

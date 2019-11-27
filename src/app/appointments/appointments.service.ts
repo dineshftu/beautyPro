@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from '../core/services/base-data.service';
 import { Observable } from 'rxjs';
-import { Appointments, AppointmentFilterRequest } from './appointments.model';
+import { Appointments, AppointmentFilterRequest, AppointmentStatusRequest } from './appointments.model';
 
 
 @Injectable()
@@ -24,6 +24,11 @@ export class AppointmentsService {
 
   public addNewAppointment(body: Appointments): Observable<Appointments> {
     return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}`, body);
+  }
+
+
+  public changeStatusOfAppointment(body: AppointmentStatusRequest): Observable<any> {
+    return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}/${'status'}`, body);
   }
 
   public editAppointment(body: Appointments): Observable<Appointments> {

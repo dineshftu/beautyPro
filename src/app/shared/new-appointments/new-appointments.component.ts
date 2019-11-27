@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { AppointmentService } from '../services/appointment.service';
 import { Router } from '@angular/router';
 import { NewAppointmentRequest, Employees, EmployeeFilterRequest, AppointmentTreatment } from '../models/appointment.model';
-import { Customer, CustomerSearchRequest } from 'src/app/clients/clients.model';
+import { Client, CustomerSearchRequest, Customer } from 'src/app/clients/clients.model';
 import { TreatmentService } from 'src/app/treatments/treatment.service';
 import { ClientsService } from 'src/app/clients/clients.service';
 import { Subject } from 'rxjs';
@@ -25,7 +25,7 @@ export class NewAppointmentComponent implements OnInit {
   @ViewChild('autoTreatment', { static: false }) autoTreatment;
 
   private ngUnSubscription = new Subject();
-  public customers: Customer[];
+  public customers: Customer[]
   public departments: Department[];
   public treatmentList: Treatment[];
   public employeesList: Employees[];

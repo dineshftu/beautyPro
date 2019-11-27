@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { TreatmentService } from '../treatment.service';
-import { Treatment, TreatmentFilterRequest } from '../treatments.model';
+import { Treatment, TreatmentFilterRequest, NewTreatmentRequest } from '../treatments.model';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { NewTreatmentComponent } from '../new-treatment/new-treatment.component';
 import { Router, NavigationEnd } from '@angular/router';
@@ -10,6 +10,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DepartmentService } from 'src/app/shared/services/department.service';
 import { Department } from 'src/app/shared/models/department.model';
+import { ToastrService } from 'ngx-toastr';
+import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
 
 @Component({
   selector: 'app-treatment-list',
@@ -29,7 +31,8 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
     private departmentService: DepartmentService,
     private route: Router, private location: Location,
     public dialog: MatDialog,
-    private data: DataService
+    private data: DataService,
+    private toastr: ToastrService
   ) {
     this.routeReload();
   }
@@ -70,6 +73,8 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
       .subscribe((treatments: Treatment[]) => {
         this.treatmentList = treatments;
       });
+
+    console.log(this.treatmentList)
   }
 
   private generateTreatmentFilterRequest() {
@@ -78,11 +83,22 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
-  addNewTreatment() {
+  addEditTreatment(treatment: Treatment) {
+    let newTreatmentRequest = new NewTreatmentRequest();
+    if (treatment) {
+      newTreatmentRequest.ttid = treatment.ttid;
+      newTreatmentRequest.cost = treatment.cost;
+      newTreatmentRequest.departmentId = treatment.departmentId;
+      newTreatmentRequest.duration = treatment.duration;
+      newTreatmentRequest.price = treatment.price;
+      newTreatmentRequest.ttname = treatment.ttname;
+    } else {
+      newTreatmentRequest = null;
+    }
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = '';
+    dialogConfig.data = { newTreatmentRequest: newTreatmentRequest};
     this.dialog.open(NewTreatmentComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         //console.log(response);
@@ -100,6 +116,33 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnDestroy() {
     this.ngUnSubscription.next(true);
     this.ngUnSubscription.complete();
+  }
+
+  delete(treatment: Treatment) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = 'Do you want to delete ' + treatment.ttname + '?';
+    // dialogConfig.width = "20%";
+    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        if (response.message) {
+          this.treatmentService.deleteTreatment(treatment.ttid)
+            .subscribe(
+              (response) => {
+                this.toastr.success('Deleted!');
+                this.route.navigate(['']);
+              },
+              (error) => {
+                this.toastr.error("Not Deleted!");
+                console.log(error);
+              }
+            );
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
   }
 
 }

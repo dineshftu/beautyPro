@@ -96,9 +96,9 @@ export class CheckoutComponent implements OnInit {
     dialogConfig.data = Object.assign([], this.products);
     this.dialog.open(AddProductComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
-        if (!!response.data)
+        if (response!=undefined&&!!response.data)
           this.products = response.data;
-        console.log(response);
+        // console.log(response);
       }, (error) => {
         console.log(error);
       }

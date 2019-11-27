@@ -10,9 +10,10 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DiologBoxComponent } from './components/diolog-box/diolog-box.component';
 
 @NgModule({
-  declarations: [NewAppointmentComponent],
+  declarations: [NewAppointmentComponent, DiologBoxComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -29,11 +30,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   exports: [
     NewAppointmentComponent,
     MatFormFieldModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    DiologBoxComponent
   ],
   providers: [
     TreatmentService,
     ClientsService
-  ]
+  ],
+  entryComponents: [DiologBoxComponent]
 })
 export class SharedModule { }

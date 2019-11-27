@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
-import { Appointments, AppointmentFilterRequest } from '../appointments.model';
+import { Appointments, AppointmentFilterRequest, AppointmentStatusRequest } from '../appointments.model';
 import { AppointmentsService } from '../appointments.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -8,38 +8,49 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NewAppointmentComponent } from 'src/app/shared/new-appointments/new-appointments.component';
+import { Department } from 'src/app/shared/models/department.model';
+import { DepartmentService } from 'src/app/shared/services/department.service';
+import { ToastrService } from 'ngx-toastr';
+import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
 
 @Component({
   selector: 'app-appointment-list',
   templateUrl: './appointment-list.component.html',
   styleUrls: ['./appointment-list.component.scss']
 })
-export class AppointmentListComponent implements OnInit, OnDestroy {
+export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private ngUnSubscription = new Subject();
   module: string;
   appointmentList: Appointments[];
-  departmentList = [
-    "Spa Care", "Salon Care", "Skin Care"
-  ];
-
-  appointmentStatus = [
-    "New", "Confirmed"
-  ];
+  departments: Department[];
+  selectedDepartment = 0;
+  appointmentStatus = ["pending", "confirmed", "cancelled"];
 
   constructor(
     private data: DataService,
     private appoinmentService: AppointmentsService,
     private route: Router,
-    public dialog: MatDialog
+    private departmentService: DepartmentService,
+    public dialog: MatDialog,
+    private toastr: ToastrService
   ) {
     this.routeReload();
   }
 
   ngOnInit() {
-    this.loadAppointments();
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Appointments");
+    this.loadAppointments();
+  }
+
+  ngAfterViewInit() {
+    this.departmentService
+      .getAllDepartments()
+      .pipe(takeUntil(this.ngUnSubscription))
+      .subscribe((departments: Department[]) => {
+        this.departments = departments;
+      })
   }
 
   private routeReload() {
@@ -50,6 +61,42 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
           this.loadAppointments();
         }
       })
+  }
+
+  onDepartmentChange(e: any) {
+    this.selectedDepartment = e.target.value;
+    this.loadAppointments();
+  }
+
+  onStatusChange(e: any, appointment: Appointments) {
+    let appointmentStatusRequest = new AppointmentStatusRequest();
+    appointmentStatusRequest.status = e.target.value;
+    appointmentStatusRequest.csId = appointment.csId;
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = 'Do you want to change the status?';
+    // dialogConfig.width = "20%";
+    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        if (response.message) {
+          this.appoinmentService.changeStatusOfAppointment(appointmentStatusRequest)
+            .subscribe(
+              (response) => {
+                this.toastr.success('Status Updated!');
+                this.route.navigate(['/home/appointments']);
+              },
+              (error) => {
+                this.toastr.error("Status Not Updated!");
+                console.log(error);
+              }
+            );
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
   }
 
   loadAppointments() {
@@ -67,7 +114,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
     };
   }
 
-  addNewAppointment() {
+  addEditAppointment(appointment: Appointments) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
@@ -78,7 +125,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
         if (!!response) {
           if (response.message == 'success') {
             this.route.navigate(['']);
-          }
+          } 
         }
       }, (error) => {
         console.log(error);
