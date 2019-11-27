@@ -27,3 +27,9 @@ export class InvoiceableTreatment {
   employeeNo: number;
   employeeName: string;
 }
+
+export class Products {
+  itemId: string;
+  itemName: string;
+  description: string;
+}

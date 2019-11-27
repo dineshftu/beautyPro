@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
 import { Customer, CustomerSearchRequest } from 'src/app/clients/clients.model';
-import { CheckoutTreatmentRequest, InvoiceableTreatment } from '../checkout.model';
+import { CheckoutTreatmentRequest, InvoiceableTreatment, Products } from '../checkout.model';
 import { ClientsService } from 'src/app/clients/clients.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogConfig, MatDialog } from '@angular/material';
@@ -19,9 +19,15 @@ export class CheckoutComponent implements OnInit {
   public invoiceableTreatment: InvoiceableTreatment[];
   public keyword = 'fullName';
   public checkoutTreatmentRequest = new CheckoutTreatmentRequest();
+  public treatmentSubTotal = 0;
+  public treatmentNetAmount = 0;
+  public treatmentDueAmount = 0;
+  public discount = 100;
+  public treatmentsTax = 0.06;
+  public treatmentsTaxAmount = 0;
 
   public treatments = ['sf', 'sf', 'sdfs', 'sdf', 'sdfs'];
-  public products = ['sf', 'sf', 'sdfs'];
+  public products: Products[];
 
   constructor(
     public clientsService: ClientsService,
@@ -37,11 +43,29 @@ export class CheckoutComponent implements OnInit {
     this.getCustomerList();
   }
 
+  calculate() {
+    this.treatmentSubTotal = this.invoiceableTreatment.reduce(
+      (acc, ele) => acc + (ele.price * ele.quantity), 0
+    );
+
+    this.treatmentNetAmount = (this.treatmentSubTotal - this.discount);
+    this.treatmentsTaxAmount = (this.treatmentNetAmount * this.treatmentsTax);
+    this.treatmentDueAmount = (this.treatmentNetAmount - this.treatmentsTaxAmount);
+  }
+
   getCustomerList() {
     this.clientsService
       .getCustomerList(this.createCustomerRequest())
       .subscribe((customers: Customer[]) => {
         this.customers = customers
+      });
+  }
+
+  getProductList() {
+    this.checkoutService
+      .getProductList()
+      .subscribe((products: Products[]) => {
+        this.products = products
       });
   }
 
@@ -60,7 +84,8 @@ export class CheckoutComponent implements OnInit {
     this.checkoutService
       .getInvoiceTreatmentList(this.checkoutTreatmentRequest)
       .subscribe((treatments: InvoiceableTreatment[]) => {
-        this.invoiceableTreatment = treatments
+        this.invoiceableTreatment = treatments;
+        this.calculate();
       });
   }
 
