@@ -8,6 +8,7 @@ import { ClientsService } from '../clients/clients.service';
 import { MatDialogModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { CheckoutService } from './checkout.service';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { CheckoutService } from './checkout.service';
     CheckoutRoutingModule,
     AutocompleteLibModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   providers: [
     CheckoutService,

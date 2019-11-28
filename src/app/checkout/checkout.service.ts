@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class CheckoutService {
 
   private apiInvoiceUrl = 'invoice';
-  private apiProductUrl = 'product';
+  private apiProductUrl = 'products';
 
   constructor(
     private baseDataService: BaseDataService
