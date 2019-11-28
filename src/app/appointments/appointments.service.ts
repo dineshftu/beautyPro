@@ -34,6 +34,9 @@ export class AppointmentsService {
   public editAppointment(body: Appointments): Observable<Appointments> {
     return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}/${'edit'}`, body);
   }
-
+  public deleteAppointment(cdid: string): Observable<Appointments> {
+    let queryString = `cdid=${cdid}`;
+    return this.baseDataService.makeDeleteCall(`${this.apiAppointmentUrl}?${queryString}`);
+  }
 }
 

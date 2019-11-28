@@ -51,15 +51,16 @@
                 </option>
               </select>
             </div>
+            <div class="action-btns align-right">
+              <button class="icon-btn">
+                <i class="material-icons" >edit</i>
+              </button>
+              <button class="icon-btn" (click)="deleteAppointment(appointment)">
+                <i class="material-icons">delete</i>
+              </button>
+            </div>
           </div>
-          <div class="action-btns align-right">
-            <button class="icon-btn">
-              <i class="material-icons" (click)="addEditAppointment(appointment)">edit</i>
-            </button>
-            <!-- <button class="icon-btn" (click)="delete(customer)">
-              <i class="material-icons">delete</i>
-            </button> -->
-          </div>
+         
         </div>
       </div>
 
