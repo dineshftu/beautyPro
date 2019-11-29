@@ -12,7 +12,6 @@ export class InvoiceSaveRequest {
 }
 
 export class InvoiceableProduct {
-  product: Products;
   productId: string;
   quantity: number;
   price: number;

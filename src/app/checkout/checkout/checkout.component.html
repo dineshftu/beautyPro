@@ -124,11 +124,31 @@
       <div class="inline-form">
         <div class="form-group">
           <label>Product</label>
-          <select class="form-control select" name="products" id="products" [(ngModel)]="newInvoiceableProduct.product"
+          <div class="ng-autocomplete">
+
+            <ng-autocomplete #auto [data]="products" [searchKeyword]="keywordProduct" placeHolder="Enter Product Name"
+              (selected)='selectProductEvent($event)' [itemTemplate]="itemTemplate"
+              [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item.itemName"></a>
+            </ng-template>
+
+            <ng-template #notFoundTemplate2 let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+
+            <div *ngIf="f.submitted && isProductNotSelected">
+              <div class="error-msg">Product Name is required</div>
+            </div>
+
+          </div>
+          <!-- <select class="form-control select" name="products" id="products" [(ngModel)]="newInvoiceableProduct.product"
             required>
             <option value="{{product}}" *ngFor="let product of products">{{product.itemName}}
             </option>
-          </select>
+          </select> -->
         </div>
         <div class="form-group form-amnt">
           <label>QTY</label>

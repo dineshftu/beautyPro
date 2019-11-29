@@ -25,6 +25,7 @@ export class CheckoutComponent implements OnInit {
   public isEmployeeNotSelected: boolean = false;
   public employeesList: Employees[];
   public keywordEmployee = 'name';
+
   public invoiceSaveRequest = new InvoiceSaveRequest();
   public newInvoiceableProduct = new InvoiceableProduct();
 
@@ -38,6 +39,8 @@ export class CheckoutComponent implements OnInit {
 
   public treatments = ['sf', 'sf', 'sdfs', 'sdf', 'sdfs'];
   public products: Products[];
+  isProductNotSelected: boolean = false;
+  public keywordProduct = 'itemName';
 
   constructor(
     public clientsService: ClientsService,
@@ -52,23 +55,28 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Checkout");
-    
+
     this.getCustomerList();
     this.getProductList();
     this.getEmployees();
   }
 
   addProduct() {
-    let duplicate = this.invoiceableProduct.filter(function (value: InvoiceableProduct) {
-      return
-    });
-    this.newInvoiceableProduct.productId = this.newInvoiceableProduct.product.itemId;
-    this.newInvoiceableProduct.price = this.newInvoiceableProduct.product.price;
-    this.newInvoiceableProduct.productName = this.newInvoiceableProduct.product.itemName;
+    // let duplicate = this.invoiceableProduct.filter(function (value: InvoiceableProduct) {
+    //   return
+    // });
 
-    console.log(this.newInvoiceableProduct);
+    // this.newInvoiceableProduct.productId = this.newInvoiceableProduct.product.itemId;
+    // this.newInvoiceableProduct.price = this.newInvoiceableProduct.product.price;
+    // this.newInvoiceableProduct.productName = this.newInvoiceableProduct.product.itemName;
+
     this.invoiceableProduct.push(this.newInvoiceableProduct);
+    console.log(this.newInvoiceableProduct);
+    console.log(this.invoiceableProduct);
+
     this.newInvoiceableProduct = new InvoiceableProduct();
+
+
   }
 
   calculate() {
@@ -96,7 +104,7 @@ export class CheckoutComponent implements OnInit {
       .getProductList()
       .subscribe((products: Products[]) => {
         this.products = products;
-        this.newInvoiceableProduct.product = products[0];
+        // this.newInvoiceableProduct.product = products[0];
       }, (error) => {
         this.toastr.error("Product List Loading Failed!");
       });
@@ -164,6 +172,13 @@ export class CheckoutComponent implements OnInit {
     this.isEmployeeNotSelected = false;
     this.newInvoiceableProduct.recomendedBy = e.empno;
     this.newInvoiceableProduct.recomendedByName = e.name;
+  }
+
+  selectProductEvent(e: any) {
+    this.isProductNotSelected = false;
+    this.newInvoiceableProduct.productId = e.itemId;
+    this.newInvoiceableProduct.productName = e.itemName;
+    this.newInvoiceableProduct.price = e.price;
   }
 
 
