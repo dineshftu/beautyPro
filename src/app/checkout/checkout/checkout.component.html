@@ -180,12 +180,12 @@
     <!-- start: product table body -->
     <div id="table-body">
       <div class="table-row">
-        <div class="row" *ngFor="let product of invoiceableProduct;index as i">
-          <div> {{product.productName}} </div>
-          <div> {{product.price | currency : 'LKR'}} </div>
-          <div> {{product.quantity}} </div>
-          <div> {{product?.price * product.quantity | currency : 'LKR'}} </div>
-          <div> {{product.recomendedByName}} </div>
+        <div class="row" id="product{{i}}" *ngFor="let product of invoiceableProduct;let i=index">
+          <div id="productName{{i}}"> {{product.productName}} </div>
+          <div id="productPrice{{i}}"> {{product.price | currency : 'LKR'}} </div>
+          <div id="productQuantity{{i}}"> {{product.quantity}} </div>
+          <div id="productAmount{{i}}"> {{product?.price * product.quantity | currency : 'LKR'}} </div>
+          <div id="productRec{{i}}"> {{product.recomendedByName}} </div>
         </div>
       </div>
     </div>
