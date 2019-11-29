@@ -37,7 +37,6 @@ export class CheckoutComponent implements OnInit {
   public treatmentsTax = 0.06;
   public treatmentsTaxAmount = 0;
 
-  public treatments = ['sf', 'sf', 'sdfs', 'sdf', 'sdfs'];
   public products: Products[];
   isProductNotSelected: boolean = false;
   public keywordProduct = 'itemName';
@@ -65,10 +64,6 @@ export class CheckoutComponent implements OnInit {
     // let duplicate = this.invoiceableProduct.filter(function (value: InvoiceableProduct) {
     //   return
     // });
-
-    // this.newInvoiceableProduct.productId = this.newInvoiceableProduct.product.itemId;
-    // this.newInvoiceableProduct.price = this.newInvoiceableProduct.product.price;
-    // this.newInvoiceableProduct.productName = this.newInvoiceableProduct.product.itemName;
 
     this.invoiceableProduct.push(this.newInvoiceableProduct);
     console.log(this.newInvoiceableProduct);
@@ -178,7 +173,7 @@ export class CheckoutComponent implements OnInit {
     this.isProductNotSelected = false;
     this.newInvoiceableProduct.productId = e.itemId;
     this.newInvoiceableProduct.productName = e.itemName;
-    this.newInvoiceableProduct.price = e.price;
+    this.newInvoiceableProduct.price = e.sellingPrice;
   }
 
 

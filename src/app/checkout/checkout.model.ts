@@ -34,5 +34,5 @@ export class Products {
   itemId: string;
   itemName: string;
   description: string;
-  price: number;
+  sellingPrice: number;
 }
