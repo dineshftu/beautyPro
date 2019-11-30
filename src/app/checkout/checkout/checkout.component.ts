@@ -33,9 +33,16 @@ export class CheckoutComponent implements OnInit {
   public treatmentSubTotal = 0;
   public treatmentNetAmount = 0;
   public treatmentDueAmount = 0;
-  public discount = 100;
+  public discount = 0.125;
+  public discountAmount = 0;
   public treatmentsTax = 0.06;
   public treatmentsTaxAmount = 0;
+
+
+  public productSubTotal = 0;
+  public productDueAmount = 0;
+  public productsTax = 0.06;
+  public productsTaxAmount = 0;
 
   public products: Products[];
   isProductNotSelected: boolean = false;
@@ -66,8 +73,7 @@ export class CheckoutComponent implements OnInit {
     // });
 
     this.invoiceableProduct.push(this.newInvoiceableProduct);
-    console.log(this.newInvoiceableProduct);
-    console.log(this.invoiceableProduct);
+    this.calculateProduct();
 
     this.newInvoiceableProduct = new InvoiceableProduct();
 
@@ -79,9 +85,19 @@ export class CheckoutComponent implements OnInit {
       (acc, ele) => acc + (ele.price * ele.quantity), 0
     );
 
-    this.treatmentNetAmount = (this.treatmentSubTotal - this.discount);
+    this.discountAmount = this.treatmentSubTotal * this.discount;
+    this.treatmentNetAmount = (this.treatmentSubTotal - this.discountAmount);
     this.treatmentsTaxAmount = (this.treatmentNetAmount * this.treatmentsTax);
-    this.treatmentDueAmount = (this.treatmentNetAmount - this.treatmentsTaxAmount);
+    this.treatmentDueAmount = (this.treatmentNetAmount + this.treatmentsTaxAmount);
+  }
+
+  calculateProduct() {
+    this.productSubTotal = this.invoiceableProduct.reduce(
+      (acc, ele) => acc + (ele.price * ele.quantity), 0
+    );
+
+    this.productsTaxAmount = (this.productSubTotal * this.productsTax);
+    this.productDueAmount = (this.productSubTotal + this.productsTaxAmount);
   }
 
   getCustomerList() {
