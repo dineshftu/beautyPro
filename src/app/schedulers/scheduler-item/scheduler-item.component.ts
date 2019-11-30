@@ -25,11 +25,12 @@ export class SchedulerItemComponent implements OnInit {
     alert('hi');
   }
 
-  addNewAppointment() {
+  addNewAppointment(selectedIndex: number) {
+    console.log('scheduleResponse', this.scheduleResponse);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = { selectedDate: this.selectedDate };
+    dialogConfig.data = { selectedDate: this.selectedDate, selectedIndex: selectedIndex, scheduleResponse: this.scheduleResponse };
     this.dialog.open(NewAppointmentComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         //console.log(response);

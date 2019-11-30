@@ -7,11 +7,11 @@
 
       <mat-form-field>
 
-        <input [min]="minDate" matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)"
-          placeholder="Choose a date">
+        <input [min]="minDate" matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)" [(ngModel)]="date"
+          name="picker" placeholder="Choose a date">
 
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <mat-datepicker [startAt]="date" #picker></mat-datepicker>
 
       </mat-form-field>
 
@@ -34,7 +34,7 @@
 
   <div class="schd-container">
 
-    <div class="time-lapse">
+    <div *ngIf="!hideTimeLine" class="time-lapse">
       <div class="time-intvl" *ngFor="let time of timeInterval">{{time}}</div>
     </div>
 
