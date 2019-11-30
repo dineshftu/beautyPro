@@ -10,6 +10,7 @@ import { Department } from 'src/app/shared/models/department.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HelperService } from 'src/app/core/services/helper.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-scheduler-list',
@@ -20,15 +21,16 @@ import { HelperService } from 'src/app/core/services/helper.service';
 export class SchedulerListComponent implements OnInit {
   // public date = formatDate(new Date(), 'yyyy-mm-dd', '', '');
   public selectedDate;
-  minTime = 5;
+  private minTime = 5;
   public selectedDepartment = 0;
   public scheduleResponseList: ScheduleResponse[];
   departments: Department[];
   timeInterval = [
-    '8am', '9am', '10am', '11am', '12am', '13pm', '14pm', '15pm', '16pm'
+    '8am', '9am', '10am', '11am', '12am', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm'
   ];
   private ngUnSubscription = new Subject();
-
+  public hideTimeLine: boolean = false;
+  date = moment();
 
   module: string;
 
@@ -71,6 +73,7 @@ export class SchedulerListComponent implements OnInit {
       .getFilteredScheduleList(this.generateScheduleFilterRequest())
       .subscribe((schedules: ScheduleResponse[]) => {
         this.scheduleResponseList = schedules;
+        this.hideTimeLine = (!this.scheduleResponseList.length);
         console.log('this.scheduleResponseList', this.scheduleResponseList);
         this.generateTimeIndexes();
       });
@@ -89,8 +92,9 @@ export class SchedulerListComponent implements OnInit {
 
   generateTimeIndexes() {
     let timeIndexLength = (this.timeInterval.length - 1) * (60 / this.minTime),
-      workingMin = (this.timeInterval.length - 1) * 60,
-      minWorkTime = this.minTime;
+      //workingMin = (this.timeInterval.length - 1) * 60,
+      openingHour = 8,
+      minTimeSlot = this.minTime;
 
     this.scheduleResponseList.forEach(function (emp) {
       var timeIndexes = Array.apply(null, Array(timeIndexLength)).map(function () { return 'default' })
@@ -98,8 +102,8 @@ export class SchedulerListComponent implements OnInit {
       if (emp.schedules) {
 
         emp.schedules.forEach(function (sched) {
-          let startingIndex = ((((parseInt(sched.startTime.split(":")[0]) * 60) + parseInt(sched.startTime.split(":")[1])) - workingMin) / minWorkTime);
-          let endIndex = ((((parseInt(sched.endTime.split(":")[0]) * 60) + parseInt(sched.endTime.split(":")[1])) - workingMin) / minWorkTime);
+          let startingIndex = ((((parseInt(sched.startTime.split(":")[0]) * 60) + parseInt(sched.startTime.split(":")[1])) - (openingHour * 60)) / minTimeSlot);
+          let endIndex = ((((parseInt(sched.endTime.split(":")[0]) * 60) + parseInt(sched.endTime.split(":")[1])) - (openingHour * 60)) / minTimeSlot);
           sched.startIndex = startingIndex;
           timeIndexes.fill('start', startingIndex, ++startingIndex);
           timeIndexes.fill('hasAppoinment', startingIndex, endIndex);

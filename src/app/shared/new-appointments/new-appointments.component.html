@@ -119,10 +119,10 @@
           <div class="form-group">
             <label>Date</label>
             <mat-form-field>
-              <input [min]="minDate" matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)"
-                placeholder="Choose a date">
+              <input [min]="minDate" matInput [matDatepicker]="picker" [(ngModel)]="initdate" name="picker"
+                (dateChange)="onDateChange($event)" placeholder="Choose a date">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
+              <mat-datepicker [startAt]="initdate" #picker></mat-datepicker>
             </mat-form-field>
 
             <div *ngIf="f.submitted && isDateNotSelected">
@@ -154,6 +154,10 @@
 
             <div *ngIf="f.submitted && isStartTimeInvalid">
               <div class="error-msg">Appoinment Start Time is earlier than the openning time</div>
+            </div>
+
+            <div *ngIf="f.submitted && isTimeInvalid">
+              <div class="error-msg">An Appoinment already exist for this time slot</div>
             </div>
 
           </div>

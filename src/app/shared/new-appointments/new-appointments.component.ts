@@ -25,13 +25,16 @@ export class NewAppointmentComponent implements OnInit {
   @ViewChild('autoTreatment', { static: false }) autoTreatment;
 
   private ngUnSubscription = new Subject();
+
   public customers: Customer[];
   public departments: Department[];
   public treatmentList: Treatment[];
   public employeesList: Employees[];
+
   public keyword = 'fullName';
   public keywordTreatment = 'ttname';
   public keywordEmployee = 'name';
+
   public isDepartmentNotSelected: boolean = false;
   public isTreatmentNotSelected: boolean = false;
   public isCustomerNotSelected: boolean = false;
@@ -40,17 +43,25 @@ export class NewAppointmentComponent implements OnInit {
   public isStartTimeNotSelected: boolean = false;
   public isStartTimeInvalid: boolean = false;
   public isEndTimeInvalid: boolean = false;
+  public isTimeInvalid: boolean = false;
+
   private ttid: number;
   private empNo: number;
   private treatmentDuration: number;
   public treatmentQty: number = 0;
   private startTimespan: string;
   private endTimespan: string;
-  minDate = new Date(moment().format('YYYY, MM, DD'));
 
-  title = 'demo';
+  minDate = new Date(moment().format('YYYY, MM, DD'));
+  initdate = moment(this.data.selectedDate);
+
   public exportTime = { hour: 0, minute: 0, meriden: 'AM', format: 12 };
   public exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 12 };
+
+  public startHour: string;
+  public startMin: string;
+  public endHour: number;
+  public endMin: number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -70,8 +81,32 @@ export class NewAppointmentComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+
+    console.log('date', this.initdate);
+    this.setStartTime();
     this.getCustomerList();
     this.getDepartments();
+  }
+
+  setStartTime() {
+    let totalMinutesByIndex = this.data.selectedIndex * 5;
+    let hoursByIndex = Math.trunc(totalMinutesByIndex / 60);
+    let minutesByIndex = (totalMinutesByIndex - (hoursByIndex * 60));
+    let meriden = 'AM';
+    let seconds = 0;
+
+    hoursByIndex += 8;
+
+    if (hoursByIndex >= 12) {
+      if (hoursByIndex != 12) {
+        hoursByIndex -= 12;
+      }
+
+      meriden = 'PM';
+    }
+
+    this.startTimespan = this.getTimeSpan(hoursByIndex, minutesByIndex, seconds);
+    this.exportTime = { hour: hoursByIndex, minute: minutesByIndex, meriden: meriden, format: 12 };
   }
 
   getCustomerList() {
@@ -175,9 +210,15 @@ export class NewAppointmentComponent implements OnInit {
     this.setEndTime(startHour.toString(), e.minute);
 
     this.isStartTimeInvalid = (parseInt(e.hour) < 8);
+
+    this.validateSave();
   }
 
   setEndTime(hour: string, minute: string) {
+
+    this.startHour = hour;
+    this.startMin = minute;
+
     let tDuration = this.treatmentDuration;
 
     if (this.treatmentQty != 0) {
@@ -190,6 +231,8 @@ export class NewAppointmentComponent implements OnInit {
     let seconds = 0;
     let minutes = ((totalMinutes - (hours * 60)) % 60);
 
+    this.endHour = hours;
+    this.endMin = minutes;
     this.startTimespan = this.getTimeSpan(parseInt(hour), parseInt(minute), seconds);
     this.endTimespan = this.getTimeSpan(hours, minutes, seconds);
 
@@ -205,6 +248,7 @@ export class NewAppointmentComponent implements OnInit {
 
     this.exportEndTime = { hour: hours, minute: minutes, meriden: meriden, format: 12 };
 
+    this.getTimeValidity();
   }
 
   getTimeSpan(hours: number, minutes: number, seconds: number) {
@@ -232,7 +276,7 @@ export class NewAppointmentComponent implements OnInit {
       }, (error: any) => {
 
       }, () => {
-        this.route.navigate(['home/appointments']);
+        this.route.navigate(['home/scheduler']);
         this.dialogRef.close();
       });
   }
@@ -287,6 +331,11 @@ export class NewAppointmentComponent implements OnInit {
     if (this.isEndTimeInvalid) {
       return;
     }
+
+    if (this.isTimeInvalid) {
+      return;
+    }
+
   }
 
   numericOnly(event): boolean {
@@ -305,5 +354,30 @@ export class NewAppointmentComponent implements OnInit {
     }
 
   }
+
+  getTimeValidity() {
+
+    let treamentStartTimeMin = ((parseInt(this.startHour) * 60) + (parseInt(this.startMin)));
+    let treamentEndTimeMin = ((this.endHour * 60) + this.endMin);
+    let isNotValidTIme = false;
+
+    if (this.data.scheduleResponse.schedules != null || this.data.scheduleResponse.schedule != undefined) {
+
+      this.data.scheduleResponse.schedules.forEach(function (sched: any) {
+        let schedStartTimeMin = (parseInt(sched.startTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
+        let schedEndTimeMinu = (parseInt(sched.endTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
+
+        isNotValidTIme = !(((treamentStartTimeMin < schedStartTimeMin) && (treamentEndTimeMin < schedStartTimeMin))
+          || ((treamentStartTimeMin > schedEndTimeMinu) && (treamentEndTimeMin > schedEndTimeMinu)));
+
+        //if (isNotValidTIme) return;
+      });
+    } else {
+      isNotValidTIme = false;
+    }
+
+    this.isTimeInvalid = isNotValidTIme;
+  }
+
 
 }
