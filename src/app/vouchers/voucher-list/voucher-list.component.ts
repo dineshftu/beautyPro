@@ -53,6 +53,19 @@ export class VoucherListComponent implements OnInit {
   }
 
   loadVouchers() {
+    // this.voucherList=[];
+    // this.voucherList.push(
+    //   {
+    //     gvinvoiceNo: '123',
+    //     customerName: 'Amila',
+    //     enteredBy: 'ds',
+    //     enteredDate: new Date(),
+    //     isRedeem: true,
+    //     isCanceled: false,
+    //     dueAmount: 125.6,
+    //     status: 'pendin'
+    //   }
+    // );
     this.voucherService
       .getFilteredVoucherList(this.generateVoucherFilterRequest())
       .subscribe((vouchers: Vouchers[]) => {
@@ -76,9 +89,9 @@ export class VoucherListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = '';
+    // dialogConfig.data = '';
 
-    if (voucher != null)
+    // if (voucher != null)
       dialogConfig.data = voucher;
 
     this.dialog.open(NewVoucherComponent, dialogConfig).afterClosed().subscribe(

@@ -17,7 +17,7 @@
           <div class="ng-autocomplete">
 
             <ng-autocomplete [data]="customers" [searchKeyword]="keyword" historyIdentifier="customers"
-              placeHolder="Enter Customer Name" (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate"
+              placeHolder="Enter Customer Name" (selected)='selectCustomerEvent($event)' name="customerName" [(ngModel)]="customerName" [itemTemplate]="itemTemplate"
               [notFoundTemplate]="notFoundTemplate">
             </ng-autocomplete>
 
@@ -36,7 +36,7 @@
         <div class="form-group">
 
           <label>Payment Type</label>
-          <select class="form-control select" (change)="onPaymentTypeChange($event)">
+          <select class="form-control select" (change)="onPaymentTypeChange($event)" [(ngModel)]="newVoucherRequest.ptid">
             <option value="" disabled selected>Select Payment Type</option>
             <option value="{{paymentType.ptid}}" *ngFor="let paymentType of paymentTypes">{{paymentType.ptname}}
             </option>
@@ -55,7 +55,7 @@
         <div class="ng-autocomplete">
 
           <ng-autocomplete [data]="treatmentList" [searchKeyword]="keywordTreatment" historyIdentifier="treatmentList"
-            placeHolder="Enter Treatment Name" (selected)='selectTreatmentEvent($event)' [itemTemplate]="itemTemplate1"
+            placeHolder="Enter Treatment Name" (selected)='selectTreatmentEvent($event)' [(ngModel)]="newVoucherRequest.ttid" [itemTemplate]="itemTemplate1"
             [notFoundTemplate]="notFoundTemplate1">
           </ng-autocomplete>
 

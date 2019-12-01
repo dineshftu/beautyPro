@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { VouchersService } from '../vouchers.service';
 import { ClientsService } from '../../clients/clients.service';
@@ -27,10 +27,13 @@ export class NewVoucherComponent implements OnInit {
   public isPaymentTypeNotSelected: boolean = false;
   public keyword = 'fullName';
   public keywordTreatment = 'ttname';
-  public editMode:boolean=false;
+  public editMode: boolean = false;
+
+  public customerName: string;
 
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<NewVoucherComponent>,
     private route: Router,
     private voucherService: VouchersService,
@@ -40,7 +43,13 @@ export class NewVoucherComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    if (this.data != null) {
+      this.editMode = true;
+      this.newVoucherRequest = this.data;
+      // this.newVoucherRequest.customerId="sdf34";
+      this.customerName = this.data.customerName;
+    }
+    // console.log(this.data);
   }
 
   ngAfterViewInit() {
