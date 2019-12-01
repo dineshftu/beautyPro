@@ -72,7 +72,10 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
       .getFilteredTreatmentList(this.generateTreatmentFilterRequest())
       .subscribe((treatments: Treatment[]) => {
         this.treatmentList = treatments;
-      });
+      }, (error) => {
+        this.toastr.error("Treatment List Loading Failed!");
+      }
+      );
 
     console.log(this.treatmentList)
   }
@@ -98,7 +101,7 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = { newTreatmentRequest: newTreatmentRequest};
+    dialogConfig.data = { newTreatmentRequest: newTreatmentRequest };
     this.dialog.open(NewTreatmentComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         //console.log(response);

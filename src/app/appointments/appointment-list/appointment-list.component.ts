@@ -105,7 +105,10 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((appointments: Appointments[]) => {
         this.appointmentList = appointments;
-      });
+      }, (error) => {
+        this.toastr.error("Appointment List Loading Failed!");
+      }
+      );
   }
 
   createCustomerRequest(departmentId: number) {
@@ -125,7 +128,7 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
         if (!!response) {
           if (response.message == 'success') {
             this.route.navigate(['']);
-          } 
+          }
         }
       }, (error) => {
         console.log(error);

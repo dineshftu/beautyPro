@@ -18,14 +18,7 @@
         </ng-template>
 
       </div>
-
-      <!-- <select class="form-control select">
-        <option value="" disabled selected>Select departmnet</option>
-        <option value="{{department}}" *ngFor="let department of departmentList">{{department}}
-        </option>
-      </select> -->
     </div>
-
   </div>
 
   <!--Header part-->
@@ -33,9 +26,6 @@
     <div>
       Invoice
     </div>
-    <!-- <div>
-      <input class="form-control" type="date">
-    </div> -->
   </div>
 
   <!-- start: treatment table section -->
@@ -52,11 +42,12 @@
       <!-- start: treatment table body -->
       <div id="table-body">
         <div class="table-row">
-          <div class="row" *ngFor="let treatment of invoiceableTreatment; let i=index">
-            <div> {{i+1}} {{treatment.treatmentName}} </div>
-            <div> {{treatment.price}} </div>
+          <div class="row" *ngFor="let treatment of invoiceableTreatment; index as i">
+            <div> {{treatment.treatmentName}} </div>
+            <!-- <div> {{i + 1}} {{treatment.treatmentName}} </div> -->
+            <div> {{treatment.price | currency : 'LKR'}} </div>
             <div> {{treatment.quantity}} </div>
-            <div> {{treatment.amount}} </div>
+            <div> {{treatment.amount | currency : 'LKR'}} </div>
             <div> {{treatment.employeeName}} </div>
           </div>
         </div>
@@ -67,223 +58,155 @@
     <div class="checkout-total">
       <div class="checkout-total-row">
         <div class="total-label"> Sub Total </div>
-        <div class="total-amount">{{treatmentSubTotal}}</div>
+        <div class="total-amount">{{treatmentSubTotal | currency : 'LKR'}}</div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Discount </div>
-        <div class="total-amount"> {{discount}} </div>
+        <div class="total-amount"> {{discountAmount | currency : 'LKR'}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Net Amount </div>
-        <div class="total-amount"> {{treatmentNetAmount}} </div>
+        <div class="total-amount"> {{treatmentNetAmount | currency : 'LKR'}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Tax 6% </div>
-        <div class="total-amount"> {{treatmentsTaxAmount}} </div>
+        <div class="total-amount"> {{treatmentsTaxAmount | currency : 'LKR'}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Due </div>
-        <div class="total-amount"> {{treatmentDueAmount}} </div>
+        <div class="total-amount"> {{treatmentDueAmount | currency : 'LKR'}} </div>
       </div>
     </div>
 
   </div>
 
   <!-- start: product table section -->
+
   <div class="table-gen client-list">
-    <!-- start: product table header -->
-    <!-- <div class="table-header">
+    <form name="form" (ngSubmit)="f.form.valid && addProduct()" #f="ngForm" novalidate>
+      <div class="inline-form">
+        <div class="form-group">
+          <label>Product</label>
+          <div class="ng-autocomplete">
+
+            <ng-autocomplete #auto [data]="products" [searchKeyword]="keywordProduct" placeHolder="Enter Product Name"
+              (selected)='selectProductEvent($event)' [itemTemplate]="itemTemplate"
+              [notFoundTemplate]="notFoundTemplate" required>
+            </ng-autocomplete>
+
+            <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item.itemName"></a>
+            </ng-template>
+
+            <ng-template #notFoundTemplate2 let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+
+            <div *ngIf="f.submitted && isProductNotSelected">
+              <div class="error-msg">Product Name is required</div>
+            </div>
+
+          </div>
+        </div>
+        <div class="form-group form-amnt">
+          <label>QTY</label>
+          <input type="number" class="form-control" name="qty" (keypress)="numericOnly($event)"
+            (input)="onQtyChange($event)" placeholder="Quantity..." [(ngModel)]='newInvoiceableProduct.quantity'
+            required />
+
+        </div>
+
+        <div class="form-group">
+          <label>Therapist Recommend</label>
+          <div class="ng-autocomplete">
+
+            <ng-autocomplete #auto [data]="employeesList" [searchKeyword]="keywordEmployee"
+              placeHolder="Enter Employee Name" (selected)='selectEmployeeEvent($event)' [itemTemplate]="itemTemplate2"
+              [notFoundTemplate]="notFoundTemplate2" required>
+            </ng-autocomplete>
+
+            <ng-template #itemTemplate2 let-item>
+              <a [innerHTML]="item.name"></a>
+            </ng-template>
+
+            <ng-template #notFoundTemplate2 let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+
+            <div *ngIf="f.submitted && isEmployeeNotSelected">
+              <div class="error-msg">Employee Name is required</div>
+            </div>
+
+          </div>
+
+        </div>
+        <div>
+          <button type="submit" class="btn-default">Add</button>
+        </div>
+      </div>
+
+    </form>
+
+    <div class="table-header">
       <div class="row">
         <div>Product </div>
         <div> Price </div>
         <div> QTY </div>
         <div> Amount </div>
-        <div> Therapist Name </div>
-      </div>
-    </div> -->
-    <!-- start: product table body -->
-    <!-- <div id="table-body">
-      <div class="table-row">
-        <div class="row" *ngFor="let product of products;let i=index">
-          <div> {{i+1}} Happy End </div>
-          <div> 100 </div>
-          <div> 01 </div>
-          <div> 100 </div>
-          <div> Nsdf </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- <button type="button" class="btn-default" (click)="addProduct()">Add Product</button> -->
-
-
-
-
-    
-    <div class="inline-form">
-      <div class="form-group">
-        <label>Product</label>
-        <select class="form-control select" name="products" id="products">
-          <option value="product1">Product 1</option>
-          <option value="product2">Product 2</option>
-        </select>
-      </div>
-      <div class="form-group form-amnt">
-        <label>OTY</label>
-        <input class="form-control" placeholder="Quantity" />
-      </div>
-      <div class="form-group">
-        <label>Therapist Recommend</label>
-        <select class="form-control select">
-          <option value="Value 1">Therapist 1</option>
-          <option value="Value 2">Therapist 2</option>
-        </select>
-      </div>
-      <div>
-        <button type="button" class="btn-default" (click)="addProduct()">Add</button>
+        <div> Recommended By </div>
       </div>
     </div>
-
-
-
-
-
-
-
+    <!-- start: product table body -->
+    <div id="table-body">
+      <div class="table-row">
+        <div class="row" id="product{{i}}" *ngFor="let product of invoiceableProduct;let i=index">
+          <div id="productName{{i}}"> {{product.productName}} </div>
+          <div id="productPrice{{i}}"> {{product.price | currency : 'LKR'}} </div>
+          <div id="productQuantity{{i}}"> {{product.quantity}} </div>
+          <div id="productAmount{{i}}"> {{product?.price * product.quantity | currency : 'LKR'}} </div>
+          <div id="productRec{{i}}"> {{product.recomendedByName}} </div>
+        </div>
+      </div>
+    </div>
 
     <!-- start: product table total section -->
     <div class="checkout-total">
       <div class="checkout-total-row">
         <div class="total-label"> Sub Total </div>
-        <div class="total-amount"> 500 </div>
+        <div class="total-amount"> {{productSubTotal | currency : 'LKR'}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Tax 6% </div>
-        <div class="total-amount"> 48 </div>
+        <div class="total-amount"> {{productsTaxAmount | currency : 'LKR'}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Due </div>
-        <div class="total-amount"> 560 </div>
+        <div class="total-amount"> {{productDueAmount | currency : 'LKR'}} </div>
       </div>
     </div>
     <!--start Sub Total section-->
     <div class="checkout-total">
       <div class="checkout-total-row">
         <div class="total-label"> Bill Sub </div>
-        <div class="total-amount"> 500 </div>
+        <div class="total-amount"> {{treatmentSubTotal + productSubTotal | currency : 'LKR'}}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Discount</div>
-        <div class="total-amount"> 48 </div>
+        <div class="total-amount"> {{discountAmount | currency : 'LKR'}}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Net Amount </div>
-        <div class="total-amount"> 560 </div>
+        <div class="total-amount"> {{treatmentNetAmount + productSubTotal | currency : 'LKR'}}} </div>
       </div>
       <div class="checkout-total-row">
-        <div class="total-label"> Tax 9% </div>
-        <div class="total-amount"> 560 </div>
+        <div class="total-label"> Tax 6% </div>
+        <div class="total-amount"> {{treatmentsTaxAmount + productsTaxAmount | currency : 'LKR'}}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Due Total </div>
-        <div class="total-amount"> 560 </div>
+        <div class="total-amount"> {{treatmentDueAmount + productDueAmount | currency : 'LKR'}}} </div>
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-  <!-- start: table section -->
-  <!-- <div class="table-gen appointment-list">
-    <div class="appointment-main">
-      <div class="client-name">Jane Doe</div>
-      <div class="appointment-date">Tuesday, 8th Oct 2019</div>
-    </div>
-    <div class="checkout-item-block">
-      <div class="checkout-item">
-        <div class="chekout-items-quntity">1</div>
-        <div class="treatment-title">
-          <div class="treatment-name">Haircut</div>
-          <div class="treatment-details">
-            1h 40min with suresh Chamara
-          </div>
-        </div>
-        <div class="treatment-amount">LKR 500.00</div>
-        <div class="chekout-items-remove">
-          <i class="material-icons">close</i>
-        </div>
-      </div>
-      <div class="inline-form">
-        <div class="form-group">
-          <label>Quantity</label>
-          <input class="form-control" placeholder="Quantity" />
-        </div>
-        <div class="form-group form-amnt">
-          <label>Price</label>
-          <span class="form-prefix">LKR</span>
-          <input class="form-control" placeholder="0.00" />
-        </div>
-        <div class="form-group">
-          <label>Therapist</label>
-          <select class="form-control select">
-            <option value="Value 1">Therapist 1</option>
-            <option value="Value 2">Therapist 2</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="checkout-item-block">
-      <div class="checkout-item">
-        <div class="chekout-items-quntity">1</div>
-        <div class="treatment-title">
-          <div class="treatment-name">Haircut</div>
-          <div class="treatment-details">
-            1h 40min with suresh Chamara
-          </div>
-        </div>
-        <div class="treatment-amount">LKR 500.00</div>
-        <div class="chekout-items-remove">
-          <i class="material-icons">close</i>
-        </div>
-      </div>
-    </div>
-
-    <div class="inline-form">
-      <button type="button" class="btn-default">Add treatment</button>
-      <button type="button" class="btn-dark">Add product</button>
-    </div>
-
-    <div class="checkout-total">
-      <div class="checkout-total-row">
-        <div class="total-label">Total</div>
-        <div class="total-amount">LKR 625.00</div>
-      </div>
-      <div class="checkout-total-row">
-        <div class="total-label">Total</div>
-        <div class="form-group form-amnt">
-          <span class="form-prefix">LKR</span>
-          <input class="form-control" placeholder="0.00" />
-        </div>
-      </div>
-    </div>
-
-    <div class="appointment-total spc-pd">
-      <div class="total-label">Total amount payable</div>
-      <div class="total-amount">LKR 500.00</div>
-    </div>
-  </div>
-  <div class="pop-up-btns">
-    <button class="btn-default w-100">Complete Sale</button>
-  </div> -->
-
 
 </div>

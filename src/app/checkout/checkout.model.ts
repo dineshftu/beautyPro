@@ -7,15 +7,17 @@ export class CheckoutTreatmentRequest {
 export class InvoiceSaveRequest {
   customerId: string;
   departmentId: number;
-  treatments: InvoiceableTreatment[];
-  products: InvoiceableProduct[];
+  treatments = new Array<InvoiceableTreatment>();
+  products = new Array<InvoiceableProduct>();
 }
 
 export class InvoiceableProduct {
   productId: string;
   quantity: number;
   price: number;
+  productName: string;
   recomendedBy: number;
+  recomendedByName: string;
 }
 
 export class InvoiceableTreatment {
@@ -32,4 +34,5 @@ export class Products {
   itemId: string;
   itemName: string;
   description: string;
+  sellingPrice: number;
 }
