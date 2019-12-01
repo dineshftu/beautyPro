@@ -35,15 +35,16 @@ export class NewAppointmentComponent implements OnInit {
   public keywordTreatment = 'ttname';
   public keywordEmployee = 'name';
 
-  public isDepartmentNotSelected: boolean = false;
+  //public isDepartmentNotSelected: boolean = false;
   public isTreatmentNotSelected: boolean = false;
   public isCustomerNotSelected: boolean = false;
-  public isEmployeeNotSelected: boolean = false;
-  public isDateNotSelected: boolean = false;
+  //public isEmployeeNotSelected: boolean = false;
+  //public isDateNotSelected: boolean = false;
   public isStartTimeNotSelected: boolean = false;
   public isStartTimeInvalid: boolean = false;
   public isEndTimeInvalid: boolean = false;
   public isTimeInvalid: boolean = false;
+  public isSuperUser: boolean = false;
 
   private ttid: number;
   private empNo: number;
@@ -52,7 +53,7 @@ export class NewAppointmentComponent implements OnInit {
   private startTimespan: string;
   private endTimespan: string;
 
-  minDate = new Date(moment().format('YYYY, MM, DD'));
+  //minDate = new Date(moment().format('YYYY, MM, DD'));
   initdate = moment(this.data.selectedDate);
 
   public exportTime = { hour: 0, minute: 0, meriden: 'AM', format: 12 };
@@ -63,6 +64,8 @@ export class NewAppointmentComponent implements OnInit {
   public endHour: number;
   public endMin: number;
 
+  public user: any;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<NewAppointmentComponent>,
@@ -72,17 +75,26 @@ export class NewAppointmentComponent implements OnInit {
     private departmentService: DepartmentService,
     public clientsService: ClientsService,
     private toastr: ToastrService
-  ) { }
+  ) {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   public newAppointmentRequest = new NewAppointmentRequest();
 
   ngOnInit() {
-    console.log(this.data)
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+    if (this.isSuperUser) {
+      //this.isDepartmentNotSelected = false;
+      this.newAppointmentRequest.departmentId = this.data.selectedDepartment;
+    } else {
+      this.newAppointmentRequest.departmentId = this.user.departmentId;
+    }
+
+    this.getTreatments();
   }
 
   ngAfterViewInit() {
 
-    console.log('date', this.initdate);
     this.setStartTime();
     this.getCustomerList();
     this.getDepartments();
@@ -137,19 +149,19 @@ export class NewAppointmentComponent implements OnInit {
       });
   }
 
-  onDepartmentChange(e: any) {
-    this.isDepartmentNotSelected = false;
-    this.newAppointmentRequest.departmentId = e.target.value;
+  // onDepartmentChange(e: any) {
+  //   this.isDepartmentNotSelected = false;
+  //   this.newAppointmentRequest.departmentId = e.target.value;
 
-    this.ttid = null;
-    this.auto.clear();
-    this.autoTreatment.clear();
+  //   this.ttid = null;
+  //   this.auto.clear();
+  //   this.autoTreatment.clear();
 
-    this.exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
+  //   this.exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
 
-    this.getTreatments();
-    this.getEmployees();
-  }
+  //   this.getTreatments();
+  //   //this.getEmployees();
+  // }
 
   getTreatments() {
     this.treatmentService
@@ -189,15 +201,15 @@ export class NewAppointmentComponent implements OnInit {
     }
   }
 
-  selectEmployeeEvent(e: any) {
-    this.isEmployeeNotSelected = false;
-    this.empNo = e.empno;
-  }
+  // selectEmployeeEvent(e: any) {
+  //   this.isEmployeeNotSelected = false;
+  //   this.empNo = this.data.scheduleResponse.empno;
+  // }
 
-  onDateChange(e: any) {
-    this.isDateNotSelected = false;
-    this.newAppointmentRequest.bookedDate = new Date(e.target.value);
-  }
+  // onDateChange(e: any) {
+  //   this.isDateNotSelected = false;
+  //   this.newAppointmentRequest.bookedDate = new Date(e.target.value);
+  // }
 
   onChangeHour(e: any) {
     let startHour = (parseInt(e.hour));
@@ -263,7 +275,7 @@ export class NewAppointmentComponent implements OnInit {
 
     this.newAppointmentRequest.treatments.push(<AppointmentTreatment>{
       ttid: this.ttid,
-      empNo: this.empNo,
+      empNo: this.data.scheduleResponse.empNo,
       startTime: this.startTimespan,
       endTime: this.endTimespan,
       qty: this.treatmentQty
@@ -287,7 +299,7 @@ export class NewAppointmentComponent implements OnInit {
   private generateAppointmentRequest(): NewAppointmentRequest {
     return <NewAppointmentRequest>{
       customerId: this.newAppointmentRequest.customerId,
-      bookedDate: this.newAppointmentRequest.bookedDate,
+      bookedDate: this.data.selectedDate,
       departmentId: this.newAppointmentRequest.departmentId,
       treatments: this.newAppointmentRequest.treatments
     };
@@ -299,25 +311,25 @@ export class NewAppointmentComponent implements OnInit {
       return;
     }
 
-    if (!this.newAppointmentRequest.departmentId) {
-      this.isDepartmentNotSelected = true;
-      return;
-    }
+    // if (!this.newAppointmentRequest.departmentId) {
+    //   this.isDepartmentNotSelected = true;
+    //   return;
+    // }
 
     if (!this.ttid) {
       this.isTreatmentNotSelected = true;
       return;
     }
 
-    if (!this.empNo) {
-      this.isEmployeeNotSelected = true;
-      return;
-    }
+    // if (!this.empNo) {
+    //   this.isEmployeeNotSelected = true;
+    //   return;
+    // }
 
-    if (!this.newAppointmentRequest.bookedDate) {
-      this.isDateNotSelected = true;
-      return;
-    }
+    // if (!this.newAppointmentRequest.bookedDate) {
+    //   this.isDateNotSelected = true;
+    //   return;
+    // }
 
     if (!this.startTimespan) {
       this.isStartTimeNotSelected = true;

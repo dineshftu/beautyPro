@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class SchedulerItemComponent implements OnInit {
   @Input() scheduleResponse: ScheduleResponse
   @Input() selectedDate: Date
+  @Input() selectedDepartment: number
 
   constructor(
     private route: Router,
@@ -30,7 +31,7 @@ export class SchedulerItemComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = { selectedDate: this.selectedDate, selectedIndex: selectedIndex, scheduleResponse: this.scheduleResponse };
+    dialogConfig.data = { selectedDate: this.selectedDate, selectedIndex: selectedIndex, scheduleResponse: this.scheduleResponse, selectedDepartment: this.selectedDepartment };
     this.dialog.open(NewAppointmentComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         //console.log(response);

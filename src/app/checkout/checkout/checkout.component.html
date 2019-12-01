@@ -4,13 +4,12 @@
   <div id="filter-section">
     <div class="form-group">
       <div class="ng-autocomplete">
-        <ng-autocomplete [data]="customers" [searchKeyword]="keyword" historyIdentifier="customers"
-          placeHolder="Enter Customer Name" (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate"
-          [notFoundTemplate]="notFoundTemplate">
+        <ng-autocomplete [data]="customers" [searchKeyword]="keyword" placeHolder="Enter Customer Name"
+          (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
         </ng-autocomplete>
 
         <ng-template #itemTemplate let-item>
-          <a [innerHTML]="item.fullName"></a>
+          <a [innerHTML]="item.address"></a>
         </ng-template>
 
         <ng-template #notFoundTemplate let-notFound>

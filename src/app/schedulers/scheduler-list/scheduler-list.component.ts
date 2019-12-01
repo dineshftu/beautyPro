@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HelperService } from 'src/app/core/services/helper.service';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-scheduler-list',
@@ -34,19 +35,34 @@ export class SchedulerListComponent implements OnInit {
 
   module: string;
 
+  public user: any;
+
+  public isSuperUser: boolean = false;
+
   constructor(
     private departmentService: DepartmentService,
     private data: DataService,
     public dialog: MatDialog,
     private schedulerService: SchedulerService,
-    private helperService: HelperService
-  ) { }
+    private helperService: HelperService,
+    private toastr: ToastrService,
+  ) {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngOnInit() {
     this.selectedDate = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Schedulers");
-    this.loadSchedules();
+
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadSchedules();
+    }
+
   }
 
   ngAfterViewInit() {
@@ -60,12 +76,22 @@ export class SchedulerListComponent implements OnInit {
 
   onDepartmentChange(e: any) {
     this.selectedDepartment = e.target.value;
-    this.loadSchedules();
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadSchedules();
+    }
   }
 
   onDateChange(e: any) {
     this.selectedDate = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
-    this.loadSchedules();
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadSchedules();
+    }
   }
 
   loadSchedules() {

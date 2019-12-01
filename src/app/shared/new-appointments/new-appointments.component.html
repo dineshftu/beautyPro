@@ -39,7 +39,7 @@
 
         <div class="inline-form">
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Department</label>
             <select class="form-control select" (change)="onDepartmentChange($event)">
               <option value="" disabled selected>Select departmnet</option>
@@ -51,7 +51,7 @@
               <div class="error-msg">Department Id is required</div>
             </div>
 
-          </div>
+          </div> -->
 
           <div class="form-group">
             <label>Treatment</label>
@@ -88,7 +88,12 @@
           </div>
 
           <div class="form-group">
+
             <label>Employee</label>
+            <input type="text" class="form-control" name="empName" [(ngModel)]="data.scheduleResponse.employeeName"
+              readonly />
+
+            <!-- <label>Employee</label>
             <div class="ng-autocomplete">
 
               <ng-autocomplete #auto [data]="employeesList" [searchKeyword]="keywordEmployee"
@@ -108,7 +113,7 @@
                 <div class="error-msg">Employee Name is required</div>
               </div>
 
-            </div>
+            </div> -->
 
           </div>
 
@@ -119,10 +124,10 @@
           <div class="form-group">
             <label>Date</label>
             <mat-form-field>
-              <input [min]="minDate" matInput [matDatepicker]="picker" [(ngModel)]="initdate" name="picker"
-                (dateChange)="onDateChange($event)" placeholder="Choose a date">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="initdate" name="picker" placeholder="Choose a date"
+                readonly>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker [startAt]="initdate" #picker></mat-datepicker>
+              <mat-datepicker [disabled]="true" #picker></mat-datepicker>
             </mat-form-field>
 
             <div *ngIf="f.submitted && isDateNotSelected">
