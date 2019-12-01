@@ -27,6 +27,7 @@ export class NewVoucherComponent implements OnInit {
   public isPaymentTypeNotSelected: boolean = false;
   public keyword = 'fullName';
   public keywordTreatment = 'ttname';
+  public editMode:boolean=false;
 
 
   constructor(

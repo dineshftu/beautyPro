@@ -11,7 +11,7 @@
       </select>
     </div>
 
-    <button type="button" class="btn-default" (click)="addNewVoucher()">Issue New Voucher</button>
+    <button type="button" class="btn-default" (click)="addNewVoucher(null)">Issue New Voucher</button>
   </div>
 
   <!-- start: table section -->
@@ -27,6 +27,7 @@
         <div>Issued Date</div>
         <div>Status</div>
         <div>Amount</div>
+        <!-- <div></div> -->
       </div>
     </div>
     <!-- end: table header -->
@@ -40,7 +41,17 @@
           <div>{{voucher.enteredBy}}</div>
           <div>{{voucher.enteredDate | date}}</div>
           <div>{{voucher.status}}</div>
-          <div>{{voucher.dueAmount | currency : 'LKR'}}</div>
+          <div>{{voucher.dueAmount | currency : 'LKR'}}
+            <div class="action-btns align-right">
+              <button class="icon-btn" (click)="addNewVoucher(voucher)">
+                <i class="material-icons">edit</i>
+              </button>
+              <button class="icon-btn" (click)="deletVoucher(voucher)">
+                <i class="material-icons">delete</i>
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
 
