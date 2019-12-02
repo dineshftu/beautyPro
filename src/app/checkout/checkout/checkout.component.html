@@ -5,11 +5,11 @@
     <div class="form-group">
       <div class="ng-autocomplete">
         <ng-autocomplete [data]="customers" [searchKeyword]="keyword" placeHolder="Enter Customer Name"
-          (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
+          (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate1" [notFoundTemplate]="notFoundTemplate">
         </ng-autocomplete>
 
-        <ng-template #itemTemplate let-item>
-          <a [innerHTML]="item.address"></a>
+        <ng-template #itemTemplate1 let-item>
+          <a [innerHTML]="item.fullName"></a>
         </ng-template>
 
         <ng-template #notFoundTemplate let-notFound>
@@ -90,7 +90,8 @@
 
             <ng-autocomplete #auto [data]="products" [searchKeyword]="keywordProduct" placeHolder="Enter Product Name"
               (selected)='selectProductEvent($event)' [itemTemplate]="itemTemplate"
-              [notFoundTemplate]="notFoundTemplate" required>
+              [notFoundTemplate]="notFoundTemplate" required [(ngModel)]='newInvoiceableProduct.productName'
+              name='productName'>
             </ng-autocomplete>
 
             <ng-template #itemTemplate let-item>
@@ -105,23 +106,28 @@
               <div class="error-msg">Product Name is required</div>
             </div>
 
+            <div *ngIf="f.submitted && isProductNotDuplicated">
+              <div class="error-msg">Product is already added</div>
+            </div>
+
           </div>
         </div>
         <div class="form-group form-amnt">
           <label>QTY</label>
-          <input type="number" class="form-control" name="qty" (keypress)="numericOnly($event)"
-            (input)="onQtyChange($event)" placeholder="Quantity..." [(ngModel)]='newInvoiceableProduct.quantity'
-            required />
-
+          <input type="number" min="1" class="form-control" name="qty" (input)="onQtyChange($event)"
+            placeholder="Quantity..." [(ngModel)]='newInvoiceableProduct.quantity' required />
+          <div *ngIf="f.submitted && isNotValidQty">
+            <div class="error-msg">Invalid quantity</div>
+          </div>
         </div>
 
         <div class="form-group">
           <label>Therapist Recommend</label>
           <div class="ng-autocomplete">
 
-            <ng-autocomplete #auto [data]="employeesList" [searchKeyword]="keywordEmployee"
+            <ng-autocomplete #auto [data]="employeesList" [searchKeyword]="keywordEmployee" name="recomendedByName"
               placeHolder="Enter Employee Name" (selected)='selectEmployeeEvent($event)' [itemTemplate]="itemTemplate2"
-              [notFoundTemplate]="notFoundTemplate2" required>
+              [notFoundTemplate]="notFoundTemplate2" [(ngModel)]='newInvoiceableProduct.recomendedByName' required>
             </ng-autocomplete>
 
             <ng-template #itemTemplate2 let-item>
@@ -140,7 +146,7 @@
 
         </div>
         <div>
-          <button type="submit" class="btn-default">Add</button>
+          <button type="submit" class="btn-default">Add </button>
         </div>
       </div>
 
@@ -153,6 +159,7 @@
         <div> QTY </div>
         <div> Amount </div>
         <div> Recommended By </div>
+        <div> </div>
       </div>
     </div>
     <!-- start: product table body -->
@@ -164,6 +171,11 @@
           <div id="productQuantity{{i}}"> {{product.quantity}} </div>
           <div id="productAmount{{i}}"> {{product?.price * product.quantity | currency : 'LKR'}} </div>
           <div id="productRec{{i}}"> {{product.recomendedByName}} </div>
+          <div>
+            <button class="icon-btn" (click)="removeProduct(i)">
+              <i class="material-icons">delete</i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -187,23 +199,23 @@
     <div class="checkout-total">
       <div class="checkout-total-row">
         <div class="total-label"> Bill Sub </div>
-        <div class="total-amount"> {{treatmentSubTotal + productSubTotal | currency : 'LKR'}}} </div>
+        <div class="total-amount"> {{treatmentSubTotal + productSubTotal | currency : 'LKR'}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Discount</div>
-        <div class="total-amount"> {{discountAmount | currency : 'LKR'}}} </div>
+        <div class="total-amount"> {{discountAmount | currency : 'LKR'}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Net Amount </div>
-        <div class="total-amount"> {{treatmentNetAmount + productSubTotal | currency : 'LKR'}}} </div>
+        <div class="total-amount"> {{treatmentNetAmount + productSubTotal | currency : 'LKR'}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Tax 6% </div>
-        <div class="total-amount"> {{treatmentsTaxAmount + productsTaxAmount | currency : 'LKR'}}} </div>
+        <div class="total-amount"> {{treatmentsTaxAmount + productsTaxAmount | currency : 'LKR'}} </div>
       </div>
       <div class="checkout-total-row">
         <div class="total-label"> Due Total </div>
-        <div class="total-amount"> {{treatmentDueAmount + productDueAmount | currency : 'LKR'}}} </div>
+        <div class="total-amount"> {{treatmentDueAmount + productDueAmount | currency : 'LKR'}} </div>
       </div>
     </div>
   </div>

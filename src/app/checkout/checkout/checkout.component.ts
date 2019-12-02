@@ -9,6 +9,7 @@ import { AddProductComponent } from '../add-product/add-product.component';
 import { CheckoutService } from '../checkout.service';
 import { Employees, EmployeeFilterRequest } from 'src/app/shared/models/appointment.model';
 import { AppointmentService } from 'src/app/shared/services/appointment.service';
+import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
 
 @Component({
   selector: 'app-checkout',
@@ -22,9 +23,15 @@ export class CheckoutComponent implements OnInit {
   public invoiceableProduct = new Array<InvoiceableProduct>();
   public keyword = 'fullName';
   public checkoutTreatmentRequest = new CheckoutTreatmentRequest();
-  public isEmployeeNotSelected: boolean = false;
+  public isEmployeeNotSelected: boolean = true;
   public employeesList: Employees[];
   public keywordEmployee = 'name';
+
+  public products: Products[];
+  isNotValidQty: boolean = true;
+  isProductNotSelected: boolean = true;
+  isProductNotDuplicated: boolean = true;
+  public keywordProduct = 'itemName';
 
   public invoiceSaveRequest = new InvoiceSaveRequest();
   public newInvoiceableProduct = new InvoiceableProduct();
@@ -43,10 +50,6 @@ export class CheckoutComponent implements OnInit {
   public productDueAmount = 0;
   public productsTax = 0.06;
   public productsTaxAmount = 0;
-
-  public products: Products[];
-  isProductNotSelected: boolean = false;
-  public keywordProduct = 'itemName';
 
   constructor(
     public clientsService: ClientsService,
@@ -67,16 +70,50 @@ export class CheckoutComponent implements OnInit {
     this.getEmployees();
   }
 
-  addProduct() {
+  addProduct(index: number) {
     // let duplicate = this.invoiceableProduct.filter(function (value: InvoiceableProduct) {
     //   return
     // });
 
-    this.invoiceableProduct.push(this.newInvoiceableProduct);
-    this.calculateProduct();
+    if (this.validateAddProduct()) {
 
-    this.newInvoiceableProduct = new InvoiceableProduct();
+      this.newInvoiceableProduct.product = this.products[index];
+      // this.products.splice(index, 1);
+      this.invoiceableProduct.push(this.newInvoiceableProduct);
+      this.calculateProduct();
 
+      this.newInvoiceableProduct = new InvoiceableProduct();
+      // this.newInvoiceableProduct.productName = undefined;
+      // this.newInvoiceableProduct.recomendedBy = undefined;
+      console.log(this.invoiceableProduct);
+    }
+
+
+  }
+
+  validateAddProduct(): boolean {
+    let isValid = true;
+    if (!this.newInvoiceableProduct.recomendedBy) {
+      this.isEmployeeNotSelected = true;
+      isValid = false;
+    } else {
+      this.isEmployeeNotSelected = false;
+    }
+
+    if (!this.newInvoiceableProduct.quantity) {
+      this.isNotValidQty = true;
+      isValid = false;
+    } else {
+      if (this.newInvoiceableProduct.quantity <= 0) {
+        isValid = false;
+        this.isNotValidQty = true;
+
+      } else {
+        this.isNotValidQty = false;
+      }
+    }
+
+    return isValid;
 
   }
 
@@ -98,6 +135,25 @@ export class CheckoutComponent implements OnInit {
 
     this.productsTaxAmount = (this.productSubTotal * this.productsTax);
     this.productDueAmount = (this.productSubTotal + this.productsTaxAmount);
+  }
+
+  removeProduct(index: number) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = 'Do you want to remove ' + this.invoiceableProduct[index].productName + '?';
+    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        if (response.message) {
+          this.products.push(this.invoiceableProduct[index].product);
+          this.invoiceableProduct.splice(index, 1);
+          this.toastr.success('Removed!');
+          this.calculateProduct();
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
   }
 
   getCustomerList() {
@@ -144,15 +200,6 @@ export class CheckoutComponent implements OnInit {
       });
   }
 
-  onQtyChange(event: any) {
-    // this.treatmentQty = Number(event.target.value);
-
-    // if (this.startTimespan) {
-    //   this.setEndTime(this.startTimespan.split(":")[0], this.startTimespan.split(":")[1]);
-    // }
-
-  }
-
 
   getEmployees() {
     this.appointmentService
@@ -179,10 +226,20 @@ export class CheckoutComponent implements OnInit {
     return true;
   }
 
+  onQtyChange(event: any) {
+    if (this.newInvoiceableProduct.quantity) {
+
+    }
+
+  }
+
   selectEmployeeEvent(e: any) {
+    console.log(e);
     this.isEmployeeNotSelected = false;
     this.newInvoiceableProduct.recomendedBy = e.empno;
     this.newInvoiceableProduct.recomendedByName = e.name;
+    console.log(this.newInvoiceableProduct.recomendedByName);
+
   }
 
   selectProductEvent(e: any) {

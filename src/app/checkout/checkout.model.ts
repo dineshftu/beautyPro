@@ -18,6 +18,7 @@ export class InvoiceableProduct {
   productName: string;
   recomendedBy: number;
   recomendedByName: string;
+  product: Products;
 }
 
 export class InvoiceableTreatment {
@@ -34,5 +35,7 @@ export class Products {
   itemId: string;
   itemName: string;
   description: string;
+      isValid = false;
   sellingPrice: number;
+  maxQty: number;
 }
