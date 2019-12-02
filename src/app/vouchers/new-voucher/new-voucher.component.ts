@@ -30,6 +30,7 @@ export class NewVoucherComponent implements OnInit {
   public editMode: boolean = false;
 
   public customerName: string;
+  public treatment:string;
 
 
   constructor(
@@ -48,14 +49,17 @@ export class NewVoucherComponent implements OnInit {
       this.newVoucherRequest = this.data;
       // this.newVoucherRequest.customerId="sdf34";
       this.customerName = this.data.customerName;
+      this.treatment=this.data.treatment;
     }
     // console.log(this.data);
   }
 
   ngAfterViewInit() {
-    this.getCustomerList();
-    this.getPaymentTypes();
-    this.getTreatments();
+    setTimeout(() => {
+      this.getCustomerList();
+      this.getPaymentTypes();
+      this.getTreatments();
+    }, 0);  
   }
 
   numericOnly(event): boolean {
