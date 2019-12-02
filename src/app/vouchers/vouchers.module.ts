@@ -10,6 +10,7 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { ClientsService } from '../clients/clients.service';
 import { FormsModule } from '@angular/forms';
 import { TreatmentService } from '../treatments/treatment.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TreatmentService } from '../treatments/treatment.service';
     MatDialogModule,
     VouchersRoutingModule,
     AutocompleteLibModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   providers: [
     VouchersService,

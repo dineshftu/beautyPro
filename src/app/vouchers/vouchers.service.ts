@@ -37,5 +37,9 @@ export class VouchersService {
   public editTreatment(body: Vouchers): Observable<Vouchers> {
     return this.baseDataService.makePostCall(`${this.apiVoucherUrl}/${'edit'}`, body);
   }
+  public deleteVoucher(): Observable<Vouchers> {
+   // let queryString = `cdid=${cdid}`;
+    return //this.baseDataService.makeDeleteCall(`${this.apiAppointmentUrl}?${queryString}`);
+  }
 
 }

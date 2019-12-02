@@ -6,6 +6,8 @@ import { Vouchers, VoucherFilterRequest } from '../vouchers.model';
 import { VouchersService } from '../vouchers.service';
 import { Location } from '@angular/common';
 import { NewVoucherComponent } from '../new-voucher/new-voucher.component';
+import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-voucher-list',
@@ -27,7 +29,8 @@ export class VoucherListComponent implements OnInit {
     private data: DataService,
     private voucherService: VouchersService,
     private route: Router, private location: Location,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private toastr: ToastrService
   ) {
     this.routeReload();
   }
@@ -50,6 +53,19 @@ export class VoucherListComponent implements OnInit {
   }
 
   loadVouchers() {
+    // this.voucherList=[];
+    // this.voucherList.push(
+    //   {
+    //     gvinvoiceNo: '123',
+    //     customerName: 'Amila',
+    //     enteredBy: 'ds',
+    //     enteredDate: new Date(),
+    //     isRedeem: true,
+    //     isCanceled: false,
+    //     dueAmount: 125.6,
+    //     status: 'pendin'
+    //   }
+    // );
     this.voucherService
       .getFilteredVoucherList(this.generateVoucherFilterRequest())
       .subscribe((vouchers: Vouchers[]) => {
@@ -69,11 +85,15 @@ export class VoucherListComponent implements OnInit {
     this.loadVouchers();
   }
 
-  addNewVoucher() {
+  addNewVoucher(voucher) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = '';
+    // dialogConfig.data = '';
+
+    // if (voucher != null)
+      dialogConfig.data = voucher;
+
     this.dialog.open(NewVoucherComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         //console.log(response);
@@ -83,9 +103,37 @@ export class VoucherListComponent implements OnInit {
           }
         }
       }, (error) => {
+        this.toastr.error("Not Added");
         console.log(error);
       }
     );
   }
-
+  deleteVoucher() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = 'Do you want to delete ' + 'voucher' + '?';
+    // dialogConfig.width = "20%";
+    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        if (response.message) {
+          this.voucherService.deleteVoucher()
+            .subscribe(
+              (response) => {
+                console.log(response);
+                this.toastr.success('Deleted!');
+                this.route.navigate(['/home/vouchers']);
+              },
+              (error) => {
+                this.toastr.error("Not Deleted!");
+                console.log(error);
+              }
+            );
+          console.log(response);
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
+  }
 }

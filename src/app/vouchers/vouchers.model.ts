@@ -7,6 +7,7 @@ export class Vouchers {
   isCanceled: boolean;
   dueAmount: number;
   status: string;
+  treatment:string;
 }
 
 export interface VoucherFilterRequest {
