@@ -1,6 +1,7 @@
 <div class="pop-up">
   <div class="pop-up-header">
-    <div class="pop-up-title">New Voucher</div>
+    <div class="pop-up-title" *ngIf="!editMode">New Voucher</div>
+    <div class="pop-up-title" *ngIf="editMode">Update Voucher</div>
     <button type="button" class="icon-btn" (click)="dialogRef.close()">
       <i class="material-icons">close</i>
     </button>
