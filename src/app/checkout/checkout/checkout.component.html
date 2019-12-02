@@ -82,7 +82,7 @@
   <!-- start: product table section -->
 
   <div class="table-gen client-list">
-    <form name="form" (ngSubmit)="f.form.valid && addProduct()" #f="ngForm" novalidate>
+    <form name="form" (ngSubmit)="addProduct(f.form.valid)" #f="ngForm" novalidate>
       <div class="inline-form">
         <div class="form-group">
           <label>Product</label>
@@ -90,8 +90,7 @@
 
             <ng-autocomplete #auto [data]="products" [searchKeyword]="keywordProduct" placeHolder="Enter Product Name"
               (selected)='selectProductEvent($event)' [itemTemplate]="itemTemplate"
-              [notFoundTemplate]="notFoundTemplate" required [(ngModel)]='newInvoiceableProduct.productName'
-              name='productName'>
+              [notFoundTemplate]="notFoundTemplate" required [(ngModel)]="productName" name='productName'>
             </ng-autocomplete>
 
             <ng-template #itemTemplate let-item>
@@ -106,9 +105,9 @@
               <div class="error-msg">Product Name is required</div>
             </div>
 
-            <div *ngIf="f.submitted && isProductNotDuplicated">
+            <!-- <div *ngIf="f.submitted && isProductNotDuplicated">
               <div class="error-msg">Product is already added</div>
-            </div>
+            </div> -->
 
           </div>
         </div>
@@ -127,7 +126,7 @@
 
             <ng-autocomplete #auto [data]="employeesList" [searchKeyword]="keywordEmployee" name="recomendedByName"
               placeHolder="Enter Employee Name" (selected)='selectEmployeeEvent($event)' [itemTemplate]="itemTemplate2"
-              [notFoundTemplate]="notFoundTemplate2" [(ngModel)]='newInvoiceableProduct.recomendedByName' required>
+              [notFoundTemplate]="notFoundTemplate2" [(ngModel)]="therapistName" required>
             </ng-autocomplete>
 
             <ng-template #itemTemplate2 let-item>

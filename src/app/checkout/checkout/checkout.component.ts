@@ -51,6 +51,9 @@ export class CheckoutComponent implements OnInit {
   public productsTax = 0.06;
   public productsTaxAmount = 0;
 
+  public productName;
+  public therapistName;
+
   constructor(
     public clientsService: ClientsService,
     public checkoutService: CheckoutService,
@@ -65,30 +68,35 @@ export class CheckoutComponent implements OnInit {
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Checkout");
 
-    this.getCustomerList();
-    this.getProductList();
-    this.getEmployees();
+    setTimeout(() => {
+      this.getCustomerList();
+      this.getProductList();
+      this.getEmployees();
+    }, 0);
   }
 
-  addProduct(index: number) {
-    // let duplicate = this.invoiceableProduct.filter(function (value: InvoiceableProduct) {
-    //   return
-    // });
-
-    if (this.validateAddProduct()) {
-
-      this.newInvoiceableProduct.product = this.products[index];
-      // this.products.splice(index, 1);
-      this.invoiceableProduct.push(this.newInvoiceableProduct);
-      this.calculateProduct();
-
-      this.newInvoiceableProduct = new InvoiceableProduct();
-      // this.newInvoiceableProduct.productName = undefined;
-      // this.newInvoiceableProduct.recomendedBy = undefined;
-      console.log(this.invoiceableProduct);
+  addProduct(isFormValid: boolean) {
+    if (isFormValid && this.validateAddProduct()) {
+      if (this.checkProductExist()) {
+        this.invoiceableProduct.push(this.newInvoiceableProduct);
+        this.newInvoiceableProduct = new InvoiceableProduct();
+        this.therapistName = null;
+        this.productName = null;
+      } else {
+        this.toastr.warning("Product is already in list");
+      }
+    } else {
+      this.toastr.warning("Please fill required field");
     }
+  }
+  checkProductExist() {
+    var i = this.invoiceableProduct.findIndex(
+      product => product.productId == this.newInvoiceableProduct.productId
+    );
 
-
+    if (i != -1)
+      return false
+    return true;
   }
 
   validateAddProduct(): boolean {
@@ -234,11 +242,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   selectEmployeeEvent(e: any) {
-    console.log(e);
     this.isEmployeeNotSelected = false;
     this.newInvoiceableProduct.recomendedBy = e.empno;
     this.newInvoiceableProduct.recomendedByName = e.name;
-    console.log(this.newInvoiceableProduct.recomendedByName);
 
   }
 
