@@ -12,7 +12,8 @@ export class LayoutComponent implements OnInit {
     "clients", "treatments",
     // "products",
     "vouchers",
-    "checkout"
+    "checkout",
+    "invoices"
 
   ];
   constructor() { }

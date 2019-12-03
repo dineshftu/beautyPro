@@ -51,6 +51,10 @@ const routes: Routes = [
         path: 'checkout',
         loadChildren: () => import('./checkout/checkout.module').then(m => m.CheckoutModule)
       },
+      {
+        path: 'invoices',
+        loadChildren: () => import('./invoices/invoices.module').then(m => m.InvoicesModule)
+      },
 
 
     ]
@@ -58,7 +62,7 @@ const routes: Routes = [
   {
     path: '**',
     component: PageNotFoundComponent
-  },
+  }
 ];
 
 @NgModule({

@@ -117,7 +117,7 @@ export class VoucherListComponent implements OnInit {
     this.dialog.open(InputBoxComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         if (response.message) {
-          this.voucherService.deleteVoucher(id,response.reason)
+          this.voucherService.deleteVoucher(id, response.reason)
             .subscribe(
               (response) => {
                 console.log(response);
