@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from 'src/app/core/services/data.service';
-import { Vouchers, VoucherFilterRequest } from '../vouchers.model';
+import { Vouchers, VoucherFilterRequest, VouchersDeleteRequest } from '../vouchers.model';
 import { VouchersService } from '../vouchers.service';
 import { Location } from '@angular/common';
 import { NewVoucherComponent } from '../new-voucher/new-voucher.component';
@@ -71,6 +71,8 @@ export class VoucherListComponent implements OnInit {
       .subscribe((vouchers: Vouchers[]) => {
         this.voucherList = vouchers;
         this.voucherList.map(voucher => voucher.status = (voucher.isRedeem ? "Redeemed" : voucher.isCanceled ? "Cancelled" : "Issued"));
+      }, (error) => {
+        this.toastr.error("Voucher List Loading Failed!");
       });
   }
 
@@ -92,32 +94,30 @@ export class VoucherListComponent implements OnInit {
     // dialogConfig.data = '';
 
     // if (voucher != null)
-      dialogConfig.data = voucher;
+    dialogConfig.data = voucher;
 
     this.dialog.open(NewVoucherComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
-        //console.log(response);
         if (!!response) {
           if (response.message == 'success') {
-            this.route.navigate(['']);
+            this.route.navigate(['/home/vouchers']);
           }
         }
-      }, (error) => {
-        this.toastr.error("Not Added");
-        console.log(error);
       }
     );
   }
-  deleteVoucher() {
+
+  deleteVoucher(voucher: Vouchers) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = 'Do you want to delete ' + 'voucher' + '?';
+    dialogConfig.data = 'Do you want to delete ' + voucher.gvinvoiceNo + ' ?';
     // dialogConfig.width = "20%";
+    let id = voucher.gvinvoiceNo;
     this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         if (response.message) {
-          this.voucherService.deleteVoucher()
+          this.voucherService.deleteVoucher(id)
             .subscribe(
               (response) => {
                 console.log(response);

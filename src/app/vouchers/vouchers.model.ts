@@ -7,7 +7,7 @@ export class Vouchers {
   isCanceled: boolean;
   dueAmount: number;
   status: string;
-  treatment:string;
+  treatment: string;
 }
 
 export interface VoucherFilterRequest {
@@ -26,3 +26,9 @@ export interface PaymentType {
   ptid: number;
   ptname: string;
 }
+
+export class VouchersDeleteRequest {
+  ptid: number;
+  gvinvoiceNo: string;
+}
+

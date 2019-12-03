@@ -30,7 +30,7 @@ export class NewVoucherComponent implements OnInit {
   public editMode: boolean = false;
 
   public customerName: string;
-  public treatment:string;
+  public treatment: string;
 
 
   constructor(
@@ -49,7 +49,7 @@ export class NewVoucherComponent implements OnInit {
       this.newVoucherRequest = this.data;
       // this.newVoucherRequest.customerId="sdf34";
       this.customerName = this.data.customerName;
-      this.treatment=this.data.treatment;
+      this.treatment = this.data.treatment;
     }
     // console.log(this.data);
   }
@@ -59,7 +59,7 @@ export class NewVoucherComponent implements OnInit {
       this.getCustomerList();
       this.getPaymentTypes();
       this.getTreatments();
-    }, 0);  
+    }, 0);
   }
 
   numericOnly(event): boolean {
@@ -125,6 +125,10 @@ export class NewVoucherComponent implements OnInit {
   }
 
   save() {
+    let work = "Added!";
+    if (this.editMode) {
+      work = "Updated!"
+    }
 
     if (!this.newVoucherRequest.ptid) {
       this.isPaymentTypeNotSelected = true;
@@ -136,9 +140,9 @@ export class NewVoucherComponent implements OnInit {
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((result: any) => {
         console.log(result);
-        this.toastr.success("New Voucher Added", "Success");
+        this.toastr.success("Voucher " + work);
       }, (error: any) => {
-
+        this.toastr.error("Voucher Not " + work);
       }, () => {
         this.route.navigate(['home/vouchers']);
         this.dialogRef.close();

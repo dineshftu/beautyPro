@@ -52,10 +52,8 @@ export class ClientRegistrationComponent implements OnInit {
     this.clientService
       .addNewCustomer(this.client)
       .subscribe((result: any) => {
-        this.dialogRef.close();
         this.toastr.success("Client " + work);
       }, (error: any) => {
-        this.dialogRef.close();
         this.toastr.error("Client Not " + work);
       }, () => {
         this.dialogRef.close();

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from '../core/services/base-data.service';
 import { Observable } from 'rxjs';
-import { Vouchers, VoucherFilterRequest, NewVoucherRequest, PaymentType } from './vouchers.model';
+import { Vouchers, VoucherFilterRequest, NewVoucherRequest, PaymentType, VouchersDeleteRequest } from './vouchers.model';
 
 
 @Injectable()
@@ -37,9 +37,12 @@ export class VouchersService {
   public editTreatment(body: Vouchers): Observable<Vouchers> {
     return this.baseDataService.makePostCall(`${this.apiVoucherUrl}/${'edit'}`, body);
   }
-  public deleteVoucher(): Observable<Vouchers> {
-   // let queryString = `cdid=${cdid}`;
-    return //this.baseDataService.makeDeleteCall(`${this.apiAppointmentUrl}?${queryString}`);
+
+  public deleteVoucher(request: string): Observable<any> {
+    let vou = new VouchersDeleteRequest();
+    vou.gvinvoiceNo = request;
+    let queryString = `request=${vou}`;
+    return this.baseDataService.makeDeleteCall(`${this.apiVoucherUrl}?${queryString}`);
   }
 
 }
