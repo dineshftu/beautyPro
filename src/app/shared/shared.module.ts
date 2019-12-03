@@ -11,9 +11,10 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DiologBoxComponent } from './components/diolog-box/diolog-box.component';
+import { InputBoxComponent } from './components/input-box/input-box.component';
 
 @NgModule({
-  declarations: [NewAppointmentComponent, DiologBoxComponent],
+  declarations: [NewAppointmentComponent, DiologBoxComponent, InputBoxComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -37,6 +38,6 @@ import { DiologBoxComponent } from './components/diolog-box/diolog-box.component
     TreatmentService,
     ClientsService
   ],
-  entryComponents: [DiologBoxComponent]
+  entryComponents: [DiologBoxComponent,InputBoxComponent]
 })
 export class SharedModule { }

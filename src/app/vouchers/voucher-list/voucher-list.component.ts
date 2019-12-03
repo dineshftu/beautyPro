@@ -6,8 +6,8 @@ import { Vouchers, VoucherFilterRequest, VouchersDeleteRequest } from '../vouche
 import { VouchersService } from '../vouchers.service';
 import { Location } from '@angular/common';
 import { NewVoucherComponent } from '../new-voucher/new-voucher.component';
-import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
 import { ToastrService } from 'ngx-toastr';
+import { InputBoxComponent } from 'src/app/shared/components/input-box/input-box.component';
 
 @Component({
   selector: 'app-voucher-list',
@@ -111,13 +111,13 @@ export class VoucherListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = 'Do you want to delete ' + voucher.gvinvoiceNo + ' ?';
+    dialogConfig.data = 'Do you want to delete ' + voucher.gvinvoiceNo + ' ?\nPlease insert a reason';
     // dialogConfig.width = "20%";
     let id = voucher.gvinvoiceNo;
-    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+    this.dialog.open(InputBoxComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         if (response.message) {
-          this.voucherService.deleteVoucher(id)
+          this.voucherService.deleteVoucher(id,response.reason)
             .subscribe(
               (response) => {
                 console.log(response);

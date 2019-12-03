@@ -38,9 +38,10 @@ export class VouchersService {
     return this.baseDataService.makePostCall(`${this.apiVoucherUrl}/${'edit'}`, body);
   }
 
-  public deleteVoucher(request: string): Observable<any> {
+  public deleteVoucher(request: string,reason:string): Observable<any> {
     let vou = new VouchersDeleteRequest();
     vou.gvinvoiceNo = request;
+    vou.cancelReason=reason;
     let queryString = `request=${vou}`;
     return this.baseDataService.makeDeleteCall(`${this.apiVoucherUrl}?${queryString}`);
   }

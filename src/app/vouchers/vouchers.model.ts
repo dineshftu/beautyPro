@@ -28,7 +28,7 @@ export interface PaymentType {
 }
 
 export class VouchersDeleteRequest {
-  ptid: number;
+  cancelReason: string;
   gvinvoiceNo: string;
 }
 
