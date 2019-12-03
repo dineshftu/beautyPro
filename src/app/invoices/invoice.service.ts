@@ -16,7 +16,7 @@ export class InvoiceService {
     return this.baseDataService.makeGetCall(`${this.apiInvoiceUrl}?${queryString}`);
   }
 
-  public getInvoice(request: string): Observable<Array<Invoices>> {
+  public getInvoice(request: string): Observable<Invoices> {
     let queryString = `invoiceNo=${request}`;
     return this.baseDataService.makeGetCall(`${this.apiInvoiceUrl}${'/details'}?${queryString}`);
   }

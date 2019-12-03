@@ -11,7 +11,7 @@ import { Invoices } from '../invoices.model';
   styleUrls: ['./invoice-view.component.scss']
 })
 export class InvoiceViewComponent implements OnInit {
-  invoiceList: Invoices[];
+  invoice: Invoices
 
 
   constructor(
@@ -28,9 +28,9 @@ export class InvoiceViewComponent implements OnInit {
   loadInvoice() {
     this.invoiceService
       .getInvoice(this.data.invoiceNo)
-      .subscribe((invoices: Invoices[]) => {
-        this.invoiceList = invoices;
-        console.log(this.invoiceList)
+      .subscribe((invoices) => {
+        this.invoice = invoices;
+        console.log(this.invoice)
       }, (error) => {
         this.toastr.error("Invoice Not Loaded!");
       }
