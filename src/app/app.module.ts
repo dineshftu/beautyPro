@@ -53,7 +53,7 @@ import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
   providers: [
     // { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
+    // { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: 'moment', useValue: moment }
   ],

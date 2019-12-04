@@ -9,8 +9,8 @@ export class Invoices {
   subTotal: number;
   discount: number;
   dueAmount: number;
-  invoiceProduct: InvoiceProduct[];
-  invoiceTreatment: InvoiceTreatment[];
+  invoiceProducts: InvoiceProduct[];
+  invoiceTreatments: InvoiceTreatment[];
 }
 
 export interface InvoiceProduct {
@@ -27,7 +27,7 @@ export interface InvoiceProduct {
 }
 
 export interface InvoiceTreatment {
-  citid: number;
+  cipid: number;
   invoiceNo: string;
   treatmentTypeName: string;
   ttid: number;
