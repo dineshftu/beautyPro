@@ -3,7 +3,8 @@ import { DateTime } from 'luxon';
 export class Invoices {
   invoiceNo: string;
   customerFullName: string;
-  invoiceDate: DateTime;
+  invoiceDate: string;
+  // invoiceDate: DateTime;
   tax: number;
   subTotal: number;
   discount: number;
@@ -16,7 +17,8 @@ export interface InvoiceProduct {
   cipid: number;
   invoiceNo: string;
   productId: string;
-  productName: number;
+  productName: string;
+  // productName: number;
   empno: number;
   recomendedBy: string;
   price: number;

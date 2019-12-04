@@ -12,12 +12,12 @@ import { Invoices } from '../invoices.model';
 })
 export class InvoiceViewComponent implements OnInit {
   invoice: Invoices
+  invoiceDate: Date;
 
 
   constructor(
     private invoiceService: InvoiceService,
     public dialogRef: MatDialogRef<InvoiceViewComponent>,
-    private route: Router,
     private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
@@ -30,7 +30,8 @@ export class InvoiceViewComponent implements OnInit {
       .getInvoice(this.data.invoiceNo)
       .subscribe((invoices) => {
         this.invoice = invoices;
-        console.log(this.invoice)
+        this.invoiceDate = new Date(this.invoice.invoiceDate);
+        // console.log(this.invoice)
       }, (error) => {
         this.toastr.error("Invoice Not Loaded!");
       }

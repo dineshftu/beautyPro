@@ -64,7 +64,6 @@ export class InvoiceListComponent implements OnInit {
       }
       );
 
-    console.log(this.invoiceList)
   }
 
   private generateInvoiceFilterRequest() {
