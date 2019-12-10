@@ -35,7 +35,7 @@
     <!-- start: table body -->
     <div id="table-body">
       <div class="table-row">
-        <div class="row" *ngFor="let appointment of appointmentList">
+        <div class="row" *ngFor="let appointment of appointmentList;let i=index">
           <div>{{appointment.client}}</div>
           <div>{{appointment.treatment}}</div>
           <div>{{appointment.date | date}}</div>
@@ -45,20 +45,20 @@
           <div>{{appointment.price | currency : 'LKR'}}</div>
           <div>
             <div class="form-group">
-              <select class="form-control select" (change)='onStatusChange($event, appointment)'>
-                <option value="" disabled selected>Status</option>
+              <select [(ngModel)]="appointment.status" name="status{{i}}" class="form-control select" (change)='onStatusChange($event, appointment)'>
+                <!-- <option value="" disabled selected>Status</option> -->
                 <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
                 </option>
               </select>
             </div>
-            <div class="action-btns align-right">
+            <!-- <div class="action-btns align-right">
               <button class="icon-btn">
                 <i class="material-icons" >edit</i>
               </button>
               <button class="icon-btn" (click)="deleteAppointment(appointment)">
                 <i class="material-icons">delete</i>
               </button>
-            </div>
+            </div> -->
           </div>
          
         </div>

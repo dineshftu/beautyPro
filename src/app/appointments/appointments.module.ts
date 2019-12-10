@@ -9,6 +9,7 @@ import { ViewAppointmentComponent } from './view-appointment/view-appointment.co
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '../shared/shared.module';
 import { NewAppointmentComponent } from '../shared/new-appointments/new-appointments.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NewAppointmentComponent } from '../shared/new-appointments/new-appointm
     CommonModule,
     MatDialogModule,
     AppointmentsRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ],
   providers: [
     AppointmentsService
