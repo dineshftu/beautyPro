@@ -45,8 +45,8 @@
 
         <div class="form-group">
           <label>E-mail</label>
-          <input class="form-control" name="email" [(ngModel)]="client.email" #email="ngModel" placeholder="e-mail"
-            email />
+          <input class="form-control" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="text"
+            [(ngModel)]="client.email" #email="ngModel" placeholder="e-mail" email />
         </div>
 
       </div>
