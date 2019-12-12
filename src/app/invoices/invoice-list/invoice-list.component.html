@@ -1,55 +1,60 @@
 <div id="wrapper-content">
 
-    <!-- start: filter section -->
-    <div id="filter-section">
-      <div class="form-group">
-        <select class="form-control select" (change)="onDepartmentChange($event)">
-          <option value="" disabled selected>Select departmnet</option>
-          <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
-          </option>
-        </select>
-      </div>
-  
+  <!-- start: filter section -->
+  <div id="filter-section">
+    <div class="form-group">
+      <select class="form-control select" (change)="onDepartmentChange($event)">
+        <option value="" disabled selected>Select departmnet</option>
+        <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
+        </option>
+      </select>
     </div>
-  
-    <!-- start: table section -->
-    <div class="table-gen appointment-list">
-  
-      <!-- start: table header -->
-      <div class="table-header">
-  
-        <div class="row">
-          <div>Invoice No</div>
-          <div>Customer</div>
-          <div>Date</div>
-          <div>Tax</div>
-          <div>Sub Total</div>
-          <div>Discount</div>
-          <div>Due Amount</div>
-        </div>
+
+  </div>
+
+  <!-- start: table section -->
+  <div class="table-gen appointment-list">
+
+    <!-- start: table header -->
+    <div class="table-header">
+
+      <div class="row">
+        <div>Invoice No</div>
+        <div>Customer</div>
+        <div>Date</div>
+        <div>Tax</div>
+        <div>Sub Total</div>
+        <div>Discount</div>
+        <div>Due Amount</div>
+        <div></div>
       </div>
-      <!-- end: table header -->
-  
-      <!-- start: table body -->
-      <div id="table-body">
-        <div class="table-row">
-          <div class="row" (click)="viewInvoice(invoice)" *ngFor="let invoice of invoiceList">
-            <div>{{invoice.invoiceNo}}</div>
-            <div>{{invoice.customerFullName}}</div>
-            <div>{{invoice.invoiceDate}}</div>
-            <div>{{invoice.tax }}</div>
-            <div>{{invoice.subtotal}}</div>
-            <div>{{invoice.discount}}</div>
-            <div>{{invoice.dueAmount | currency : 'LKR'}}</div>           
+    </div>
+    <!-- end: table header -->
+
+    <!-- start: table body -->
+    <div id="table-body">
+      <div class="table-row">
+        <div class="row" *ngFor="let invoice of invoiceList">
+          <div (click)="viewInvoice(invoice)">{{invoice.invoiceNo}}</div>
+          <div>{{invoice.customerFullName}}</div>
+          <div>{{invoice.invoiceDate}}</div>
+          <div>{{invoice.tax }}</div>
+          <div>{{invoice.subtotal}}</div>
+          <div>{{invoice.discount}}</div>
+          <div>{{invoice.dueAmount | currency : 'LKR'}}</div>
+          <div class="action-btns align-right" (click)="cancelInvoice()">
+            <button class="icon-btn">
+              <i class="material-icons">delete</i>
+            </button>
           </div>
         </div>
-  
       </div>
-      <!-- end: table body -->
-  
+
     </div>
-    <!-- end: table section -->
-  
+    <!-- end: table body -->
+
   </div>
-  <!-- end: main wrapper -->
-  
+  <!-- end: table section -->
+
+</div>
+<!-- end: main wrapper -->

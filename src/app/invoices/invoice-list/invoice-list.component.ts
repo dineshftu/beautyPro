@@ -10,6 +10,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { ToastrService } from 'ngx-toastr';
 import { takeUntil } from 'rxjs/operators';
 import { InvoiceViewComponent } from '../invoice-view/invoice-view.component';
+import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
 
 @Component({
   selector: 'app-invoice-list',
@@ -84,6 +85,22 @@ export class InvoiceListComponent implements OnInit {
           if (response.message == 'success') {
             this.route.navigate(['home/invoices']);
           }
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
+  }
+  cancelInvoice() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = 'Are you sure you want to cancel?';
+    // dialogConfig.width = "20%";
+    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        if (response.message) {
+          this.toastr.warning("still developing server api part");
         }
       }, (error) => {
         console.log(error);
