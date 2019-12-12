@@ -10,14 +10,16 @@
     <div class="header-right">
 
       <div class="logged-in-user">
-        <img class="icon" src="../../../../assets/img/user-icon.png" alt="user-icon">
         <div class="username">
           <span>welcome</span><br>
           {{loggedInUser()}}
         </div>
-      </div>
+        <img class="icon" src="../../../../assets/img/user-icon.svg" alt="user-icon">
 
-      <button type="button" class="btn-link logout" (click)="logout()">Logout</button>
+        <div class="os-dropdown">
+          <button type="button" class="btn-link logout" (click)="logout()">Logout</button>
+        </div>
+      </div>
 
     </div>
 
