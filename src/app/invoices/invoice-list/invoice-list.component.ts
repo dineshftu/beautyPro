@@ -22,10 +22,13 @@ import { HelperService } from 'src/app/core/services/helper.service';
 export class InvoiceListComponent implements OnInit {
   module: string;
   invoiceList: Invoices[];
-  public selectedDepartment = 1;
+  selectedDepartment = 0;
   private ngUnSubscription = new Subject();
   departments: Department[];
   date: string;
+
+  public user: any;
+  public isSuperUser: boolean = false;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -35,7 +38,9 @@ export class InvoiceListComponent implements OnInit {
     private data: DataService,
     private toastr: ToastrService,
     private helperService: HelperService,
-  ) { }
+  ) {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngAfterViewInit() {
     this.departmentService
@@ -47,9 +52,15 @@ export class InvoiceListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
     this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
 
-    this.loadInvoices();
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadInvoices();
+    }
+
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Invoices");
   }
@@ -57,12 +68,16 @@ export class InvoiceListComponent implements OnInit {
 
   onDepartmentChange(e: any) {
     this.selectedDepartment = e.target.value;
-    this.loadInvoices();
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadInvoices();
+    }
   }
   onDateChange(e) {
     this.date = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
-    if (!this.selectedDepartment) {
-      this.toastr.error("Please select a department");
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
     } else {
       this.loadInvoices();
     }
