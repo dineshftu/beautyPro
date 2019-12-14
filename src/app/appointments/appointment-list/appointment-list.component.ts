@@ -140,32 +140,36 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     this.ngUnSubscription.next(true);
     this.ngUnSubscription.complete();
   }
-  deleteAppointment(appointment){
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = 'Do you want to delete ' + 'Appointment'+ '?';
-    // dialogConfig.width = "20%";
-    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
-      (response) => {
-        if (response.message) {
-          this.appoinmentService.deleteAppointment(appointment.csid)
-          .subscribe(
-            (response) => {
-              console.log(response);
-              this.toastr.success('Deleted!');
-              this.route.navigate(['/home/appointments']);
-            },
-            (error) => {
-              this.toastr.error("Not Deleted!");
-              console.log(error);
-            }
-          );
-        console.log(response);
+  deleteAppointment(appointment) {
+    if (appointment.status != 'confirmed') {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = 'Do you want to delete ' + 'Appointment' + '?';
+      // dialogConfig.width = "20%";
+      this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+        (response) => {
+          if (response.message) {
+            this.appoinmentService.deleteAppointment(appointment.csid)
+              .subscribe(
+                (response) => {
+                  console.log(response);
+                  this.toastr.success('Deleted!');
+                  this.route.navigate(['/home/appointments']);
+                },
+                (error) => {
+                  this.toastr.error("Not Deleted!");
+                  console.log(error);
+                }
+              );
+            console.log(response);
+          }
+        }, (error) => {
+          console.log(error);
         }
-      }, (error) => {
-        console.log(error);
-      }
-    );
+      );
+    } else {
+      this.toastr.warning("Confirmed appointments can not be deleted!");
+    }
   }
 }

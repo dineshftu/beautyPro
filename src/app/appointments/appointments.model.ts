@@ -22,7 +22,7 @@ export class Appointments {
   treatments: AppointmentTreatment;
   therapist: string;
   price: number;
-
+  status: string;
   client: string;
   treatment: string;
   date: string;
