@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from 'src/app/core/services/data.service';
-import { Vouchers, VoucherFilterRequest, VouchersDeleteRequest } from '../vouchers.model';
+import { Vouchers, VoucherFilterRequest } from '../vouchers.model';
 import { VouchersService } from '../vouchers.service';
 import { Location } from '@angular/common';
 import { NewVoucherComponent } from '../new-voucher/new-voucher.component';
 import { ToastrService } from 'ngx-toastr';
 import { InputBoxComponent } from 'src/app/shared/components/input-box/input-box.component';
+import { HelperService } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'app-voucher-list',
@@ -18,6 +19,7 @@ export class VoucherListComponent implements OnInit {
 
   public selectedStatus = 1;
   public voucherList: Vouchers[];
+  public date: string;
 
   //public module: string;
 
@@ -30,13 +32,16 @@ export class VoucherListComponent implements OnInit {
     private voucherService: VouchersService,
     private route: Router, private location: Location,
     public dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private helperService: HelperService,
   ) {
     this.routeReload();
   }
 
   ngOnInit() {
     //this.selectedStatus = 1;
+    this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
+
     this.loadVouchers();
     //this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Vouchers");
@@ -53,19 +58,6 @@ export class VoucherListComponent implements OnInit {
   }
 
   loadVouchers() {
-    // this.voucherList=[];
-    // this.voucherList.push(
-    //   {
-    //     gvinvoiceNo: '123',
-    //     customerName: 'Amila',
-    //     enteredBy: 'ds',
-    //     enteredDate: new Date(),
-    //     isRedeem: true,
-    //     isCanceled: false,
-    //     dueAmount: 125.6,
-    //     status: 'pendin'
-    //   }
-    // );
     this.voucherService
       .getFilteredVoucherList(this.generateVoucherFilterRequest())
       .subscribe((vouchers: Vouchers[]) => {
@@ -78,7 +70,8 @@ export class VoucherListComponent implements OnInit {
 
   private generateVoucherFilterRequest() {
     return <VoucherFilterRequest>{
-      status: this.selectedStatus
+      status: this.selectedStatus,
+      date: this.date
     }
   }
 
@@ -135,5 +128,14 @@ export class VoucherListComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+  onDateChange(e) {
+    this.date = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
+
+    if (!this.selectedStatus) {
+      this.toastr.error("Please select a status");
+    } else {
+      this.loadVouchers();
+    }
   }
 }
