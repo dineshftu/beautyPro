@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { takeUntil } from 'rxjs/operators';
 import { InvoiceViewComponent } from '../invoice-view/invoice-view.component';
 import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
+import { HelperService } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'app-invoice-list',
@@ -24,6 +25,7 @@ export class InvoiceListComponent implements OnInit {
   public selectedDepartment = 1;
   private ngUnSubscription = new Subject();
   departments: Department[];
+  date: string;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -31,7 +33,8 @@ export class InvoiceListComponent implements OnInit {
     private route: Router,
     public dialog: MatDialog,
     private data: DataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private helperService: HelperService,
   ) { }
 
   ngAfterViewInit() {
@@ -44,6 +47,8 @@ export class InvoiceListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
+
     this.loadInvoices();
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Invoices");
@@ -53,6 +58,14 @@ export class InvoiceListComponent implements OnInit {
   onDepartmentChange(e: any) {
     this.selectedDepartment = e.target.value;
     this.loadInvoices();
+  }
+  onDateChange(e) {
+    this.date = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
+    if (!this.selectedDepartment) {
+      this.toastr.error("Please select a department");
+    } else {
+      this.loadInvoices();
+    }
   }
 
   loadInvoices() {
@@ -69,7 +82,8 @@ export class InvoiceListComponent implements OnInit {
 
   private generateInvoiceFilterRequest() {
     return <InvoiceFilterRequest>{
-      departmentId: this.selectedDepartment
+      departmentId: this.selectedDepartment,
+      date: this.date
     }
   }
 
