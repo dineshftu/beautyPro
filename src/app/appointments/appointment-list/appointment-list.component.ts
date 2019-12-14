@@ -140,6 +140,7 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     this.ngUnSubscription.next(true);
     this.ngUnSubscription.complete();
   }
+  
   deleteAppointment(appointment) {
     if (appointment.status != 'confirmed') {
       const dialogConfig = new MatDialogConfig();

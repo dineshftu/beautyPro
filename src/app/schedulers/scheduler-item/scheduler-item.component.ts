@@ -3,6 +3,10 @@ import { ScheduleResponse } from '../scheduler.model';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { NewAppointmentComponent } from 'src/app/shared/new-appointments/new-appointments.component';
 import { Router } from '@angular/router';
+import { Appointments, AppointmentStatusRequest } from 'src/app/appointments/appointments.model';
+import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
+import { AppointmentsService } from 'src/app/appointments/appointments.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-scheduler-item',
@@ -14,7 +18,13 @@ export class SchedulerItemComponent implements OnInit {
   @Input() selectedDate: Date
   @Input() selectedDepartment: number
 
+
+  appointmentList: Appointments[];
+  appointmentStatus = ["pending", "confirmed", "cancelled"];
+
   constructor(
+    private appoinmentService: AppointmentsService,
+    private toastr: ToastrService,
     private route: Router,
     public dialog: MatDialog
   ) { }
@@ -45,5 +55,37 @@ export class SchedulerItemComponent implements OnInit {
       }
     );
   }
+
+  onStatusChange(e: any, appointment: Appointments) {
+    let appointmentStatusRequest = new AppointmentStatusRequest();
+    appointmentStatusRequest.status = e.target.value;
+    appointmentStatusRequest.csId = appointment.csId;
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = 'Do you want to change the status?';
+    // dialogConfig.width = "20%";
+    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        if (response.message) {
+          this.appoinmentService.changeStatusOfAppointment(appointmentStatusRequest)
+            .subscribe(
+              (response) => {
+                this.toastr.success('Status Updated!');
+                this.route.navigate(['/home/appointments']);
+              },
+              (error) => {
+                this.toastr.error("Status Not Updated!");
+                console.log(error);
+              }
+            );
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
+  }
+
 
 }
