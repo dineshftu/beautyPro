@@ -26,11 +26,11 @@
 
       <div class="form-group">
         <label>Address</label>
-        <input class="form-control" name="address" required [(ngModel)]="client.address" #address="ngModel"
+        <input class="form-control" name="address" [(ngModel)]="client.address" #address="ngModel"
           placeholder="Address..." />
-        <div *ngIf="f.submitted && address.invalid">
+        <!-- <div *ngIf="f.submitted && address.invalid">
           <div class="error-msg" *ngIf="address.errors.required">Address is required</div>
-        </div>
+        </div> -->
       </div>
 
       <div class="inline-form">
@@ -45,8 +45,8 @@
 
         <div class="form-group">
           <label>E-mail</label>
-          <input class="form-control" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="text"
-            [(ngModel)]="client.email" #email="ngModel" placeholder="e-mail" email />
+          <input class="form-control" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            type="text" [(ngModel)]="client.email" #email="ngModel" placeholder="e-mail" email />
         </div>
 
       </div>
