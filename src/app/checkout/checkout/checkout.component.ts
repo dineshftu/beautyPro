@@ -24,6 +24,7 @@ export class CheckoutComponent implements OnInit {
   public keyword = 'fullName';
   public checkoutTreatmentRequest = new CheckoutTreatmentRequest();
   public isEmployeeNotSelected: boolean = true;
+  public isCustomerNotSelected: boolean = true;
   public employeesList: Employees[];
   public keywordEmployee = 'name';
 
@@ -76,17 +77,22 @@ export class CheckoutComponent implements OnInit {
   }
 
   addProduct(isFormValid: boolean) {
-    if (isFormValid && this.validateAddProduct()) {
-      if (this.checkProductExist()) {
-        this.invoiceableProduct.push(this.newInvoiceableProduct);
-        this.newInvoiceableProduct = new InvoiceableProduct();
-        this.therapistName = null;
-        this.productName = null;
+    if (!this.isCustomerNotSelected) {
+      if (isFormValid && this.validateAddProduct()) {
+        if (this.checkProductExist()) {
+          this.invoiceableProduct.push(this.newInvoiceableProduct);
+          this.newInvoiceableProduct = new InvoiceableProduct();
+          this.therapistName = null;
+          this.productName = null;
+        } else {
+          this.toastr.warning("Product is already in list");
+        }
       } else {
-        this.toastr.warning("Product is already in list");
+        this.toastr.warning("Please fill required field");
       }
     } else {
-      this.toastr.warning("Please fill required field");
+      this.validateAddProduct();
+      this.toastr.warning("Select a customer available for invoicing!");
     }
   }
   checkProductExist() {
@@ -195,6 +201,9 @@ export class CheckoutComponent implements OnInit {
     this.checkoutTreatmentRequest.customerId = e.customerId;
     this.invoiceSaveRequest.customerId = e.customerId;
     this.getInvoiceTreatmentList();
+    if (this.invoiceableTreatment.length > 0) {
+      this.isCustomerNotSelected = false;
+    }
   }
 
   getInvoiceTreatmentList() {

@@ -10,7 +10,7 @@
       </select>
     </div>
 
-    <button type="button" class="btn-default" (click)="addEditAppointment(null)">Add new appointment</button>
+    <!-- <button type="button" class="btn-default" (click)="addEditAppointment(null)">Add new appointment</button> -->
   </div>
 
   <!-- start: table section -->
@@ -27,7 +27,7 @@
         <div>Duration</div>
         <div>Therapist</div>
         <div>Price</div>
-        <div></div>
+        <div>Status</div>
       </div>
     </div>
     <!-- end: table header -->
@@ -35,7 +35,7 @@
     <!-- start: table body -->
     <div id="table-body">
       <div class="table-row">
-        <div class="row" *ngFor="let appointment of appointmentList">
+        <div class="row" *ngFor="let appointment of appointmentList;let i=index">
           <div>{{appointment.client}}</div>
           <div>{{appointment.treatment}}</div>
           <div>{{appointment.date | date}}</div>
@@ -43,24 +43,26 @@
           <div>{{appointment.duration}}</div>
           <div>{{appointment.therapist}}</div>
           <div>{{appointment.price | currency : 'LKR'}}</div>
-          <div>
+          <div>{{appointment.status}}</div>
+          <!-- <div>
             <div class="form-group">
-              <select class="form-control select" (change)='onStatusChange($event, appointment)'>
-                <option value="" disabled selected>Status</option>
+              <select [(ngModel)]="appointment.status" name="status{{i}}" class="form-control select"
+                (change)='onStatusChange($event, appointment)'>
                 <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
                 </option>
               </select>
             </div>
             <div class="action-btns align-right">
-              <button class="icon-btn">
-                <i class="material-icons" >edit</i>
+                <button class="icon-btn">
+                <i class="material-icons" (click)="addEditAppointment(appointment)">edit</i>
               </button>
-              <button class="icon-btn" (click)="deleteAppointment(appointment)">
+              <button [disabled]="appointment.status!='confirmed'" class="icon-btn"
+                (click)="deleteAppointment(appointment)">
                 <i class="material-icons">delete</i>
               </button>
             </div>
-          </div>
-         
+          </div> -->
+
         </div>
       </div>
 

@@ -27,6 +27,9 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
   selectedDepartment = 0;
   appointmentStatus = ["pending", "confirmed", "cancelled"];
 
+  public user: any;
+  public isSuperUser: boolean = false;
+
   constructor(
     private data: DataService,
     private appoinmentService: AppointmentsService,
@@ -35,13 +38,20 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     public dialog: MatDialog,
     private toastr: ToastrService
   ) {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.routeReload();
   }
 
   ngOnInit() {
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Appointments");
-    this.loadAppointments();
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadAppointments();
+    }
   }
 
   ngAfterViewInit() {
@@ -65,7 +75,12 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
 
   onDepartmentChange(e: any) {
     this.selectedDepartment = e.target.value;
-    this.loadAppointments();
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadAppointments();
+    }
   }
 
   onStatusChange(e: any, appointment: Appointments) {
@@ -140,32 +155,37 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     this.ngUnSubscription.next(true);
     this.ngUnSubscription.complete();
   }
-  deleteAppointment(appointment){
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = 'Do you want to delete ' + 'Appointment'+ '?';
-    // dialogConfig.width = "20%";
-    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
-      (response) => {
-        if (response.message) {
-          this.appoinmentService.deleteAppointment(appointment.csid)
-          .subscribe(
-            (response) => {
-              console.log(response);
-              this.toastr.success('Deleted!');
-              this.route.navigate(['/home/appointments']);
-            },
-            (error) => {
-              this.toastr.error("Not Deleted!");
-              console.log(error);
-            }
-          );
-        console.log(response);
+
+  deleteAppointment(appointment) {
+    if (appointment.status != 'confirmed') {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = 'Do you want to delete ' + 'Appointment' + '?';
+      // dialogConfig.width = "20%";
+      this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+        (response) => {
+          if (response.message) {
+            this.appoinmentService.deleteAppointment(appointment.csid)
+              .subscribe(
+                (response) => {
+                  console.log(response);
+                  this.toastr.success('Deleted!');
+                  this.route.navigate(['/home/appointments']);
+                },
+                (error) => {
+                  this.toastr.error("Not Deleted!");
+                  console.log(error);
+                }
+              );
+            console.log(response);
+          }
+        }, (error) => {
+          console.log(error);
         }
-      }, (error) => {
-        console.log(error);
-      }
-    );
+      );
+    } else {
+      this.toastr.warning("Confirmed appointments can not be deleted!");
+    }
   }
 }

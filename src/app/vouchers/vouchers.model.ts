@@ -12,6 +12,7 @@ export class Vouchers {
 
 export interface VoucherFilterRequest {
   status: number;
+  date:string;
 }
 
 export class NewVoucherRequest {

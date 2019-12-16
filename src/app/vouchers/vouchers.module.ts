@@ -11,6 +11,8 @@ import { ClientsService } from '../clients/clients.service';
 import { FormsModule } from '@angular/forms';
 import { TreatmentService } from '../treatments/treatment.service';
 import { SharedModule } from '../shared/shared.module';
+import { MatDatepickerModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,11 @@ import { SharedModule } from '../shared/shared.module';
     VouchersRoutingModule,
     AutocompleteLibModule,
     FormsModule,
-    SharedModule
+    SharedModule,    
+    MatMomentDateModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
   ],
   providers: [
     VouchersService,

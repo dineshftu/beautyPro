@@ -7,6 +7,7 @@ import { InvoiceViewComponent } from './invoice-view/invoice-view.component';
 import { InvoiceService } from './invoice.service';
 import { MatDialogModule, MatDatepickerModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
+    SharedModule
   ],
   providers: [
     InvoiceService

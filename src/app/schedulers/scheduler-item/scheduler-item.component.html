@@ -17,7 +17,15 @@
             <div class="bk-seg-name">
               {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
             </div>
-            <div class="bk-seg-status">{{schedule.scheduleStatus}}</div>
+            <!-- <div class="bk-seg-status">{{schedule.scheduleStatus}}</div> -->
+            <div class="form-group">
+              <select class="form-control select">
+              <!-- (change)='onStatusChange($event, appointment)'> -->
+                <option value="" disabled selected>Status</option>
+                <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
+                </option>
+              </select>
+            </div>
           </ng-container>
         </ng-container>
       </div>

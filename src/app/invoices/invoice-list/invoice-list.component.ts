@@ -10,6 +10,8 @@ import { DataService } from 'src/app/core/services/data.service';
 import { ToastrService } from 'ngx-toastr';
 import { takeUntil } from 'rxjs/operators';
 import { InvoiceViewComponent } from '../invoice-view/invoice-view.component';
+import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
+import { HelperService } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'app-invoice-list',
@@ -20,9 +22,13 @@ import { InvoiceViewComponent } from '../invoice-view/invoice-view.component';
 export class InvoiceListComponent implements OnInit {
   module: string;
   invoiceList: Invoices[];
-  public selectedDepartment = 1;
+  selectedDepartment = 0;
   private ngUnSubscription = new Subject();
   departments: Department[];
+  date: string;
+
+  public user: any;
+  public isSuperUser: boolean = false;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -30,8 +36,11 @@ export class InvoiceListComponent implements OnInit {
     private route: Router,
     public dialog: MatDialog,
     private data: DataService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    private helperService: HelperService,
+  ) {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngAfterViewInit() {
     this.departmentService
@@ -43,7 +52,15 @@ export class InvoiceListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadInvoices();
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+    this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadInvoices();
+    }
+
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Invoices");
   }
@@ -51,7 +68,19 @@ export class InvoiceListComponent implements OnInit {
 
   onDepartmentChange(e: any) {
     this.selectedDepartment = e.target.value;
-    this.loadInvoices();
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadInvoices();
+    }
+  }
+  onDateChange(e) {
+    this.date = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadInvoices();
+    }
   }
 
   loadInvoices() {
@@ -68,7 +97,8 @@ export class InvoiceListComponent implements OnInit {
 
   private generateInvoiceFilterRequest() {
     return <InvoiceFilterRequest>{
-      departmentId: this.selectedDepartment
+      departmentId: this.selectedDepartment,
+      date: this.date
     }
   }
 
@@ -84,6 +114,22 @@ export class InvoiceListComponent implements OnInit {
           if (response.message == 'success') {
             this.route.navigate(['home/invoices']);
           }
+        }
+      }, (error) => {
+        console.log(error);
+      }
+    );
+  }
+  cancelInvoice() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = 'Are you sure you want to cancel?';
+    // dialogConfig.width = "20%";
+    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+      (response) => {
+        if (response.message) {
+          this.toastr.warning("still developing server api part");
         }
       }, (error) => {
         console.log(error);

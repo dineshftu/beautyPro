@@ -26,6 +26,9 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
 
   departments: Department[];
 
+  public user: any;
+  public isSuperUser: boolean = false;
+
   constructor(
     private treatmentService: TreatmentService,
     private departmentService: DepartmentService,
@@ -34,6 +37,7 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
     private data: DataService,
     private toastr: ToastrService
   ) {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.routeReload();
   }
 
@@ -47,7 +51,13 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnInit() {
-    this.loadTreatments();
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadTreatments();
+    }
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Treatments");
   }
@@ -57,14 +67,22 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
       .events
       .subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
-          this.loadTreatments();
+          if (!this.selectedDepartment && this.isSuperUser) {
+            this.toastr.error("Please Select a Department!");
+          } else {
+            this.loadTreatments();
+          }
         }
       })
   }
 
   onDepartmentChange(e: any) {
     this.selectedDepartment = e.target.value;
-    this.loadTreatments();
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.loadTreatments();
+    }
   }
 
   loadTreatments() {
