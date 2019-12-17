@@ -15,12 +15,14 @@ export class HeaderComponent implements OnInit {
   module: string;
   currentUser: User;
 
+  toggle: boolean = false;
+
   constructor(
     private data: DataService,
     private router: Router,
-    private authenticationService: AuthenticationService) { 
-      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    }
+    private authenticationService: AuthenticationService) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
 
   ngOnInit() {
     this.data.currentModule.subscribe(module => this.module = module);
