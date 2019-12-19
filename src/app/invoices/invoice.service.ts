@@ -20,4 +20,9 @@ export class InvoiceService {
     let queryString = `invoiceNo=${request}`;
     return this.baseDataService.makeGetCall(`${this.apiInvoiceUrl}${'/details'}?${queryString}`);
   }
+  public cancelInvoice(invoice:Invoices): Observable<Invoices> {
+    let queryString=`invoiceNo=${invoice.invoiceNo}`
+    return this.baseDataService.makePostCall(`${this.apiInvoiceUrl}/${'cancel'}?${queryString}`, invoice);
+
+  }
 }

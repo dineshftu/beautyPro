@@ -120,7 +120,7 @@ export class InvoiceListComponent implements OnInit {
       }
     );
   }
-  cancelInvoice() {
+  cancelInvoice(invoice: Invoices) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -129,7 +129,13 @@ export class InvoiceListComponent implements OnInit {
     this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         if (response.message) {
-          this.toastr.warning("still developing server api part");
+          this.invoiceService
+            .cancelInvoice(invoice)
+            .subscribe((invoices: Invoices) => {
+              this.toastr.success("Invoiced Cancelled", "Success");
+            }, (error) => {
+              this.toastr.error("Invoice cancel Failed!");
+            });
         }
       }, (error) => {
         console.log(error);
