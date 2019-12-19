@@ -35,7 +35,9 @@
     <!-- start: table body -->
     <div id="table-body">
       <div class="table-row">
-        <div class="row" *ngFor="let appointment of appointmentList;let i=index">
+        <div class="row" *ngFor="let appointment of appointmentList;let i=index"
+          [class.confirmed-color]="appointment.status=='Confirmed'" [class.cancelled-color]="appointment.status=='Cancelled'"
+          [class.pending-color]="appointment.status=='Pending'">
           <div>{{appointment.client}}</div>
           <div>{{appointment.treatment}}</div>
           <div>{{appointment.date | date}}</div>
