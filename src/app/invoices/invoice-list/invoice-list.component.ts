@@ -26,6 +26,7 @@ export class InvoiceListComponent implements OnInit {
   private ngUnSubscription = new Subject();
   departments: Department[];
   date: string;
+  status: number;
 
   public user: any;
   public isSuperUser: boolean = false;
@@ -54,7 +55,8 @@ export class InvoiceListComponent implements OnInit {
   ngOnInit() {
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
     this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
-
+    this.status = 1;//default value
+    
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
     } else {
@@ -98,7 +100,8 @@ export class InvoiceListComponent implements OnInit {
   private generateInvoiceFilterRequest() {
     return <InvoiceFilterRequest>{
       departmentId: this.selectedDepartment,
-      date: this.date
+      date: this.date,
+      status: this.status
     }
   }
 

@@ -12,8 +12,8 @@ export class InvoiceService {
   ) { }
 
   public getFilteredInvoiceList(request: InvoiceFilterRequest): Observable<Array<Invoices>> {
-    let queryString = `departmentId=${request.departmentId}`;
-    return this.baseDataService.makeGetCall(`${this.apiInvoiceUrl}?${queryString}`);
+    let queryString = request;
+    return this.baseDataService.makeGetCall(`${this.apiInvoiceUrl}/filter/?${queryString}`);
   }
 
   public getInvoice(request: string): Observable<Invoices> {
