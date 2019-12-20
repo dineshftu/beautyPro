@@ -12,7 +12,7 @@ export class InvoiceService {
   ) { }
 
   public getFilteredInvoiceList(request: InvoiceFilterRequest): Observable<Array<Invoices>> {
-    let queryString = request;
+    let queryString =`request=${request}` ;
     return this.baseDataService.makeGetCall(`${this.apiInvoiceUrl}/filter/?${queryString}`);
   }
 
