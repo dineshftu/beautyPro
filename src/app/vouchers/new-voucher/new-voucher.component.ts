@@ -10,6 +10,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Treatment, TreatmentFilterRequest } from 'src/app/treatments/treatments.model';
 import { TreatmentService } from '../../treatments/treatment.service';
 import { ToastrService } from 'ngx-toastr';
+import { DepartmentService } from 'src/app/shared/services/department.service';
+import { Department } from 'src/app/shared/models/department.model';
 
 @Component({
   selector: 'app-new-voucher',
@@ -23,6 +25,7 @@ export class NewVoucherComponent implements OnInit {
   public customers: Customer[]
   public paymentTypes: PaymentType[];
   public treatmentList: Treatment[];
+  public departments: Department[];
   public newVoucherRequest = new NewVoucherRequest();
   public isPaymentTypeNotSelected: boolean = false;
   public keyword = 'fullName';
@@ -32,6 +35,8 @@ export class NewVoucherComponent implements OnInit {
   public customerName: string;
   public treatment: string;
 
+  public user: any;
+  public isSuperUser: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -40,10 +45,18 @@ export class NewVoucherComponent implements OnInit {
     private voucherService: VouchersService,
     private treatmentService: TreatmentService,
     public clientsService: ClientsService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    private departmentService: DepartmentService,
+  ) {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngOnInit() {
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+
+    if (!this.isSuperUser)
+      this.newVoucherRequest.departmentId = this.user.departmentId;
+
     if (this.data != null) {
       this.editMode = true;
       this.newVoucherRequest = this.data;
@@ -59,6 +72,7 @@ export class NewVoucherComponent implements OnInit {
       this.getCustomerList();
       this.getPaymentTypes();
       this.getTreatments();
+      this.getDepartments();
     }, 0);
   }
 
@@ -69,7 +83,14 @@ export class NewVoucherComponent implements OnInit {
     }
     return true;
   }
-
+  getDepartments() {
+    this.departmentService
+      .getAllDepartments()
+      .pipe(takeUntil(this.ngUnSubscription))
+      .subscribe((departments: Department[]) => {
+        this.departments = departments;
+      })
+  }
   getPaymentTypes() {
     this.voucherService
       .getAllPaymentTypes()
