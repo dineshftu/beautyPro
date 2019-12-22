@@ -41,7 +41,6 @@ export class VoucherListComponent implements OnInit {
   ngOnInit() {
     //this.selectedStatus = 1;
     this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
-
     this.loadVouchers();
     //this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Vouchers");
@@ -52,6 +51,7 @@ export class VoucherListComponent implements OnInit {
       .events
       .subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
+          this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
           this.loadVouchers();
         }
       })
@@ -129,7 +129,8 @@ export class VoucherListComponent implements OnInit {
       }
     );
   }
-  onDateChange(e) {
+
+  onDateChange(e: any) {
     this.date = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
 
     if (!this.selectedStatus) {
@@ -138,4 +139,5 @@ export class VoucherListComponent implements OnInit {
       this.loadVouchers();
     }
   }
+
 }

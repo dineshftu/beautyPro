@@ -12,6 +12,7 @@ import { Department } from 'src/app/shared/models/department.model';
 import { DepartmentService } from 'src/app/shared/services/department.service';
 import { ToastrService } from 'ngx-toastr';
 import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
+import { HelperService } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'app-appointment-list',
@@ -24,11 +25,16 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
   module: string;
   appointmentList: Appointments[];
   departments: Department[];
-  selectedDepartment = 0;
+  selectedDepartment;
   appointmentStatus = ["pending", "confirmed", "cancelled"];
 
   public user: any;
   public isSuperUser: boolean = false;
+
+  public date: string;
+  public status: number;
+
+  public selectedStatus = 1;
 
   constructor(
     private data: DataService,
@@ -36,7 +42,8 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     private route: Router,
     private departmentService: DepartmentService,
     public dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private helperService: HelperService,
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.routeReload();
@@ -46,7 +53,8 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Appointments");
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
-
+    this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
+    this.status = 4;
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
     } else {
@@ -73,6 +81,22 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
       })
   }
 
+  onDateChange(e: any) {
+    this.date = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
+
+    if (!this.selectedStatus) {
+      this.toastr.error("Please select a status");
+    } else {
+      this.loadAppointments();
+    }
+  }
+
+  onStatusChange(e: any) {
+    console.log('eeeeee', e);
+    this.selectedStatus = e.target.value;
+    this.loadAppointments();
+  }
+
   onDepartmentChange(e: any) {
     this.selectedDepartment = e.target.value;
 
@@ -83,40 +107,40 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 
-  onStatusChange(e: any, appointment: Appointments) {
-    let appointmentStatusRequest = new AppointmentStatusRequest();
-    appointmentStatusRequest.status = e.target.value;
-    appointmentStatusRequest.csId = appointment.csId;
+  // onStatusChange(e: any, appointment: Appointments) {
+  //   let appointmentStatusRequest = new AppointmentStatusRequest();
+  //   appointmentStatusRequest.status = e.target.value;
+  //   appointmentStatusRequest.csId = appointment.csId;
 
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = 'Do you want to change the status?';
-    // dialogConfig.width = "20%";
-    this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
-      (response) => {
-        if (response.message) {
-          this.appoinmentService.changeStatusOfAppointment(appointmentStatusRequest)
-            .subscribe(
-              (response) => {
-                this.toastr.success('Status Updated!');
-                this.route.navigate(['/home/appointments']);
-              },
-              (error) => {
-                this.toastr.error("Status Not Updated!");
-                console.log(error);
-              }
-            );
-        }
-      }, (error) => {
-        console.log(error);
-      }
-    );
-  }
+  //   const dialogConfig = new MatDialogConfig();
+  //   dialogConfig.disableClose = true;
+  //   dialogConfig.autoFocus = true;
+  //   dialogConfig.data = 'Do you want to change the status?';
+  //   // dialogConfig.width = "20%";
+  //   this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
+  //     (response) => {
+  //       if (response.message) {
+  //         this.appoinmentService.changeStatusOfAppointment(appointmentStatusRequest)
+  //           .subscribe(
+  //             (response) => {
+  //               this.toastr.success('Status Updated!');
+  //               this.route.navigate(['/home/appointments']);
+  //             },
+  //             (error) => {
+  //               this.toastr.error("Status Not Updated!");
+  //               console.log(error);
+  //             }
+  //           );
+  //       }
+  //     }, (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   loadAppointments() {
     this.appoinmentService
-      .getAppointmentList(this.createCustomerRequest(1))
+      .getAppointmentList(this.createCustomerRequest())
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((appointments: Appointments[]) => {
         this.appointmentList = appointments;
@@ -126,9 +150,11 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
       );
   }
 
-  createCustomerRequest(departmentId: number) {
+  createCustomerRequest() {
     return <AppointmentFilterRequest>{
-      departmentId: departmentId
+      departmentId: this.selectedDepartment,
+      bookedDate: this.date,
+      status: this.selectedStatus
     };
   }
 

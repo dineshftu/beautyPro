@@ -21,6 +21,8 @@ export class NewVoucherRequest {
   dueAmount: number;
   ptid: number;
   ttid: number;
+  departmentId:number;
+  transType:string;
 }
 
 export interface PaymentType {

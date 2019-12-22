@@ -42,5 +42,6 @@ export interface InvoiceTreatment {
 export interface InvoiceFilterRequest {
   departmentId: number;
   date:string;
+  status:number;
 }
 

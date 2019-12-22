@@ -34,6 +34,8 @@ export class Appointments {
 
 export class AppointmentFilterRequest {
   departmentId: number;
+  bookedDate: string;
+  status: number;
 }
 
 export class AppointmentStatusRequest {

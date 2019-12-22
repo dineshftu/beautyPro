@@ -26,6 +26,7 @@ export class InvoiceListComponent implements OnInit {
   private ngUnSubscription = new Subject();
   departments: Department[];
   date: string;
+  status: number;
 
   public user: any;
   public isSuperUser: boolean = false;
@@ -54,6 +55,7 @@ export class InvoiceListComponent implements OnInit {
   ngOnInit() {
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
     this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
+    this.status = 4;//default value is All
 
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
@@ -98,7 +100,8 @@ export class InvoiceListComponent implements OnInit {
   private generateInvoiceFilterRequest() {
     return <InvoiceFilterRequest>{
       departmentId: this.selectedDepartment,
-      date: this.date
+      date: this.date,
+      status: this.status
     }
   }
 
@@ -120,7 +123,7 @@ export class InvoiceListComponent implements OnInit {
       }
     );
   }
-  cancelInvoice() {
+  cancelInvoice(invoice: Invoices) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -129,7 +132,13 @@ export class InvoiceListComponent implements OnInit {
     this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         if (response.message) {
-          this.toastr.warning("still developing server api part");
+          this.invoiceService
+            .cancelInvoice(invoice)
+            .subscribe((invoices: Invoices) => {
+              this.toastr.success("Invoiced Cancelled", "Success");
+            }, (error) => {
+              this.toastr.error("Invoice cancel Failed!");
+            });
         }
       }, (error) => {
         console.log(error);

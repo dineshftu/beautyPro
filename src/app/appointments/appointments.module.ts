@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '../shared/shared.module';
 import { NewAppointmentComponent } from '../shared/new-appointments/new-appointments.component';
 import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,10 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     AppointmentsRoutingModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [
     AppointmentsService
