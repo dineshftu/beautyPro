@@ -16,6 +16,11 @@ export class ClientsService {
     return this.baseDataService.makeGetCall(`${this.apiClientsUrl}${'/search'}?${queryString}`);
   }
 
+  public getScheduleCustomerList(request: CustomerSearchRequest): Observable<Array<Customer>> {
+    let queryString = `searchText=${request.searchText}`;
+    return this.baseDataService.makeGetCall(`${this.apiClientsUrl}${'/search-confirmed-schedule-customer'}?${queryString}`);
+  }
+
   public getTreatment(treatmentId: number): Observable<Customer> {
     return this.baseDataService.makeGetCall(`${this.apiClientsUrl}/${treatmentId}`);
   }
