@@ -16,14 +16,14 @@
 
     </div>
     <div class="form-group">
-      <select class="form-control select" [(ngModel)]="status" (change)="onDepartmentChange($event)">
+      <select class="form-control select" (change)="onDepartmentChange($event)">
         <option value="" disabled selected>Select departmnet</option>
         <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
         </option>
       </select>
     </div>
     <div class="form-group">
-      <select class="form-control select" (change)="loadInvoices()">
+      <select class="form-control select" [(ngModel)]="status" (change)="loadInvoices()">
         <option value=1>Invoiced</option>
         <option value=2>Amended</option>
         <option value=3>Cancelled</option>

@@ -55,7 +55,7 @@ export class InvoiceListComponent implements OnInit {
   ngOnInit() {
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
     this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
-    this.status = 1;//default value
+    this.status = 4;//default value is All
 
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
@@ -77,7 +77,6 @@ export class InvoiceListComponent implements OnInit {
     }
   }
   onDateChange(e) {
-
     this.date = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
@@ -87,7 +86,6 @@ export class InvoiceListComponent implements OnInit {
   }
 
   loadInvoices() {
-    console.log(this.date);
     this.invoiceService
       .getFilteredInvoiceList(this.generateInvoiceFilterRequest())
       .subscribe((invoices: Invoices[]) => {
