@@ -160,7 +160,7 @@ export class NewVoucherComponent implements OnInit {
       .addNewVoucher(this.newVoucherRequest)
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((result: any) => {
-        console.log(result);
+        // console.log(result);
         this.toastr.success("Voucher " + work);
       }, (error: any) => {
         this.toastr.error("Voucher Not " + work);
