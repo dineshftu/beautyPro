@@ -12,7 +12,9 @@ export class InvoiceService {
   ) { }
 
   public getFilteredInvoiceList(request: InvoiceFilterRequest): Observable<Array<Invoices>> {
-    let queryString =`request=${request}` ;
+    let queryString = `departmentId=${request.departmentId}
+                        &&date=${request.date}
+                        &&status=${request.status}` ;
     return this.baseDataService.makeGetCall(`${this.apiInvoiceUrl}/filter/?${queryString}`);
   }
 
@@ -20,8 +22,8 @@ export class InvoiceService {
     let queryString = `invoiceNo=${request}`;
     return this.baseDataService.makeGetCall(`${this.apiInvoiceUrl}${'/details'}?${queryString}`);
   }
-  public cancelInvoice(invoice:Invoices): Observable<Invoices> {
-    let queryString=`invoiceNo=${invoice.invoiceNo}`
+  public cancelInvoice(invoice: Invoices): Observable<Invoices> {
+    let queryString = `invoiceNo=${invoice.invoiceNo}`
     return this.baseDataService.makePostCall(`${this.apiInvoiceUrl}/${'cancel'}?${queryString}`, invoice);
 
   }
