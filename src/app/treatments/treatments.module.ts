@@ -8,6 +8,7 @@ import { TreatmentService } from './treatment.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SharedModule } from '../shared/shared.module';
     TreatmentsRoutingModule,
     MatDialogModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    ColorPickerModule
   ],
   providers: [
     TreatmentService

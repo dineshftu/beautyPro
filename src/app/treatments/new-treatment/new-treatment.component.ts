@@ -20,7 +20,9 @@ export class NewTreatmentComponent implements OnInit {
   public departments: Department[];
   public newTreatmentRequest = new NewTreatmentRequest();
   public isDepartmentNotSelected: boolean = false;
+  public isColorCodeNotSelected: boolean = false;
   public isEdit: boolean;
+
 
   constructor(
     private treatmentService: TreatmentService,
@@ -35,7 +37,8 @@ export class NewTreatmentComponent implements OnInit {
     if (this.data.newTreatmentRequest) {
       this.isEdit = true;
       this.newTreatmentRequest = this.data.newTreatmentRequest;
-      this.isDepartmentNotSelected = false;
+      // this.isDepartmentNotSelected = false;
+      // this.isColorCodeNotSelected = false;
     } else {
       this.isEdit = false;
     }
@@ -48,6 +51,11 @@ export class NewTreatmentComponent implements OnInit {
       .subscribe((departments: Department[]) => {
         this.departments = departments;
       });
+  }
+
+  onColorPickerChange(e: any) {
+    this.isColorCodeNotSelected = false;
+    this.newTreatmentRequest.colorCode = e;
   }
 
   onDepartmentChange(e: any) {
@@ -69,12 +77,21 @@ export class NewTreatmentComponent implements OnInit {
   }
 
   save() {
-    let work = "Added!";
-    if (this.isEdit) {
-      work = "Updated!"
-    }
+    // let work = "Added!";
+    // if (this.isEdit) {
+    //   work = "Updated!"
+    // }
+
+    let work = (this.isEdit) ? "Updated!" : "Added!";
+
     if (!this.newTreatmentRequest.departmentId) {
       this.isDepartmentNotSelected = true;
+      return;
+    }
+
+    if (this.newTreatmentRequest.colorCode == undefined ||
+      this.newTreatmentRequest.colorCode == '#ffffff') {
+      this.isColorCodeNotSelected = true;
       return;
     }
 

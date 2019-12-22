@@ -34,6 +34,10 @@
 
   <div class="schd-container">
 
+    <div class=".md-display-2" *ngIf="hideTimeLine">
+      <h6>No Schedules Found!</h6>
+    </div>
+
     <div *ngIf="!hideTimeLine" class="time-lapse">
       <div class="time-intvl" *ngFor="let time of timeInterval">{{time}}</div>
     </div>

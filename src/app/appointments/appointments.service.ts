@@ -3,8 +3,10 @@ import { BaseDataService } from '../core/services/base-data.service';
 import { Observable } from 'rxjs';
 import { Appointments, AppointmentFilterRequest, AppointmentStatusRequest } from './appointments.model';
 
+@Injectable({
+  providedIn: 'root'
+})
 
-@Injectable()
 export class AppointmentsService {
 
   private apiAppointmentUrl = 'appointments';

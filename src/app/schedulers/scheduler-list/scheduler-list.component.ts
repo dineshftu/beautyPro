@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
-import { AppointmentsService } from 'src/app/appointments/appointments.service';
+// import { AppointmentsService } from 'src/app/appointments/appointments.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SchedulerService } from '../scheduler.service';
@@ -62,6 +62,8 @@ export class SchedulerListComponent implements OnInit {
     } else {
       this.loadSchedules();
     }
+
+    this.hideTimeLine = (this.isSuperUser && this.selectedDepartment == 0);
 
   }
 

@@ -19,4 +19,5 @@ export class NewTreatmentRequest {
   cost: number;
   duration: number;
   departmentId: number;
+  colorCode: string;
 }

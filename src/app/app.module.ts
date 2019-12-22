@@ -19,6 +19,8 @@ import * as moment from 'moment';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
 //import { NewAppointmentComponent } from './shared/new-appointments/new-appointments.component';
+import { TooltipModule } from 'ng2-tooltip-directive';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
     MatFormFieldModule,
     MatMomentDateModule,
     MatInputModule,
+    TooltipModule,
+    ColorPickerModule,
     NgxMaterialTimepickerModule,
     MaterialTimePickerModule,
     ToastrModule.forRoot({
