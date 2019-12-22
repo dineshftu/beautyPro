@@ -14,7 +14,9 @@ export class VouchersService {
   ) { }
 
   public getFilteredVoucherList(request: VoucherFilterRequest): Observable<Array<Vouchers>> {
-    let queryString = `status=${request.status}`;
+    console.log(request);
+    let queryString = `status=${request.status}
+                      &&date=${request.date}`;
     return this.baseDataService.makeGetCall(`${this.apiVoucherUrl}${'/filter'}?${queryString}`);
   }
 

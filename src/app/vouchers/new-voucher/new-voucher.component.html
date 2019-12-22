@@ -37,7 +37,7 @@
           <label>Department</label>
           <select class="form-control select" name="department" [(ngModel)]="newVoucherRequest.departmentId">
             <option value="" disabled selected>Select departmnet</option>
-            <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
+            <option value={{department.departmentId}} *ngFor="let department of departments">{{department.name}}
             </option>
           </select>
         </div>
@@ -49,7 +49,7 @@
           <select class="form-control select" name="paymentType" required (change)="onPaymentTypeChange($event)"
             [(ngModel)]="newVoucherRequest.ptid">
             <option value="" disabled selected>Select Payment Type</option>
-            <option value="{{paymentType.ptid}}" *ngFor="let paymentType of paymentTypes">{{paymentType.ptname}}
+            <option value={{paymentType.ptid}} *ngFor="let paymentType of paymentTypes">{{paymentType.ptname}}
             </option>
           </select>
 
