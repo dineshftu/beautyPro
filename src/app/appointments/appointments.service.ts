@@ -14,7 +14,7 @@ export class AppointmentsService {
   ) { }
 
   public getAppointmentList(request: AppointmentFilterRequest): Observable<Array<Appointments>> {
-    let queryString = `departmentId=${request.departmentId}`;
+    let queryString = `departmentId=${request.departmentId}&&date=${request.date}&&status=${request.status}`;
     return this.baseDataService.makeGetCall(`${this.apiAppointmentUrl}${'/filter'}?${queryString}`);
   }
 

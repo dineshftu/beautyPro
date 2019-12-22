@@ -9,7 +9,27 @@
         </option>
       </select>
     </div>
+    <div class="form-group">
 
+      <mat-form-field>
+
+        <input [min]="minDate" matInput [matDatepicker]="picker" (dateChange)="loadAppointments()" [(ngModel)]="date"
+          name="picker" placeholder="Choose a date">
+
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker [startAt]="date" #picker></mat-datepicker>
+
+      </mat-form-field>
+
+    </div>
+    <div class="form-group">
+      <select class="form-control select" (change)="loadAppointments()" [(ngModel)]="status">
+        <option value=1>Pending</option>
+        <option value=2>Confirmed</option>
+        <option value=3>Cancelled</option>
+        <option value=4>All</option>
+      </select>
+    </div>
     <!-- <button type="button" class="btn-default" (click)="addEditAppointment(null)">Add new appointment</button> -->
   </div>
 
@@ -36,7 +56,8 @@
     <div id="table-body">
       <div class="table-row">
         <div class="row" *ngFor="let appointment of appointmentList;let i=index"
-          [class.confirmed-color]="appointment.status=='Confirmed'" [class.cancelled-color]="appointment.status=='Cancelled'"
+          [class.confirmed-color]="appointment.status=='Confirmed'"
+          [class.cancelled-color]="appointment.status=='Cancelled'"
           [class.pending-color]="appointment.status=='Pending'">
           <div>{{appointment.client}}</div>
           <div>{{appointment.treatment}}</div>

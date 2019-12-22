@@ -12,6 +12,7 @@ import { Department } from 'src/app/shared/models/department.model';
 import { DepartmentService } from 'src/app/shared/services/department.service';
 import { ToastrService } from 'ngx-toastr';
 import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
+import { HelperService } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'app-appointment-list',
@@ -30,13 +31,17 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
   public user: any;
   public isSuperUser: boolean = false;
 
+  public date: string;
+  public status: number;
+
   constructor(
     private data: DataService,
     private appoinmentService: AppointmentsService,
     private route: Router,
     private departmentService: DepartmentService,
     public dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private helperService: HelperService,
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.routeReload();
@@ -46,7 +51,8 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Appointments");
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
-
+    this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
+    this.status = 4;
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
     } else {
@@ -128,7 +134,9 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
 
   createCustomerRequest(departmentId: number) {
     return <AppointmentFilterRequest>{
-      departmentId: departmentId
+      departmentId: departmentId,
+      date: this.date,
+      status: this.status
     };
   }
 
