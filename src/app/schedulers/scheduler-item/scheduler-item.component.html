@@ -1,22 +1,28 @@
 <div class="schd-blc-usr">
+
   <div class="schd-blc-usr-img">
     <img src="../../../assets/img/user.png" alt="">
   </div>
+
   <div class="schd-blc-usr-name">
     {{scheduleResponse.employeeName}}
     <span>{{scheduleResponse.designation}}</span>
   </div>
+
 </div>
+
 <div class="schd-blc-tl">
   <ng-container *ngFor="let timeIndex of scheduleResponse.timeIndexes; index as i">
     <!-- in every six hour when (i%12)===0 thick hour line should appeared css -->
     <ng-container *ngIf="timeIndex != 'default'">
+
       <div class="bk-seg bk-seg-type">
+
         <ng-container *ngFor="let schedule of scheduleResponse.schedules">
           <ng-container *ngIf="i === schedule.startIndex">
 
             <div class="tooltip">
-              
+
               <!-- <span class="tooltiptext">Client: {{schedule.clientName}} <br>
                 Status: {{schedule.scheduleStatus}} <br>
                 Treatment: {{schedule.treatmentType}} <br>
@@ -29,19 +35,28 @@
                 {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
               </div>
               <!-- <div class="bk-seg-status">{{schedule.scheduleStatus}}</div> -->
+
               <div class="form-group">
+
                 <select class="form-control select">
                   <!-- (change)='onStatusChange($event, appointment)'> -->
                   <option value="" disabled selected>Status</option>
                   <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
                   </option>
                 </select>
+
               </div>
+
             </div>
+
           </ng-container>
         </ng-container>
+
       </div>
+
     </ng-container>
+
     <div (click)="addNewAppointment(i)" class="tl-gap-seg index-{{i}}"></div>
+
   </ng-container>
 </div>

@@ -46,20 +46,24 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     private helperService: HelperService,
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.routeReload();
+    //this.routeReload();
   }
 
   ngOnInit() {
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Appointments");
+
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+
     this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
     this.status = 4;
+
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
     } else {
       this.loadAppointments();
     }
+
   }
 
   ngAfterViewInit() {
@@ -71,15 +75,16 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
       })
   }
 
-  private routeReload() {
-    this.route
-      .events
-      .subscribe((e: any) => {
-        if (e instanceof NavigationEnd) {
-          this.loadAppointments();
-        }
-      })
-  }
+  // private routeReload() {
+  //   this.route
+  //     .events
+  //     .subscribe((e: any) => {
+  //       if (e instanceof NavigationEnd) {
+  //         //this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
+  //         //this.loadAppointments();
+  //       }
+  //     })
+  // }
 
   onDateChange(e: any) {
     this.date = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
@@ -139,6 +144,11 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
   // }
 
   loadAppointments() {
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+      return;
+    }
     this.appoinmentService
       .getAppointmentList(this.createCustomerRequest())
       .pipe(takeUntil(this.ngUnSubscription))
