@@ -66,6 +66,8 @@ export class NewAppointmentComponent implements OnInit {
 
   public user: any;
 
+  public appointmentStatus = ["pending", "confirmed", "cancelled"];
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<NewAppointmentComponent>,
