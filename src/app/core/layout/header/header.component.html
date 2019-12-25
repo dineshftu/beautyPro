@@ -19,14 +19,10 @@
         <i class="material-icons" (click)="toggle = !toggle">
           arrow_drop_down
         </i>
-        <ul *ngIf="toggle">
+        <ul *ngIf="toggle" class="os-dropdown">
           <li>Profile</li>
-          <li>Logout</li>
+          <li (click)="logout()">Logout</li>
         </ul>
-
-        <!-- <div class="os-dropdown">
-          <button type="button" class="btn-link logout" (click)="logout()">Logout</button>
-        </div> -->
       </div>
 
     </div>
