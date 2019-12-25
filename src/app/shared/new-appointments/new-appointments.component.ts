@@ -69,7 +69,8 @@ export class NewAppointmentComponent implements OnInit {
 
   public appointmentStatus = ["pending", "confirmed", "cancelled"];
 
-  public initialValueCustomer: string = ''
+  public initialValueCustomer: string = '';
+  public initialValueTreatment: string = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -100,6 +101,8 @@ export class NewAppointmentComponent implements OnInit {
     console.log('this.data.isEdit', this.data.isEdit);
     if (this.data.isEdit) {
       this.initialValueCustomer = this.data.selectedSchedule.clientName;
+      this.initialValueTreatment = this.data.selectedSchedule.treatmentType;
+      this.treatmentQty = this.data.selectedSchedule.quantity;
     }
 
     //this.isEdit = this.data.scheduleResponse.schedules[0].scheduleStatus == 

@@ -205,7 +205,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.clientsService
-      .getCustomerList(this.createCustomerRequest())
+      .getScheduleCustomerList(this.createCustomerRequest())
       .subscribe((customers: Customer[]) => {
         this.customers = customers
       }, (error) => {

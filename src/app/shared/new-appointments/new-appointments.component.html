@@ -14,8 +14,8 @@
         <label>Customer</label>
         <div class="ng-autocomplete">
 
-          <ng-autocomplete [initialValue]="initialValueCustomer" [data]="customers" [searchKeyword]="keyword" placeHolder="Enter Customer Name"
-            (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate"
+          <ng-autocomplete [initialValue]="initialValueCustomer" [data]="customers" [searchKeyword]="keyword"
+            placeHolder="Enter Customer Name" (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate"
             [notFoundTemplate]="notFoundTemplate">
           </ng-autocomplete>
 
@@ -39,27 +39,14 @@
 
         <div class="inline-form">
 
-          <!-- <div class="form-group">
-            <label>Department</label>
-            <select class="form-control select" (change)="onDepartmentChange($event)">
-              <option value="" disabled selected>Select departmnet</option>
-              <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
-              </option>
-            </select>
-
-            <div *ngIf="f.submitted && isDepartmentNotSelected">
-              <div class="error-msg">Department Id is required</div>
-            </div>
-
-          </div> -->
-
           <div class="form-group">
             <label>Treatment</label>
             <div class="ng-autocomplete">
 
-              <ng-autocomplete #autoTreatment [data]="treatmentList" [searchKeyword]="keywordTreatment"
-                placeHolder="Enter Treatment Name" (selected)='selectTreatmentEvent($event)'
-                [itemTemplate]="itemTemplate1" [notFoundTemplate]="notFoundTemplate1">
+              <ng-autocomplete [initialValue]="initialValueTreatment" #autoTreatment [data]="treatmentList"
+                [searchKeyword]="keywordTreatment" placeHolder="Enter Treatment Name"
+                (selected)='selectTreatmentEvent($event)' [itemTemplate]="itemTemplate1"
+                [notFoundTemplate]="notFoundTemplate1">
               </ng-autocomplete>
 
               <ng-template #itemTemplate1 let-item>
@@ -86,13 +73,17 @@
 
           </div>
 
-          <div class="form-group">
+          <div class="form-group" *ngIf="!this.data.isEdit">
 
             <label>Employee</label>
             <input type="text" class="form-control" name="empName" [(ngModel)]="data.scheduleResponse.employeeName"
               readonly />
 
-            <!-- <label>Employee</label>
+          </div>
+
+          <div class="form-group" *ngIf="this.data.isEdit">
+
+            <label>Employee</label>
             <div class="ng-autocomplete">
 
               <ng-autocomplete #auto [data]="employeesList" [searchKeyword]="keywordEmployee"
@@ -112,7 +103,7 @@
                 <div class="error-msg">Employee Name is required</div>
               </div>
 
-            </div> -->
+            </div>
 
           </div>
 
