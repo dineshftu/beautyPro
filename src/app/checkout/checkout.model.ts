@@ -7,6 +7,7 @@ export class CheckoutTreatmentRequest {
 export class InvoiceSaveRequest {
   customerId: string;
   departmentId: number;
+  discount: number;
   treatments = new Array<InvoiceableTreatment>();
   products = new Array<InvoiceableProduct>();
 }
@@ -35,7 +36,7 @@ export class Products {
   itemId: string;
   itemName: string;
   description: string;
-      isValid = false;
+  isValid = false;
   sellingPrice: number;
   maxQty: number;
 }

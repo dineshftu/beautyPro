@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from '../core/services/base-data.service';
-import { CheckoutTreatmentRequest, InvoiceableTreatment, Products } from './checkout.model';
+import { CheckoutTreatmentRequest, InvoiceableTreatment, Products, InvoiceSaveRequest } from './checkout.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -14,12 +14,16 @@ export class CheckoutService {
   ) { }
 
   public getInvoiceTreatmentList(request: CheckoutTreatmentRequest): Observable<Array<InvoiceableTreatment>> {
-    let queryString = `customerId=${request.customerId}`;
+    let queryString = `customerId=${request.customerId}&&departmentId=${request.departmentId}`;
     return this.baseDataService.makeGetCall(`${this.apiInvoiceUrl}${'/treatments'}?${queryString}`);
   }
 
   public getProductList(): Observable<Array<Products>> {
     return this.baseDataService.makeGetCall(`${this.apiProductUrl}`);
+  }
+
+  saveInvoice(invoiceSaveRequest: InvoiceSaveRequest): Observable<any> {
+    return this.baseDataService.makePostCall(`${this.apiInvoiceUrl}${'/save'}`, invoiceSaveRequest);
   }
 
 }

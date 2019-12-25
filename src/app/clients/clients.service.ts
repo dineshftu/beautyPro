@@ -17,7 +17,7 @@ export class ClientsService {
   }
 
   public getScheduleCustomerList(request: CustomerSearchRequest): Observable<Array<Customer>> {
-    let queryString = `searchText=${request.searchText}`;
+    let queryString = `searchText=${request.searchText}&&departmentId=${request.departmentId}`;
     return this.baseDataService.makeGetCall(`${this.apiClientsUrl}${'/search-confirmed-schedule-customer'}?${queryString}`);
   }
 

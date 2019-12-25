@@ -11,6 +11,7 @@ export interface Customer {
 
 export interface CustomerSearchRequest {
   searchText: string;
+  departmentId: number;
 }
 
 export class Client {
