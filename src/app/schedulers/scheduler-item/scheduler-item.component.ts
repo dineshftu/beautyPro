@@ -36,12 +36,36 @@ export class SchedulerItemComponent implements OnInit {
     alert('hi');
   }
 
-  addEditAppointment(selectedIndex: number) {
+  addEditAppointment(selectedIndex: number, selectedSchedule: any) {
     console.log('scheduleResponse', this.scheduleResponse);
+    console.log('selectedSchedule', selectedSchedule);
+
     const dialogConfig = new MatDialogConfig();
+
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = { selectedDate: this.selectedDate, selectedIndex: selectedIndex, scheduleResponse: this.scheduleResponse, selectedDepartment: this.selectedDepartment };
+
+    if (selectedSchedule != undefined && selectedSchedule != null) {
+      dialogConfig.data = {
+        selectedDate: selectedSchedule.scheduledDate,
+        selectedIndex: selectedIndex,
+        scheduleResponse: this.scheduleResponse,
+        selectedDepartment: selectedSchedule.departmentId,
+        selectedSchedule: selectedSchedule,
+        isEdit: true
+      };
+    } else {
+      dialogConfig.data = {
+        selectedDate: this.selectedDate,
+        selectedIndex: selectedIndex,
+        scheduleResponse: this.scheduleResponse,
+        selectedDepartment: this.selectedDepartment,
+        isEdit: false
+      };
+    }
+
+
+
     this.dialog.open(NewAppointmentComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
         //console.log(response);

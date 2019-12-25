@@ -45,6 +45,7 @@ export class NewAppointmentComponent implements OnInit {
   public isEndTimeInvalid: boolean = false;
   public isTimeInvalid: boolean = false;
   public isSuperUser: boolean = false;
+  public isEdit: boolean = false;
 
   private ttid: number;
   private empNo: number;
@@ -67,6 +68,8 @@ export class NewAppointmentComponent implements OnInit {
   public user: any;
 
   public appointmentStatus = ["pending", "confirmed", "cancelled"];
+
+  public initialValueCustomer: string = ''
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -93,6 +96,13 @@ export class NewAppointmentComponent implements OnInit {
     }
 
     this.getTreatments();
+
+    console.log('this.data.isEdit', this.data.isEdit);
+    if (this.data.isEdit) {
+      this.initialValueCustomer = this.data.selectedSchedule.clientName;
+    }
+
+    //this.isEdit = this.data.scheduleResponse.schedules[0].scheduleStatus == 
   }
 
   ngAfterViewInit() {
@@ -202,16 +212,6 @@ export class NewAppointmentComponent implements OnInit {
       departmentId: this.newAppointmentRequest.departmentId
     }
   }
-
-  // selectEmployeeEvent(e: any) {
-  //   this.isEmployeeNotSelected = false;
-  //   this.empNo = this.data.scheduleResponse.empno;
-  // }
-
-  // onDateChange(e: any) {
-  //   this.isDateNotSelected = false;
-  //   this.newAppointmentRequest.bookedDate = new Date(e.target.value);
-  // }
 
   onChangeHour(e: any) {
     let startHour = (parseInt(e.hour));

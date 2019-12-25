@@ -21,24 +21,24 @@
         <ng-container *ngFor="let schedule of scheduleResponse.schedules">
           <ng-container *ngIf="i === schedule.startIndex">
 
-            <div class="tooltip">
+            <!-- <div class="tooltip"> -->
 
-              <span class="tooltiptext">Client: {{schedule.clientName}} <br>
+            <!-- <span class="tooltiptext">Client: {{schedule.clientName}} <br>
                 Status: {{schedule.scheduleStatus}} <br>
                 Treatment: {{schedule.treatmentType}} <br>
                 Start Time: {{schedule.startTime}} <br>
                 End Time: {{schedule.endTime}} <br>
                 Start Index: {{schedule.startIndex}} <br>
-              </span>
+              </span> -->
 
 
 
-              <div class="bk-seg-name">
-                {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
-              </div>
-              <!-- <div class="bk-seg-status">{{schedule.scheduleStatus}}</div> -->
-
+            <div class="bk-seg-name" (click)="addEditAppointment(i, schedule)">
+              {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
             </div>
+            <!-- <div class="bk-seg-status">{{schedule.scheduleStatus}}</div> -->
+
+            <!-- </div> -->
 
 
 
@@ -49,7 +49,7 @@
 
     </ng-container>
 
-    <div (click)="addEditAppointment(i)" class="tl-gap-seg index-{{i}}"></div>
+    <div (click)="addEditAppointment(i, null)" class="tl-gap-seg index-{{i}}"></div>
 
   </ng-container>
 </div>

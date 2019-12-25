@@ -14,7 +14,7 @@
         <label>Customer</label>
         <div class="ng-autocomplete">
 
-          <ng-autocomplete [data]="customers" [searchKeyword]="keyword" placeHolder="Enter Customer Name"
+          <ng-autocomplete [initialValue]="initialValueCustomer" [data]="customers" [searchKeyword]="keyword" placeHolder="Enter Customer Name"
             (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate"
             [notFoundTemplate]="notFoundTemplate">
           </ng-autocomplete>

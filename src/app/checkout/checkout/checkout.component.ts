@@ -172,7 +172,7 @@ export class CheckoutComponent implements OnInit {
 
   getCustomerList() {
     this.clientsService
-      .getScheduleCustomerList(this.createCustomerRequest())
+      .getCustomerList(this.createCustomerRequest())
       .subscribe((customers: Customer[]) => {
         this.customers = customers
       }, (error) => {
