@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
 import { Customer, CustomerSearchRequest } from 'src/app/clients/clients.model';
 import { CheckoutTreatmentRequest, InvoiceableTreatment, Products, InvoiceableProduct, InvoiceSaveRequest } from '../checkout.model';
@@ -10,13 +10,24 @@ import { CheckoutService } from '../checkout.service';
 import { Employees, EmployeeFilterRequest } from 'src/app/shared/models/appointment.model';
 import { AppointmentService } from 'src/app/shared/services/appointment.service';
 import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
+import { Department } from 'src/app/shared/models/department.model';
+import { DepartmentService } from 'src/app/shared/services/department.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
+  private ngUnSubscription = new Subject();
+
+  public user: any;
+  public isSuperUser: boolean = false;
+  public selectedCustomer: Customer;
+
   module: string;
   public customers: Customer[];
   public invoiceableTreatment = new Array<InvoiceableTreatment>();
@@ -41,7 +52,7 @@ export class CheckoutComponent implements OnInit {
   public treatmentSubTotal = 0;
   public treatmentNetAmount = 0;
   public treatmentDueAmount = 0;
-  public discount = 0.125;
+  public discount = 0;
   public discountAmount = 0;
   public treatmentsTax = 0.06;
   public treatmentsTaxAmount = 0;
@@ -55,6 +66,10 @@ export class CheckoutComponent implements OnInit {
   public productName;
   public therapistName;
 
+  departments: Department[];
+  selectedDepartment;
+
+
   constructor(
     public clientsService: ClientsService,
     public checkoutService: CheckoutService,
@@ -62,18 +77,29 @@ export class CheckoutComponent implements OnInit {
     private toastr: ToastrService,
     public dialog: MatDialog,
     private appointmentService: AppointmentService,
-
-  ) { }
+    private departmentService: DepartmentService,
+    private route: Router,
+  ) {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngOnInit() {
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Checkout");
 
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+
     setTimeout(() => {
-      this.getCustomerList();
       this.getProductList();
       this.getEmployees();
     }, 0);
+
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.getCustomerList();
+    }
   }
 
   addProduct(isFormValid: boolean) {
@@ -81,6 +107,7 @@ export class CheckoutComponent implements OnInit {
       if (isFormValid && this.validateAddProduct()) {
         if (this.checkProductExist()) {
           this.invoiceableProduct.push(this.newInvoiceableProduct);
+          this.calculateProduct();
           this.newInvoiceableProduct = new InvoiceableProduct();
           this.therapistName = null;
           this.productName = null;
@@ -171,6 +198,12 @@ export class CheckoutComponent implements OnInit {
   }
 
   getCustomerList() {
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+      return;
+    }
+
     this.clientsService
       .getCustomerList(this.createCustomerRequest())
       .subscribe((customers: Customer[]) => {
@@ -193,24 +226,50 @@ export class CheckoutComponent implements OnInit {
 
   createCustomerRequest() {
     return <CustomerSearchRequest>{
-      searchText: ''
+      searchText: '',
+      departmentId: this.selectedDepartment
     };
   }
 
   selectCustomerEvent(e: any) {
     this.checkoutTreatmentRequest.customerId = e.customerId;
+    this.checkoutTreatmentRequest.departmentId = this.selectedDepartment;
     this.invoiceSaveRequest.customerId = e.customerId;
+    this.invoiceSaveRequest.departmentId = this.selectedDepartment;
     this.getInvoiceTreatmentList();
-    if (this.invoiceableTreatment.length > 0) {
-      this.isCustomerNotSelected = false;
+  }
+
+  saveInvoice() {
+    if (!this.selectedDepartment && this.isSuperUser && this.invoiceableTreatment.length > 0) {
+      this.toastr.error("Please Select a Customer!");
+      return;
     }
+
+    this.invoiceSaveRequest.products = this.invoiceableProduct;
+    this.invoiceSaveRequest.treatments = this.invoiceableTreatment;
+
+    this.checkoutService
+      .saveInvoice(this.invoiceSaveRequest)
+      .subscribe((response: any[]) => {
+        this.toastr.error("Invoice Saved!");
+        this.route.navigate(['home/checkout']);
+      }, (error) => {
+        this.toastr.error("Invoice Failed!");
+      });
   }
 
   getInvoiceTreatmentList() {
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+      return;
+    }
+
     this.checkoutService
       .getInvoiceTreatmentList(this.checkoutTreatmentRequest)
       .subscribe((treatments: InvoiceableTreatment[]) => {
         this.invoiceableTreatment = treatments;
+        this.isCustomerNotSelected = false;
         this.calculate();
       }, (error) => {
         this.toastr.error("Treatment List Loading Failed!");
@@ -279,5 +338,48 @@ export class CheckoutComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  onDepartmentChange(e: any) {
+    this.selectedDepartment = e.target.value;
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+    } else {
+      this.getCustomerList();
+      this.isCustomerNotSelected = true;
+      this.invoiceableTreatment = new Array<InvoiceableTreatment>();
+      this.invoiceableProduct = new Array<InvoiceableProduct>();
+      this.selectedCustomer = null;
+      this.treatmentSubTotal = 0;
+      this.treatmentNetAmount = 0;
+      this.treatmentDueAmount = 0;
+      this.discount = 0;
+      this.discountAmount = 0;
+      this.treatmentsTax = 0.06;
+      this.treatmentsTaxAmount = 0;
+
+
+      this.productSubTotal = 0;
+      this.productDueAmount = 0;
+      this.productsTax = 0.06;
+      this.productsTaxAmount = 0;
+    }
+  }
+
+
+  ngAfterViewInit() {
+    this.departmentService
+      .getAllDepartments()
+      .pipe(takeUntil(this.ngUnSubscription))
+      .subscribe((departments: Department[]) => {
+        this.departments = departments;
+      })
+  }
+
+
+  ngOnDestroy() {
+    this.ngUnSubscription.next(true);
+    this.ngUnSubscription.complete();
   }
 }
