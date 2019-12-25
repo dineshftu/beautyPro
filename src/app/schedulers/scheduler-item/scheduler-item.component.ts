@@ -20,7 +20,7 @@ export class SchedulerItemComponent implements OnInit {
 
 
   appointmentList: Appointments[];
-  appointmentStatus = ["pending", "confirmed", "cancelled"];
+  // appointmentStatus = ["pending", "confirmed", "cancelled"];
 
   constructor(
     private appoinmentService: AppointmentsService,
@@ -36,7 +36,7 @@ export class SchedulerItemComponent implements OnInit {
     alert('hi');
   }
 
-  addNewAppointment(selectedIndex: number) {
+  addEditAppointment(selectedIndex: number) {
     console.log('scheduleResponse', this.scheduleResponse);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;

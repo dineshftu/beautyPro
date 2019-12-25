@@ -23,31 +23,24 @@
 
             <div class="tooltip">
 
-              <!-- <span class="tooltiptext">Client: {{schedule.clientName}} <br>
+              <span class="tooltiptext">Client: {{schedule.clientName}} <br>
                 Status: {{schedule.scheduleStatus}} <br>
                 Treatment: {{schedule.treatmentType}} <br>
                 Start Time: {{schedule.startTime}} <br>
                 End Time: {{schedule.endTime}} <br>
                 Start Index: {{schedule.startIndex}} <br>
-              </span> -->
+              </span>
+
+
 
               <div class="bk-seg-name">
                 {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
               </div>
               <!-- <div class="bk-seg-status">{{schedule.scheduleStatus}}</div> -->
 
-              <div class="form-group">
-
-                <select class="form-control select">
-                  <!-- (change)='onStatusChange($event, appointment)'> -->
-                  <option value="" disabled selected>Status</option>
-                  <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
-                  </option>
-                </select>
-
-              </div>
-
             </div>
+
+
 
           </ng-container>
         </ng-container>
@@ -56,7 +49,7 @@
 
     </ng-container>
 
-    <div (click)="addNewAppointment(i)" class="tl-gap-seg index-{{i}}"></div>
+    <div (click)="addEditAppointment(i)" class="tl-gap-seg index-{{i}}"></div>
 
   </ng-container>
 </div>

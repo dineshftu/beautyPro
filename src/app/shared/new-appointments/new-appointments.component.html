@@ -178,6 +178,25 @@
           </div>
 
         </div>
+
+        <div class="inline-form">
+
+          <div class="form-group">
+
+            <div class="form-group">
+
+              <select class="form-control select">
+                <!-- (change)='onStatusChange($event, appointment)'> -->
+                <option value="" disabled selected>Status</option>
+                <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
+                </option>
+              </select>
+
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
       <!-- <button type="button" class="btn-default">Add Another Appointment</button> -->
