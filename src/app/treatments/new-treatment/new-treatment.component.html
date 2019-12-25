@@ -1,4 +1,4 @@
-<div class="pop-up">
+<div class="pop-up" style="width: 720px;">
   <div class="pop-up-header">
     <div [hidden]='isEdit' class="pop-up-title">New Treatments</div>
     <div [hidden]='!isEdit' class="pop-up-title">Update Treatments</div>
@@ -22,9 +22,9 @@
         </div>
 
       </div>
-      <div class="inline-form">
+      <div class="inline-form f-wrap">
 
-        <div class="form-group">
+        <div class="form-group w-1/4">
           <label>Department</label>
           <select class="form-control select" (change)="onDepartmentChange($event)">
             <option value="" disabled selected>Select Department</option>
@@ -38,7 +38,7 @@
 
         </div>
 
-        <div class="form-group">
+        <div class="form-group w-1/4">
 
           <label>Duration</label>
           <input type="number" class="form-control" [(ngModel)]="newTreatmentRequest.duration" name="duration"
@@ -51,11 +51,7 @@
 
         </div>
 
-      </div>
-
-      <div class="inline-form">
-
-        <div class="form-group form-amnt">
+        <div class="form-group form-amnt w-1/4">
           <label>Price</label>
           <span class="form-prefix">LKR</span>
           <input type="number" class="form-control" [(ngModel)]="newTreatmentRequest.price" name="price"
@@ -68,7 +64,7 @@
 
         </div>
 
-        <div class="form-group form-amnt">
+        <div class="form-group form-amnt w-1/4">
 
           <label>Cost</label>
           <span class="form-prefix">LKR</span>
@@ -82,14 +78,10 @@
 
         </div>
 
-      </div>
-
-      <div class="inline-form">
-
-        <div class="form-group">
+        <div class="form-group w-1/4">
 
           <label>Color Code</label>
-          <input [(colorPicker)]="color" [style.background]="color" [cpToggle]="false" [cpCancelButton]="true"
+          <input class="form-control" [(colorPicker)]="color" [style.background]="color" [cpToggle]="false" [cpCancelButton]="true"
             [cpOKButton]="true" [cpOutputFormat]="hex" (colorPickerChange)="onColorPickerChange($event)" />
 
           <div *ngIf="f.submitted && isColorCodeNotSelected">
@@ -99,6 +91,7 @@
         </div>
 
       </div>
+
     </div>
 
     <div class="pop-up-btns">

@@ -37,7 +37,7 @@
 
       <div class="add-appointment-blc">
 
-        <div class="inline-form">
+        <div class="inline-form f-wrap">
 
           <!-- <div class="form-group">
             <label>Department</label>
@@ -53,7 +53,7 @@
 
           </div> -->
 
-          <div class="form-group">
+          <div class="form-group w-1/3">
             <label>Treatment</label>
             <div class="ng-autocomplete">
 
@@ -78,7 +78,7 @@
 
           </div>
 
-          <div class="form-group">
+          <div class="form-group w-1/3">
 
             <label>Quantity</label>
             <input type="number" class="form-control" name="qty" [(ngModel)]="treatmentQty"
@@ -86,7 +86,7 @@
 
           </div>
 
-          <div class="form-group">
+          <div class="form-group w-1/3">
 
             <label>Employee</label>
             <input type="text" class="form-control" name="empName" [(ngModel)]="data.scheduleResponse.employeeName"
@@ -116,11 +116,7 @@
 
           </div>
 
-        </div>
-
-        <div class="inline-form">
-
-          <div class="form-group">
+          <div class="form-group w-1/3">
             <label>Date</label>
             <mat-form-field>
               <input matInput [matDatepicker]="picker" [(ngModel)]="initdate" name="picker" placeholder="Choose a date"
@@ -146,7 +142,7 @@
               </div>
             </div> -->
 
-          <div class="form-group">
+          <div class="form-group w-1/3">
             <label>Start Time</label>
             <material-timepicker color="primary" label="Hour 2" [userTime]="exportTime" (change)="onChangeHour($event)"
               revertLabel="Remove" submitLabel="Ok">
@@ -166,7 +162,7 @@
 
           </div>
 
-          <div class="form-group">
+          <div class="form-group w-1/3">
             <label>End Time</label>
             <material-timepicker color="primary" label="Hour 2" [userTime]="exportEndTime" revertLabel="Remove"
               submitLabel="Ok"></material-timepicker>
@@ -177,24 +173,17 @@
 
           </div>
 
-        </div>
-
-        <div class="inline-form">
-
-          <div class="form-group">
-
-            <div class="form-group">
-
-              <select class="form-control select">
-                <!-- (change)='onStatusChange($event, appointment)'> -->
-                <option value="" disabled selected>Status</option>
-                <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
-                </option>
-              </select>
-
-            </div>
+          <div class="form-group w-1/3">
+            <label>Status</label>
+            <select class="form-control select">
+              <!-- (change)='onStatusChange($event, appointment)'> -->
+              <option value="" disabled selected>Status</option>
+              <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
+              </option>
+            </select>
 
           </div>
+
         </div>
 
       </div>
