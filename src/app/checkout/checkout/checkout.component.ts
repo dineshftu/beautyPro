@@ -288,11 +288,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private generateEmployeeFilterRequest() {
+
     return <EmployeeFilterRequest>{
-      departmentId: 1
-      // departmentId: this.departmentId
+      departmentId: 1,
+      date: new Date()
     }
   }
+
 
   numericOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;

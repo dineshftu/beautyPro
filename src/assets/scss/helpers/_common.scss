@@ -70,3 +70,13 @@ i {
 .w-100 {
   width: 100% !important;
 }
+
+.color-picker .button-area {
+  display: flex;
+  margin: 0 -10px;
+
+  .cp-ok-button-class {
+      background: #5317e4;
+      color: #fff;
+  }
+}

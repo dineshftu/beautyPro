@@ -38,7 +38,7 @@ export class NewAppointmentComponent implements OnInit {
   //public isDepartmentNotSelected: boolean = false;
   public isTreatmentNotSelected: boolean = false;
   public isCustomerNotSelected: boolean = false;
-  //public isEmployeeNotSelected: boolean = false;
+  public isEmployeeNotSelected: boolean = false;
   //public isDateNotSelected: boolean = false;
   public isStartTimeNotSelected: boolean = false;
   public isStartTimeInvalid: boolean = false;
@@ -50,12 +50,13 @@ export class NewAppointmentComponent implements OnInit {
   private ttid: number;
   private empNo: number;
   private treatmentDuration: number;
-  public treatmentQty: number = 0;
+  public treatmentQty: number = 1;
   private startTimespan: string;
   private endTimespan: string;
 
   //minDate = new Date(moment().format('YYYY, MM, DD'));
-  initdate = moment(this.data.selectedDate);
+  //initdate = moment(this.data.selectedDate);
+  initdate = moment(this.data.selectedDate).format("MM-DD-YYYY");
 
   public exportTime = { hour: 0, minute: 0, meriden: 'AM', format: 12 };
   public exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 12 };
@@ -90,7 +91,6 @@ export class NewAppointmentComponent implements OnInit {
   ngOnInit() {
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
     if (this.isSuperUser) {
-      //this.isDepartmentNotSelected = false;
       this.newAppointmentRequest.departmentId = this.data.selectedDepartment;
     } else {
       this.newAppointmentRequest.departmentId = this.user.departmentId;
@@ -98,21 +98,37 @@ export class NewAppointmentComponent implements OnInit {
 
     this.getTreatments();
 
-    console.log('this.data.isEdit', this.data.isEdit);
     if (this.data.isEdit) {
       this.initialValueCustomer = this.data.selectedSchedule.clientName;
       this.initialValueTreatment = this.data.selectedSchedule.treatmentType;
       this.treatmentQty = this.data.selectedSchedule.quantity;
+
+      this.startTimespan = this.data.selectedSchedule.startTime;
+      this.endTimespan = this.data.selectedSchedule.endTime;
+
+      console.log('this.endTimespan', this.endTimespan);
+
+      this.exportTime = { hour: parseInt(this.startTimespan.split(":")[0]), minute: parseInt(this.startTimespan.split(":")[1]), meriden: (parseInt(this.startTimespan.split(":")[0]) >= 12) ? 'PM' : 'AM', format: 12 };
+      this.exportEndTime = { hour: parseInt(this.endTimespan.split(":")[0]), minute: parseInt(this.endTimespan.split(":")[1]), meriden: (parseInt(this.endTimespan.split(":")[0]) >= 12) ? 'PM' : 'AM', format: 12 };
+
+      this.newAppointmentRequest.csId = this.data.selectedSchedule.customerScheduleId;
+      this.newAppointmentRequest.customerId = this.data.selectedSchedule.customerId;
+
+      this.treatmentDuration = this.data.selectedSchedule.treatmentDuration;
+      console.log('this.data.selectedSchedule.treatmentDuration', this.data.selectedSchedule.treatmentDuration);
+      this.getEmployees();
     }
 
-    //this.isEdit = this.data.scheduleResponse.schedules[0].scheduleStatus == 
   }
 
   ngAfterViewInit() {
-
     this.setStartTime();
     this.getCustomerList();
     this.getDepartments();
+  }
+
+  onStatusChange(e: any) {
+    this.newAppointmentRequest.status = e.target.value;
   }
 
   setStartTime() {
@@ -124,6 +140,8 @@ export class NewAppointmentComponent implements OnInit {
 
     hoursByIndex += 8;
 
+    this.startTimespan = this.getTimeSpan(hoursByIndex, minutesByIndex, seconds);
+
     if (hoursByIndex >= 12) {
       if (hoursByIndex != 12) {
         hoursByIndex -= 12;
@@ -132,7 +150,7 @@ export class NewAppointmentComponent implements OnInit {
       meriden = 'PM';
     }
 
-    this.startTimespan = this.getTimeSpan(hoursByIndex, minutesByIndex, seconds);
+    //this.startTimespan = this.getTimeSpan(hoursByIndex, minutesByIndex, seconds);
     this.exportTime = { hour: hoursByIndex, minute: minutesByIndex, meriden: meriden, format: 12 };
   }
 
@@ -164,20 +182,6 @@ export class NewAppointmentComponent implements OnInit {
       });
   }
 
-  // onDepartmentChange(e: any) {
-  //   this.isDepartmentNotSelected = false;
-  //   this.newAppointmentRequest.departmentId = e.target.value;
-
-  //   this.ttid = null;
-  //   this.auto.clear();
-  //   this.autoTreatment.clear();
-
-  //   this.exportEndTime = { hour: 0, minute: 0, meriden: 'AM', format: 24 };
-
-  //   this.getTreatments();
-  //   //this.getEmployees();
-  // }
-
   getTreatments() {
     this.treatmentService
       .getFilteredTreatmentList(this.generateTreatmentFilterRequest())
@@ -195,7 +199,13 @@ export class NewAppointmentComponent implements OnInit {
   selectTreatmentEvent(e: any) {
     this.isTreatmentNotSelected = false;
     this.ttid = e.ttid;
-    this.treatmentDuration = e.duration;
+
+    if (this.data.isEdit && e == this.data.selectedSchedule.treatmentType) {
+      this.treatmentDuration = this.data.selectedSchedule.treatmentDuration;
+    } else {
+      this.treatmentDuration = e.duration;
+
+    }
 
     if (this.startTimespan) {
       this.setEndTime(this.startTimespan.split(":")[0], this.startTimespan.split(":")[1]);
@@ -212,8 +222,14 @@ export class NewAppointmentComponent implements OnInit {
 
   private generateEmployeeFilterRequest() {
     return <EmployeeFilterRequest>{
-      departmentId: this.newAppointmentRequest.departmentId
+      departmentId: this.newAppointmentRequest.departmentId,
+      date: this.data.selectedDate
     }
+  }
+
+  onEmployeeSelect(e: any) {
+    this.empNo = e.target.value;
+    this.isEmployeeNotSelected = false;
   }
 
   onChangeHour(e: any) {
@@ -224,6 +240,7 @@ export class NewAppointmentComponent implements OnInit {
     }
 
     this.isStartTimeNotSelected = false;
+
     this.setEndTime(startHour.toString(), e.minute);
 
     this.isStartTimeInvalid = (parseInt(e.hour) < 8);
@@ -264,6 +281,7 @@ export class NewAppointmentComponent implements OnInit {
     this.isEndTimeInvalid = ((isNaN(hours)) || ((hours >= 12) && (minutes > 0)));
 
     this.exportEndTime = { hour: hours, minute: minutes, meriden: meriden, format: 12 };
+
 
     this.getTimeValidity();
   }
@@ -316,25 +334,15 @@ export class NewAppointmentComponent implements OnInit {
       return;
     }
 
-    // if (!this.newAppointmentRequest.departmentId) {
-    //   this.isDepartmentNotSelected = true;
-    //   return;
-    // }
-
     if (!this.ttid) {
       this.isTreatmentNotSelected = true;
       return;
     }
 
-    // if (!this.empNo) {
-    //   this.isEmployeeNotSelected = true;
-    //   return;
-    // }
-
-    // if (!this.newAppointmentRequest.bookedDate) {
-    //   this.isDateNotSelected = true;
-    //   return;
-    // }
+    if (this.data.isEdit && !this.empNo) {
+      this.isEmployeeNotSelected = true;
+      return;
+    }
 
     if (!this.startTimespan) {
       this.isStartTimeNotSelected = true;

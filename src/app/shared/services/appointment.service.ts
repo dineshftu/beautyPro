@@ -18,8 +18,13 @@ export class AppointmentService {
     return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}`, request);
   }
 
+  // public getFilteredEmployees(request: EmployeeFilterRequest): Observable<Array<Employees>> {
+  //   let queryString = `departmentId=${request.departmentId}&&date=${request.date}`;
+  //   return this.baseDataService.makeGetCall(`${this.apiAppointmentUrl}${'/employees'}?${queryString}`);
+  // }
+
   public getFilteredEmployees(request: EmployeeFilterRequest): Observable<Array<Employees>> {
-    let queryString = `departmentId=${request.departmentId}`;
-    return this.baseDataService.makeGetCall(`${this.apiAppointmentUrl}${'/employees'}?${queryString}`);
+    return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}${'/employees'}`, request);
   }
+
 }

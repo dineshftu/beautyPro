@@ -1,4 +1,5 @@
 export class NewAppointmentRequest {
+    csId: number;
     customerId: string;
     bookedDate: Date;
     status: string;
@@ -22,4 +23,5 @@ export class Employees {
 
 export interface EmployeeFilterRequest {
     departmentId: number;
+    date: Date;
 }
