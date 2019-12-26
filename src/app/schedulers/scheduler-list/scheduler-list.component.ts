@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/core/services/data.service';
 // import { AppointmentsService } from 'src/app/appointments/appointments.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SchedulerService } from '../scheduler.service';
 import { SchedulerFilterRequest, ScheduleResponse } from '../scheduler.model';
@@ -23,7 +23,7 @@ export class SchedulerListComponent implements OnInit {
   // public date = formatDate(new Date(), 'yyyy-mm-dd', '', '');
   public selectedDate;
   private minTime = 5;
-  public selectedDepartment = 0;
+  public selectedDepartment;
   public scheduleResponseList: ScheduleResponse[];
   departments: Department[];
   timeInterval = [
@@ -46,25 +46,36 @@ export class SchedulerListComponent implements OnInit {
     private schedulerService: SchedulerService,
     private helperService: HelperService,
     private toastr: ToastrService,
+    private route: Router
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.routeReload();
   }
 
   ngOnInit() {
-    this.selectedDate = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
+
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Schedulers");
 
+    this.validateUserRole();
+
+  }
+
+  validateUserRole() {
+    this.selectedDate = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
+
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
 
-    if (!this.selectedDepartment && this.isSuperUser) {
-      this.toastr.error("Please Select a Department!");
+    if (this.isSuperUser) {
+      if (!this.selectedDepartment) {
+        this.toastr.error("Please Select a Department!");
+      }
     } else {
+      this.selectedDepartment = this.user.departmentId;
       this.loadSchedules();
     }
 
-    this.hideTimeLine = (this.isSuperUser && this.selectedDepartment == 0);
-
+    this.hideTimeLine = (this.isSuperUser && !this.selectedDepartment);
   }
 
   ngAfterViewInit() {
@@ -73,6 +84,17 @@ export class SchedulerListComponent implements OnInit {
       .pipe(takeUntil(this.ngUnSubscription))
       .subscribe((departments: Department[]) => {
         this.departments = departments;
+      })
+  }
+
+  private routeReload() {
+    this.route
+      .events
+      .subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+          this.validateUserRole();
+          this.loadSchedules();
+        }
       })
   }
 

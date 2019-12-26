@@ -15,7 +15,7 @@ export class AppointmentService {
   ) { }
 
   public addNewAppointment(request: NewAppointmentRequest): Observable<any> {
-    return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}`, request);
+    return this.baseDataService.makePostCall(`${this.apiAppointmentUrl}${'/save'}`, request);
   }
 
   // public getFilteredEmployees(request: EmployeeFilterRequest): Observable<Array<Employees>> {

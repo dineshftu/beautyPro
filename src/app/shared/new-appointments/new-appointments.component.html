@@ -73,21 +73,22 @@
 
           </div>
 
-          <div class="form-group w-1/3" *ngIf="!this.data.isEdit">
+          <div class="form-group w-1/3">
 
             <label>Employee</label>
             <input type="text" class="form-control" name="empName" [(ngModel)]="data.scheduleResponse.employeeName"
-              readonly />
+              readonly disabled />
 
           </div>
 
-          <div class="form-group w-1/3" *ngIf="this.data.isEdit">
+          <!-- <div class="form-group w-1/3" *ngIf="this.data.isEdit">
 
             <label>Employee</label>
             <div class="ng-autocomplete">
 
-              <ng-autocomplete #auto [data]="employeesList" [searchKeyword]="keywordEmployee"
-                placeHolder="Enter Employee Name" (selected)='onEmployeeSelect($event)' [itemTemplate]="itemTemplate2"
+              <ng-autocomplete #auto [initialValue]="initialValueEmployee" [data]="employeesList"
+                [searchKeyword]="keywordEmployee" placeHolder="Enter Employee Name"
+                (selected)='onEmployeeSelect($event)' [itemTemplate]="itemTemplate2"
                 [notFoundTemplate]="notFoundTemplate2">
               </ng-autocomplete>
 
@@ -105,12 +106,12 @@
 
             </div>
 
-          </div>
+          </div> -->
 
           <div class="form-group w-1/3">
             <label>Date</label>
 
-            <input class="form-control" type="text" id="date" name="date" [(ngModel)]="initdate" readonly>
+            <input class="form-control" type="text" id="date" name="date" [(ngModel)]="initdate" readonly disabled>
 
           </div>
 
@@ -145,11 +146,12 @@
 
           </div>
 
-          <div class="form-group w-1/3">
+          <div class="form-group w-1/3" *ngIf="data.isEdit">
             <label>Status</label>
             <select class="form-control select" (change)="onStatusChange($event)">
-              <option value="" disabled selected>Status</option>
-              <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
+              <!-- <option value="" disabled selected>Status</option> -->
+              <option value="{{status}}" *ngFor="let status of appointmentStatus"
+                [selected]="status === selectedStatus">{{status}}
               </option>
             </select>
 

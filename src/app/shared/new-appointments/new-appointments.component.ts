@@ -68,10 +68,13 @@ export class NewAppointmentComponent implements OnInit {
 
   public user: any;
 
-  public appointmentStatus = ["pending", "confirmed", "cancelled"];
+  public appointmentStatus = ["Pending", "Confirmed", "Cancelled"];
 
   public initialValueCustomer: string = '';
   public initialValueTreatment: string = '';
+  public initialValueEmployee: string = '';
+
+  private selectedStatus: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -101,6 +104,7 @@ export class NewAppointmentComponent implements OnInit {
     if (this.data.isEdit) {
       this.initialValueCustomer = this.data.selectedSchedule.clientName;
       this.initialValueTreatment = this.data.selectedSchedule.treatmentType;
+      this.initialValueEmployee = this.data.scheduleResponse.employeeName;
       this.treatmentQty = this.data.selectedSchedule.quantity;
 
       this.startTimespan = this.data.selectedSchedule.startTime;
@@ -111,8 +115,11 @@ export class NewAppointmentComponent implements OnInit {
       this.exportTime = { hour: parseInt(this.startTimespan.split(":")[0]), minute: parseInt(this.startTimespan.split(":")[1]), meriden: (parseInt(this.startTimespan.split(":")[0]) >= 12) ? 'PM' : 'AM', format: 12 };
       this.exportEndTime = { hour: parseInt(this.endTimespan.split(":")[0]), minute: parseInt(this.endTimespan.split(":")[1]), meriden: (parseInt(this.endTimespan.split(":")[0]) >= 12) ? 'PM' : 'AM', format: 12 };
 
-      this.newAppointmentRequest.csId = this.data.selectedSchedule.customerScheduleId;
+      //this.newAppointmentRequest.csId = this.data.selectedSchedule.customerScheduleId;
       this.newAppointmentRequest.customerId = this.data.selectedSchedule.customerId;
+      this.ttid = this.data.selectedSchedule.ttId;
+      this.empNo = this.data.scheduleResponse.empNo;
+      this.selectedStatus = this.data.selectedSchedule.scheduleStatus;
 
       this.treatmentDuration = this.data.selectedSchedule.treatmentDuration;
       console.log('this.data.selectedSchedule.treatmentDuration', this.data.selectedSchedule.treatmentDuration);
@@ -128,7 +135,7 @@ export class NewAppointmentComponent implements OnInit {
   }
 
   onStatusChange(e: any) {
-    this.newAppointmentRequest.status = e.target.value;
+    this.selectedStatus = e.target.value;
   }
 
   setStartTime() {
@@ -169,8 +176,14 @@ export class NewAppointmentComponent implements OnInit {
   }
 
   selectCustomerEvent(e: any) {
+
+    if (this.data.isEdit && e == this.data.selectedSchedule.clientName) {
+      this.newAppointmentRequest.customerId = this.data.selectedSchedule.customerId;
+    } else {
+      this.newAppointmentRequest.customerId = e.customerId;
+    }
+
     this.isCustomerNotSelected = false;
-    this.newAppointmentRequest.customerId = e.customerId;
   }
 
   getDepartments() {
@@ -198,13 +211,14 @@ export class NewAppointmentComponent implements OnInit {
 
   selectTreatmentEvent(e: any) {
     this.isTreatmentNotSelected = false;
-    this.ttid = e.ttid;
+
 
     if (this.data.isEdit && e == this.data.selectedSchedule.treatmentType) {
       this.treatmentDuration = this.data.selectedSchedule.treatmentDuration;
+      this.ttid = this.data.selectedSchedule.ttId;
     } else {
       this.treatmentDuration = e.duration;
-
+      this.ttid = e.ttid;
     }
 
     if (this.startTimespan) {
@@ -227,10 +241,19 @@ export class NewAppointmentComponent implements OnInit {
     }
   }
 
-  onEmployeeSelect(e: any) {
-    this.empNo = e.target.value;
-    this.isEmployeeNotSelected = false;
-  }
+  // onEmployeeSelect(e: any) {
+  //   console.log('emp e', e);
+  //   console.log('employeeName e', this.data.scheduleResponse.employeeName);
+
+  //   if (this.data.isEdit && e == this.data.scheduleResponse.employeeName) {
+  //     this.empNo = this.data.scheduleResponse.empNo;
+  //   } else {
+  //     this.empNo = e.empno;
+  //   }
+
+
+  //   this.isEmployeeNotSelected = false;
+  // }
 
   onChangeHour(e: any) {
     let startHour = (parseInt(e.hour));
@@ -245,7 +268,7 @@ export class NewAppointmentComponent implements OnInit {
 
     this.isStartTimeInvalid = (parseInt(e.hour) < 8);
 
-    this.validateSave();
+    //sthis.validateSave();
   }
 
   setEndTime(hour: string, minute: string) {
@@ -294,41 +317,6 @@ export class NewAppointmentComponent implements OnInit {
 
   save() {
 
-    this.validateSave();
-
-    this.newAppointmentRequest.treatments.push(<AppointmentTreatment>{
-      ttid: this.ttid,
-      empNo: this.data.scheduleResponse.empNo,
-      startTime: this.startTimespan,
-      endTime: this.endTimespan,
-      qty: this.treatmentQty
-    });
-
-    this.appointmentService
-      .addNewAppointment(this.generateAppointmentRequest())
-      .subscribe((result: any) => {
-        console.log(result);
-      }, (error: any) => {
-
-      }, () => {
-        this.route.navigate(['home/scheduler']);
-        this.dialogRef.close();
-      });
-  }
-  cancel() {
-    this.dialogRef.close();
-  }
-
-  private generateAppointmentRequest(): NewAppointmentRequest {
-    return <NewAppointmentRequest>{
-      customerId: this.newAppointmentRequest.customerId,
-      bookedDate: this.data.selectedDate,
-      departmentId: this.newAppointmentRequest.departmentId,
-      treatments: this.newAppointmentRequest.treatments
-    };
-  }
-
-  validateSave() {
     if (!this.newAppointmentRequest.customerId) {
       this.isCustomerNotSelected = true;
       return;
@@ -339,7 +327,7 @@ export class NewAppointmentComponent implements OnInit {
       return;
     }
 
-    if (this.data.isEdit && !this.empNo) {
+    if (!this.data.scheduleResponse.empNo) {
       this.isEmployeeNotSelected = true;
       return;
     }
@@ -361,6 +349,38 @@ export class NewAppointmentComponent implements OnInit {
       return;
     }
 
+    this.newAppointmentRequest.treatments.push(<AppointmentTreatment>{
+      ttid: this.ttid,
+      empNo: this.data.scheduleResponse.empNo,
+      startTime: this.startTimespan,
+      endTime: this.endTimespan,
+      qty: this.treatmentQty
+    });
+
+    this.appointmentService
+      .addNewAppointment(this.generateAppointmentRequest())
+      .subscribe((result: any) => {
+        console.log(result);
+      }, (error: any) => {
+        console.log('result error', error);
+      }, () => {
+        this.route.navigate(['home/scheduler']);
+        this.dialogRef.close();
+      });
+  }
+  cancel() {
+    this.dialogRef.close();
+  }
+
+  private generateAppointmentRequest(): NewAppointmentRequest {
+    return <NewAppointmentRequest>{
+      customerId: this.newAppointmentRequest.customerId,
+      bookedDate: this.data.selectedDate,
+      departmentId: this.newAppointmentRequest.departmentId,
+      treatments: this.newAppointmentRequest.treatments,
+      csId: this.data.isEdit ? this.data.selectedSchedule.customerScheduleId : 0,
+      status: this.data.isEdit ? this.selectedStatus : 'Pending'
+    };
   }
 
   numericOnly(event): boolean {
@@ -385,17 +405,22 @@ export class NewAppointmentComponent implements OnInit {
     let treamentStartTimeMin = ((parseInt(this.startHour) * 60) + (parseInt(this.startMin)));
     let treamentEndTimeMin = ((this.endHour * 60) + this.endMin);
     let isNotValidTIme = false;
+    let customerScheduleId = (this.data.selectedSchedule != undefined) ? this.data.selectedSchedule.customerScheduleId : 0;
 
     if (this.data.scheduleResponse.schedules != null || this.data.scheduleResponse.schedule != undefined) {
 
       this.data.scheduleResponse.schedules.forEach(function (sched: any) {
+
         let schedStartTimeMin = (parseInt(sched.startTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
         let schedEndTimeMinu = (parseInt(sched.endTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
 
         isNotValidTIme = !(((treamentStartTimeMin < schedStartTimeMin) && (treamentEndTimeMin < schedStartTimeMin))
           || ((treamentStartTimeMin > schedEndTimeMinu) && (treamentEndTimeMin > schedEndTimeMinu)));
 
-        //if (isNotValidTIme) return;
+
+        isNotValidTIme = ((customerScheduleId != 0) &&
+          (sched.customerScheduleId == customerScheduleId)) ? false : isNotValidTIme;
+
       });
     } else {
       isNotValidTIme = false;

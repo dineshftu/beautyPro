@@ -68,16 +68,20 @@ export class SchedulerItemComponent implements OnInit {
 
     this.dialog.open(NewAppointmentComponent, dialogConfig).afterClosed().subscribe(
       (response) => {
-        //console.log(response);
+        console.log('in response', !!response);
         if (!!response) {
           if (response.message == 'success') {
-            this.route.navigate(['']);
+            console.log('in success');
+            this.route.navigate(['/home/scheduler']);
           }
+        } else {
+          this.route.navigate(['/home/scheduler']);
         }
       }, (error) => {
-        console.log(error);
+        console.log('in error', error);
       }
     );
+    //this.route.navigate(['/home/scheduler']);
   }
 
   onStatusChange(e: any, appointment: Appointments) {
