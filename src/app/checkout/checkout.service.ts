@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from '../core/services/base-data.service';
-import { CheckoutTreatmentRequest, InvoiceableTreatment, Products, InvoiceSaveRequest } from './checkout.model';
+import { CheckoutTreatmentRequest, InvoiceableTreatment, Products, InvoiceSaveRequest, DiscountRequest } from './checkout.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -24,6 +24,10 @@ export class CheckoutService {
 
   saveInvoice(invoiceSaveRequest: InvoiceSaveRequest): Observable<any> {
     return this.baseDataService.makePostCall(`${this.apiInvoiceUrl}${'/save'}`, invoiceSaveRequest);
+  }
+
+  addDiscount(discountRequest: DiscountRequest) {
+    return this.baseDataService.makePostCall(`${this.apiInvoiceUrl}${'/invoice-discount'}`, discountRequest);
   }
 
 }

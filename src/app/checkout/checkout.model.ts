@@ -30,6 +30,8 @@ export class InvoiceableTreatment {
   //discount: number;
   employeeNo: number;
   employeeName: string;
+  customerScheduleTreatmentId: number;
+  treatmentTypeId: number;
 }
 
 export class Products {
@@ -39,4 +41,11 @@ export class Products {
   isValid = false;
   sellingPrice: number;
   maxQty: number;
+}
+
+
+export class DiscountRequest {
+  user: string;
+  otp: string;
+  discount: number;
 }

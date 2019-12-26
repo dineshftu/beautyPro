@@ -8,10 +8,11 @@ import { MatDialogModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { CheckoutService } from './checkout.service';
 import { SharedModule } from '../shared/shared.module';
+import { AddDiscountComponent } from './add-discount/add-discount.component';
 
 
 @NgModule({
-  declarations: [CheckoutComponent],
+  declarations: [CheckoutComponent, AddDiscountComponent],
   imports: [
     CommonModule,
     CheckoutRoutingModule,
@@ -23,6 +24,9 @@ import { SharedModule } from '../shared/shared.module';
   providers: [
     CheckoutService,
     ClientsService
+  ],
+  entryComponents: [
+    AddDiscountComponent
   ]
 })
 export class CheckoutModule { }

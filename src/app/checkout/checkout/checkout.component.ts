@@ -15,6 +15,7 @@ import { DepartmentService } from 'src/app/shared/services/department.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AddDiscountComponent } from '../add-discount/add-discount.component';
 
 @Component({
   selector: 'app-checkout',
@@ -163,7 +164,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       (acc, ele) => acc + (ele.price * ele.quantity), 0
     );
 
-    this.discountAmount = this.treatmentSubTotal * this.discount;
+    this.discountAmount = this.treatmentSubTotal * (this.discount / 100.00);
     this.treatmentNetAmount = (this.treatmentSubTotal - this.discountAmount);
     this.treatmentsTaxAmount = (this.treatmentNetAmount * this.treatmentsTax);
     this.treatmentDueAmount = (this.treatmentNetAmount + this.treatmentsTaxAmount);
@@ -247,11 +248,12 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.invoiceSaveRequest.products = this.invoiceableProduct;
     this.invoiceSaveRequest.treatments = this.invoiceableTreatment;
+    this.invoiceSaveRequest.discount = this.discount;
 
     this.checkoutService
       .saveInvoice(this.invoiceSaveRequest)
       .subscribe((response: any[]) => {
-        this.toastr.error("Invoice Saved!");
+        this.toastr.success("Invoice Saved!");
         this.route.navigate(['home/checkout']);
       }, (error) => {
         this.toastr.error("Invoice Failed!");
@@ -326,20 +328,34 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  addProductPop() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = Object.assign([], this.products);
-    this.dialog.open(AddProductComponent, dialogConfig).afterClosed().subscribe(
-      (response) => {
-        if (response != undefined && !!response.data)
-          this.products = response.data;
-        // console.log(response);
-      }, (error) => {
-        console.log(error);
-      }
-    );
+  addDiscount() {
+    if (!this.isCustomerNotSelected) {
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = { isAdmin: this.isSuperUser };
+
+      // dialogConfig.data = Object.assign([], this.products);
+      this.dialog.open(AddDiscountComponent, dialogConfig).afterClosed().subscribe(
+        (response) => {
+          if (response.discount) {
+            console.log(response.discount);
+
+            this.discount = response.discount;
+            this.calculate();
+            console.log(this.discount);
+
+          }
+          // console.log(response);
+        }, (error) => {
+          console.log(error);
+        }
+      );
+
+    } else {
+      this.toastr.warning("Select a customer available for invoicing!");
+    }
   }
 
   onDepartmentChange(e: any) {
