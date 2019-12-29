@@ -12,47 +12,50 @@
 </div>
 
 <div class="schd-blc-tl">
+
   <ng-container *ngFor="let timeIndex of scheduleResponse.timeIndexes; index as i">
-    <!-- in every six hour when (i%12)===0 thick hour line should appeared css -->
+
     <ng-container *ngIf="timeIndex != 'default'">
 
-      <div class="bk-seg bk-seg-type">
+      <ng-container *ngFor="let schedule of scheduleResponse.schedules">
 
-        <ng-container *ngFor="let schedule of scheduleResponse.schedules">
-          <ng-container *ngIf="i === schedule.startIndex">
+        <!-- start: detailed div -->
+        <ng-container *ngIf="i === schedule.startIndex">
 
-            <!-- <div class="bk-seg-name">
-              {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
-            </div> -->
+          <div class="tooltip">
 
-            <div class="tooltip">
+            <span class="tooltiptext">
+              <span class="t-bold">Client:</span> {{schedule.clientName}} <br>
+              <span class="t-bold">Status:</span> {{schedule.scheduleStatus}} <br>
+              <span class="t-bold">Treatment:</span> {{schedule.treatmentType}} <br>
+              <span class="t-bold">Start Time:</span> {{schedule.startTime}} <br>
+              <span class="t-bold">End Time:</span> {{schedule.endTime}} <br>
+            </span>
 
-              <span class="tooltiptext">
-                <span class="t-bold">Client:</span> {{schedule.clientName}} <br>
-                <span class="t-bold">Status:</span> {{schedule.scheduleStatus}} <br>
-                <span class="t-bold">Treatment:</span> {{schedule.treatmentType}} <br>
-                <span class="t-bold">Start Time:</span> {{schedule.startTime}} <br>
-                <span class="t-bold">End Time:</span> {{schedule.endTime}} <br>
-                <span class="t-bold">Start Index:</span> {{schedule.startIndex}} <br>
-              </span>
+            <div [ngStyle]="{'background-color':schedule.colorCode}" class="bk-seg-name"
+              (click)="addEditAppointment(i, schedule)">
+              {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span></div>
 
+          </div>
 
-
-              <div class="bk-seg-name" (click)="addEditAppointment(i, schedule)">
-                {{schedule.clientName}} <span class="bk-seg-trt">{{schedule.treatmentType}}</span>
-              </div>
-              <!-- <div class="bk-seg-status">{{schedule.scheduleStatus}}</div> -->
-
-            </div>
-
-          </ng-container>
         </ng-container>
+        <!-- end: detailed div -->
 
-      </div>
+
+        <!-- start: appoinment duration div -->
+        <ng-container *ngIf="i > schedule.startIndex && i < schedule.endIndex ">
+          <div [ngStyle]="{'background-color':schedule.colorCode}" class="bk-seg"></div>
+        </ng-container>
+        <!-- end: appoinment duration div -->
+
+      </ng-container>
 
     </ng-container>
 
-    <div (click)="addEditAppointment(i, null)" class="tl-gap-seg index-{{i}}"></div>
 
+    <!-- start: empty div -->
+    <div (click)="addEditAppointment(i, null)" class="tl-gap-seg index-{{i}}"></div>
+    <!-- end: empty div -->
   </ng-container>
+
 </div>

@@ -17,5 +17,6 @@ export class Schedules {
   startTime: string;
   endTime: string;
   startIndex: number;
+  endIndex: number;
   // timeIndexes: Array<string>;
 }

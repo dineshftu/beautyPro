@@ -25,7 +25,7 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
   module: string;
   appointmentList: Appointments[];
   departments: Department[];
-  selectedDepartment;
+  public selectedDepartment: number;
   appointmentStatus = ["pending", "confirmed", "cancelled"];
 
   public user: any;
@@ -61,6 +61,7 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
     } else {
+      this.selectedDepartment = this.user.departmentId;
       this.loadAppointments();
     }
 

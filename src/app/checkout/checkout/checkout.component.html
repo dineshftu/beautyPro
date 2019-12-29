@@ -68,6 +68,7 @@
 
   <!-- start: treatment total section -->
   <div class="checkout-total checkout-total-block">
+    <div class="total-label">Treatments <br></div>
     <div class="checkout-total-row">
       <div class="total-label"> Sub Total </div>
       <div class="total-amount">{{treatmentSubTotal | currency : 'LKR'}}</div>
@@ -85,7 +86,7 @@
       <div class="total-amount"> {{treatmentsTaxAmount | currency : 'LKR'}} </div>
     </div>
     <div class="checkout-total-row">
-      <div class="total-label"> Due </div>
+      <div class="total-label"> Due Amount </div>
       <div class="total-amount"> {{treatmentDueAmount | currency : 'LKR'}} </div>
     </div>
   </div>
@@ -193,6 +194,7 @@
 
   <!-- start: product table total section -->
   <div class="checkout-total checkout-total-block">
+    <div class="total-label">Products</div>
     <div class="checkout-total-row">
       <div class="total-label"> Sub Total </div>
       <div class="total-amount"> {{productSubTotal | currency : 'LKR'}} </div>
@@ -202,7 +204,7 @@
       <div class="total-amount"> {{productsTaxAmount | currency : 'LKR'}} </div>
     </div>
     <div class="checkout-total-row">
-      <div class="total-label"> Due </div>
+      <div class="total-label"> Due Amount </div>
       <div class="total-amount"> {{productDueAmount | currency : 'LKR'}} </div>
     </div>
   </div>
@@ -210,23 +212,23 @@
   <!--start Sub Total section-->
   <div class="checkout-total checkout-total-block">
     <div class="checkout-total-row">
-      <div class="total-label"> Bill Sub Total </div>
+      <div class="total-label"> Grand Sub Total </div>
       <div class="total-amount"> {{treatmentSubTotal + productSubTotal | currency : 'LKR'}} </div>
     </div>
     <div class="checkout-total-row">
-      <div class="total-label"> Discount</div>
+      <div class="total-label"> Treatment Discount</div>
       <div class="total-amount"> {{treatmentsDiscountAmount | currency : 'LKR'}} </div>
     </div>
     <div class="checkout-total-row">
-      <div class="total-label"> Net Amount </div>
+      <div class="total-label">Grand Net Amount </div>
       <div class="total-amount"> {{treatmentNetAmount + productSubTotal | currency : 'LKR'}} </div>
     </div>
     <div class="checkout-total-row">
-      <div class="total-label"> Tax 6% </div>
+      <div class="total-label">Total Tax 6% </div>
       <div class="total-amount"> {{treatmentsTaxAmount + productsTaxAmount | currency : 'LKR'}} </div>
     </div>
     <div class="checkout-total-row">
-      <div class="total-label"> Due Total </div>
+      <div class="total-label">Grand Due Total </div>
       <div class="total-amount"> {{treatmentDueAmount + productDueAmount | currency : 'LKR'}} </div>
     </div>
   </div>

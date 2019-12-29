@@ -22,7 +22,7 @@ import { HelperService } from 'src/app/core/services/helper.service';
 export class InvoiceListComponent implements OnInit {
   module: string;
   invoiceList: Invoices[];
-  selectedDepartment = 0;
+  public selectedDepartment: number;
   private ngUnSubscription = new Subject();
   departments: Department[];
   date: string;
@@ -53,18 +53,26 @@ export class InvoiceListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
-    this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
-    this.status = 4;//default value is All
-
-    if (!this.selectedDepartment && this.isSuperUser) {
-      this.toastr.error("Please Select a Department!");
-    } else {
-      this.loadInvoices();
-    }
-
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Invoices");
+
+    this.validateLoad();
+  }
+
+  validateLoad() {
+    this.status = 4;
+    this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
+
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+
+    if (this.isSuperUser) {
+      if (!this.selectedDepartment) {
+        this.toastr.error("Please Select a Department!");
+      }
+    } else {
+      this.selectedDepartment = this.user.departmentId;
+      this.loadInvoices();
+    }
   }
 
 

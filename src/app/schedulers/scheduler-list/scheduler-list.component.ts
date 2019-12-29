@@ -57,11 +57,12 @@ export class SchedulerListComponent implements OnInit {
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Schedulers");
 
-    this.validateUserRole();
+    this.validateLoad();
 
   }
 
-  validateUserRole() {
+  validateLoad() {
+
     this.selectedDate = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
 
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
@@ -92,8 +93,8 @@ export class SchedulerListComponent implements OnInit {
       .events
       .subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
-          this.validateUserRole();
-          this.loadSchedules();
+          this.validateLoad();
+          //this.loadSchedules();
         }
       })
   }
@@ -155,6 +156,7 @@ export class SchedulerListComponent implements OnInit {
           let startingIndex = ((((parseInt(sched.startTime.split(":")[0]) * 60) + parseInt(sched.startTime.split(":")[1])) - (openingHour * 60)) / minTimeSlot);
           let endIndex = ((((parseInt(sched.endTime.split(":")[0]) * 60) + parseInt(sched.endTime.split(":")[1])) - (openingHour * 60)) / minTimeSlot);
           sched.startIndex = startingIndex;
+          sched.endIndex = endIndex;
           timeIndexes.fill('start', startingIndex, ++startingIndex);
           timeIndexes.fill('hasAppoinment', startingIndex, endIndex);
         });

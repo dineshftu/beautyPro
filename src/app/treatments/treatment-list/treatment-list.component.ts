@@ -21,7 +21,7 @@ import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-
 export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy {
   module: string;
   treatmentList: Treatment[];
-  public selectedDepartment = 0;
+  public selectedDepartment: number;
   private ngUnSubscription = new Subject();
 
   departments: Department[];
@@ -51,15 +51,24 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnInit() {
-    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
 
-    if (!this.selectedDepartment && this.isSuperUser) {
-      this.toastr.error("Please Select a Department!");
-    } else {
-      this.loadTreatments();
-    }
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Treatments");
+
+    this.validateLoad();
+  }
+
+  validateLoad() {
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+
+    if (this.isSuperUser) {
+      if (!this.selectedDepartment) {
+        this.toastr.error("Please Select a Department!");
+      }
+    } else {
+      this.selectedDepartment = this.user.departmentId;
+      this.loadTreatments();
+    }
   }
 
   private routeReload() {
@@ -70,7 +79,8 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
           if (!this.selectedDepartment && this.isSuperUser) {
             this.toastr.error("Please Select a Department!");
           } else {
-            this.loadTreatments();
+            this.validateLoad();
+            //this.loadTreatments();
           }
         }
       })

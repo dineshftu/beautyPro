@@ -3,6 +3,14 @@
   <!-- start: filter section -->
   <div id="filter-section">
     <div class="form-group">
+      <select class="form-control select" (change)="onDepartmentChange($event)">
+        <option value="" disabled selected>Select departmnet</option>
+        <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
 
       <mat-form-field>
 
@@ -53,7 +61,13 @@
           <div>{{voucher.customerName}}</div>
           <div>{{voucher.enteredBy}}</div>
           <div>{{voucher.enteredDate | date}}</div>
-          <div>{{voucher.status}}</div>
+          <div>
+            <select [(ngModel)]="voucher.status" name="status{{i}}" class="form-control select"
+              (change)='onStatusEdit($event, voucher)'>
+              <option value="{{status}}" *ngFor="let status of voucherEditStatusList">{{status}}
+              </option>
+            </select>
+          </div>
           <div>{{voucher.dueAmount | currency : 'LKR'}}
             <div class="action-btns align-right">
               <button class="icon-btn">

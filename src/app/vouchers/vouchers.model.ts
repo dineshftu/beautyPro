@@ -11,8 +11,9 @@ export class Vouchers {
 }
 
 export interface VoucherFilterRequest {
+  departmentId: number;
   status: number;
-  date:string;
+  date: string;
 }
 
 export class NewVoucherRequest {
@@ -21,8 +22,8 @@ export class NewVoucherRequest {
   dueAmount: number;
   ptid: number;
   ttid: number;
-  departmentId:number;
-  transType:string;
+  departmentId: number;
+  transType: string;
 }
 
 export interface PaymentType {
@@ -33,5 +34,10 @@ export interface PaymentType {
 export class VouchersDeleteRequest {
   cancelReason: string;
   gvinvoiceNo: string;
+}
+
+export class ChangeVoucherStatusRequest {
+  gvinvoiceNo: string;
+  status: number;
 }
 
