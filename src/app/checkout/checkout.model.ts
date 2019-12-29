@@ -10,6 +10,8 @@ export class InvoiceSaveRequest {
   discount: number;
   treatments = new Array<InvoiceableTreatment>();
   products = new Array<InvoiceableProduct>();
+  ptid:number;
+  transType:string;
 }
 
 export class InvoiceableProduct {

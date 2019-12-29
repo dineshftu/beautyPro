@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { CheckoutService } from './checkout.service';
 import { SharedModule } from '../shared/shared.module';
 import { AddDiscountComponent } from './add-discount/add-discount.component';
+import { VouchersService } from '../vouchers/vouchers.service';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { AddDiscountComponent } from './add-discount/add-discount.component';
   ],
   providers: [
     CheckoutService,
-    ClientsService
+    ClientsService,
+    VouchersService,
   ],
   entryComponents: [
     AddDiscountComponent
