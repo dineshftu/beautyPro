@@ -2,7 +2,7 @@
 
   <!-- start: filter section -->
   <div id="filter-section">
-    <div class="form-group">
+    <div class="form-group" *ngIf="isSuperUser">
       <select class="form-control select" (change)="onDepartmentChange($event)">
         <option value="" disabled selected>Select departmnet</option>
         <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
@@ -74,7 +74,7 @@
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Discount </div>
-      <div class="total-amount"> {{discountAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentsDiscountAmount | currency : 'LKR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Net Amount </div>
@@ -210,12 +210,12 @@
   <!--start Sub Total section-->
   <div class="checkout-total checkout-total-block">
     <div class="checkout-total-row">
-      <div class="total-label"> Bill Sub </div>
+      <div class="total-label"> Bill Sub Total </div>
       <div class="total-amount"> {{treatmentSubTotal + productSubTotal | currency : 'LKR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Discount</div>
-      <div class="total-amount"> {{discountAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentsDiscountAmount | currency : 'LKR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Net Amount </div>

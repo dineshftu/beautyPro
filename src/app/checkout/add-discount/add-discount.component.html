@@ -8,7 +8,7 @@
   <div class="pop-up-body">
     <form name="form" (ngSubmit)="discountForm.form.valid && submit()" #discountForm="ngForm" novalidate>
       <div class="form-group">
-        <label>Discount</label>
+        <label>Discount %</label>
         <input type='number' class="form-control" required name="discount" [(ngModel)]="discountRequest.discount"
           #discount="ngModel" placeholder="Enter discount..." />
         <div *ngIf="discountForm.submitted && discount.invalid">

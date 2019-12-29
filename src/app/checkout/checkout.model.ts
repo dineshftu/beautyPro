@@ -7,9 +7,21 @@ export class CheckoutTreatmentRequest {
 export class InvoiceSaveRequest {
   customerId: string;
   departmentId: number;
-  discount: number;
   treatments = new Array<InvoiceableTreatment>();
   products = new Array<InvoiceableProduct>();
+
+  treatmentSubTotal: number;
+  treatmentNetAmount: number;
+  treatmentDueAmount: number;
+  discount: number;
+  treatmentDiscountAmount: number;
+  treatmentsTax: number;
+  treatmentsTaxAmount: number;
+
+  productSubTotal: number;
+  productDueAmount: number;
+  productsTax: number;
+  productsTaxAmount: number;
 }
 
 export class InvoiceableProduct {

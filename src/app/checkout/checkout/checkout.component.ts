@@ -16,6 +16,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AddDiscountComponent } from '../add-discount/add-discount.component';
+import { HelperService } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'app-checkout',
@@ -54,7 +55,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   public treatmentNetAmount = 0;
   public treatmentDueAmount = 0;
   public discount = 0;
-  public discountAmount = 0;
+  public treatmentsDiscountAmount = 0;
   public treatmentsTax = 0.06;
   public treatmentsTaxAmount = 0;
 
@@ -69,6 +70,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   departments: Department[];
   selectedDepartment;
+  // public selectedDate;
 
 
   constructor(
@@ -79,6 +81,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     public dialog: MatDialog,
     private appointmentService: AppointmentService,
     private departmentService: DepartmentService,
+    // private helperService: HelperService,
     private route: Router,
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -95,10 +98,21 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getEmployees();
     }, 0);
 
+    this.validateUserRole();
+  }
 
-    if (!this.selectedDepartment && this.isSuperUser) {
-      this.toastr.error("Please Select a Department!");
+
+  validateUserRole() {
+    // this.selectedDate = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
+
+    this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
+
+    if (this.isSuperUser) {
+      if (!this.selectedDepartment) {
+        this.toastr.error("Please Select a Department!");
+      }
     } else {
+      this.selectedDepartment = this.user.departmentId;
       this.getCustomerList();
     }
   }
@@ -164,8 +178,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       (acc, ele) => acc + (ele.price * ele.quantity), 0
     );
 
-    this.discountAmount = this.treatmentSubTotal * (this.discount / 100.00);
-    this.treatmentNetAmount = (this.treatmentSubTotal - this.discountAmount);
+    this.treatmentsDiscountAmount = this.treatmentSubTotal * (this.discount / 100.00);
+    this.treatmentNetAmount = (this.treatmentSubTotal - this.treatmentsDiscountAmount);
     this.treatmentsTaxAmount = (this.treatmentNetAmount * this.treatmentsTax);
     this.treatmentDueAmount = (this.treatmentNetAmount + this.treatmentsTaxAmount);
   }
@@ -248,7 +262,21 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.invoiceSaveRequest.products = this.invoiceableProduct;
     this.invoiceSaveRequest.treatments = this.invoiceableTreatment;
+
     this.invoiceSaveRequest.discount = this.discount;
+    this.invoiceSaveRequest.treatmentDiscountAmount = this.treatmentsDiscountAmount;
+    this.invoiceSaveRequest.treatmentDueAmount = this.treatmentDueAmount;
+    this.invoiceSaveRequest.treatmentNetAmount = this.treatmentNetAmount;
+    this.invoiceSaveRequest.treatmentSubTotal = this.treatmentSubTotal;
+    this.invoiceSaveRequest.treatmentsTax = this.treatmentsTax;
+    this.invoiceSaveRequest.treatmentsTaxAmount = this.treatmentsTaxAmount;
+
+    this.invoiceSaveRequest.productDueAmount = this.productDueAmount;
+    this.invoiceSaveRequest.productSubTotal = this.productSubTotal;
+    this.invoiceSaveRequest.productSubTotal = this.productSubTotal;
+    this.invoiceSaveRequest.productsTax = this.productsTax;
+    this.invoiceSaveRequest.productsTaxAmount = this.productsTaxAmount;
+
 
     this.checkoutService
       .saveInvoice(this.invoiceSaveRequest)
@@ -373,7 +401,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.treatmentNetAmount = 0;
       this.treatmentDueAmount = 0;
       this.discount = 0;
-      this.discountAmount = 0;
+      this.treatmentsDiscountAmount = 0;
       this.treatmentsTax = 0.06;
       this.treatmentsTaxAmount = 0;
 
