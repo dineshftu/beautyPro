@@ -24,7 +24,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'treatments',
+        redirectTo: 'scheduler',
         pathMatch: 'full'
       },
       {
