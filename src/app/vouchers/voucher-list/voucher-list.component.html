@@ -48,7 +48,7 @@
         <div>Issued Date</div>
         <div>Status</div>
         <div>Amount</div>
-        <!-- <div></div> -->
+        <div></div>
       </div>
     </div>
     <!-- end: table header -->
@@ -68,17 +68,15 @@
               </option>
             </select>
           </div>
-          <div>{{voucher.dueAmount | currency : 'LKR'}}
-            <div class="action-btns align-right">
-              <button class="icon-btn">
-                <i class="material-icons" (click)='addNewVoucher(voucher)'>edit</i>
-              </button>
-              <button class="icon-btn" (click)="deleteVoucher(voucher)">
-                <i class="material-icons">delete</i>
-              </button>
-            </div>
+          <div>{{voucher.dueAmount | currency : 'LKR'}}</div>
+          <div class="action-btns align-right">
+            <button class="icon-btn">
+              <i class="material-icons" (click)='addNewVoucher(voucher)'>edit</i>
+            </button>
+            <button class="icon-btn" (click)="deleteVoucher(voucher)">
+              <i class="material-icons">delete</i>
+            </button>
           </div>
-
         </div>
       </div>
 

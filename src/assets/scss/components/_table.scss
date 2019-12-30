@@ -66,9 +66,11 @@
             height: 24px;
             padding: 0 10px;
             font-size: 12px;
-            background: #2a2a2a;
-            color: $white;
+            // background: #2a2a2a;
+            color: $black;
             border-radius: 15px;
+            width: auto;
+            border: none;
 
             option {
               background: #eee;
@@ -106,7 +108,7 @@
   .table-header, .table-row {
     .row {
       div {
-        @include list-columns(25%, 15%, 15%, 15%, 15%, 15%);
+        @include list-columns(15%, 25%, 15%, 15%, 13%, 17%, 100px);
       }
     }
   }
