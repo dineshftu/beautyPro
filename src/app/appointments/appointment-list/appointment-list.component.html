@@ -2,7 +2,7 @@
 
   <!-- start: filter section -->
   <div id="filter-section">
-    <div class="form-group">
+    <div *ngIf="isSuperUser" class="form-group">
       <select class="form-control select" (change)="onDepartmentChange($event)">
         <option value="" disabled selected>Select departmnet</option>
         <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}

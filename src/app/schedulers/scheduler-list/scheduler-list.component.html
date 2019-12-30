@@ -3,6 +3,16 @@
   <!-- start: filter section -->
   <div id="filter-section">
 
+    <div class="form-group" *ngIf="isSuperUser">
+
+      <select class="form-control" (change)="onDepartmentChange($event)">
+        <option value="" disabled selected>Select departmnet</option>
+        <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
+        </option>
+      </select>
+
+    </div>
+
     <div class="form-group">
 
       <mat-form-field>
@@ -20,15 +30,7 @@
 
     </div>
 
-    <div class="form-group" *ngIf="isSuperUser">
 
-      <select class="form-control" (change)="onDepartmentChange($event)">
-        <option value="" disabled selected>Select departmnet</option>
-        <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
-        </option>
-      </select>
-
-    </div>
 
   </div>
 

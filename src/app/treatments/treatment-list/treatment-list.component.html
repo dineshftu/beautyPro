@@ -3,7 +3,8 @@
 
   <!-- start: filter section -->
   <div id="filter-section">
-    <div class="form-group">
+
+    <div *ngIf="isSuperUser" class="form-group">
       <select class="form-control select" (change)="onDepartmentChange($event)">
         <option value="" disabled selected>Select departmnet</option>
         <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
@@ -12,7 +13,8 @@
       </select>
     </div>
 
-    <button type="button" class="btn-default" (click)="addEditTreatment(null)">Add new treatment</button>
+    <button *ngIf="isSuperUser" type="button" class="btn-default" (click)="addEditTreatment(null)">Add new
+      treatment</button>
   </div>
 
   <!-- start: table section -->
@@ -41,7 +43,7 @@
           <div>{{treatment.duration}}</div>
           <div>{{treatment.price | currency : 'MVR'}}</div>
           <div>{{treatment.cost | currency : 'MVR'}}</div>
-          <div class="action-btns align-right">
+          <div *ngIf="isSuperUser" class="action-btns align-right">
             <!-- <button class="icon-btn">
               <i class="material-icons">pageview</i>
             </button> -->
