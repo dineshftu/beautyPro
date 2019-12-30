@@ -120,6 +120,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getCustomerList();
     }
   }
+
   getPaymentTypes() {
     this.voucherService
       .getAllPaymentTypes()
@@ -149,6 +150,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.toastr.warning("Select a customer available for invoicing!");
     }
   }
+
   checkProductExist() {
     var i = this.invoiceableProduct.findIndex(
       product => product.productId == this.newInvoiceableProduct.productId
