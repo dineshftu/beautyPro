@@ -22,7 +22,7 @@
         <!-- start: detailed div -->
         <ng-container *ngIf="i === schedule.startIndex">
 
-          <div class="tooltip">
+          <div class="tooltip" [ngClass]="{'confirmed': schedule.scheduleStatus == 'Confirmed'}">
 
             <span class="tooltiptext">
               <span class="t-bold">Client:</span> {{schedule.clientName}} <br>
@@ -44,7 +44,7 @@
 
         <!-- start: appoinment duration div -->
         <ng-container *ngIf="i > schedule.startIndex && i < schedule.endIndex ">
-          <div [ngStyle]="{'background-color':schedule.colorCode}" class="bk-seg"></div>
+          <div [ngStyle]="{'background-color':schedule.colorCode}" class="bk-seg" [ngClass]="{'pending': schedule.scheduleStatus == 'Pending', 'cancelled': schedule.scheduleStatus == 'Cancelled', 'confirmed': schedule.scheduleStatus == 'Confirmed'}"></div>
         </ng-container>
         <!-- end: appoinment duration div -->
 

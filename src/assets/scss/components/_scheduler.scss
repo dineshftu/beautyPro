@@ -111,6 +111,17 @@
     height: 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
 
+    &.confirmed::before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: -1px;
+      width: 5px;
+      height: 16px;
+      background: #2fff43;
+    }
+
     .bk-seg-status {
       position: absolute;
       background: #5d5959;
@@ -137,7 +148,7 @@
   // height: 16px;
   // padding-right: 4px;
   display: flex;
-  padding: 3px 4px;
+  padding: 3px 4px 3px 7px;
   // @include no-wrap;
   // @include transition(transform 0.5s 1s ease);
   // animation: schd-anim 3s linear 4s infinite both;
