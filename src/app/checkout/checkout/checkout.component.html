@@ -51,9 +51,9 @@
           <div class="row" *ngFor="let treatment of invoiceableTreatment; index as i">
             <div> {{treatment.treatmentName}} </div>
             <!-- <div> {{i + 1}} {{treatment.treatmentName}} </div> -->
-            <div> {{treatment.price | currency : 'LKR'}} </div>
+            <div> {{treatment.price | currency : 'MVR'}} </div>
             <div> {{treatment.quantity}} </div>
-            <div> {{treatment.amount | currency : 'LKR'}} </div>
+            <div> {{treatment.amount | currency : 'MVR'}} </div>
             <div> {{treatment.employeeName}} </div>
           </div>
         </div>
@@ -71,23 +71,23 @@
     <div class="total-label">Treatments <br></div>
     <div class="checkout-total-row">
       <div class="total-label"> Sub Total </div>
-      <div class="total-amount">{{treatmentSubTotal | currency : 'LKR'}}</div>
+      <div class="total-amount">{{treatmentSubTotal | currency : 'MVR'}}</div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Discount </div>
-      <div class="total-amount"> {{treatmentsDiscountAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentsDiscountAmount | currency : 'MVR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Net Amount </div>
-      <div class="total-amount"> {{treatmentNetAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentNetAmount | currency : 'MVR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Tax 6% </div>
-      <div class="total-amount"> {{treatmentsTaxAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentsTaxAmount | currency : 'MVR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Due Amount </div>
-      <div class="total-amount"> {{treatmentDueAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentDueAmount | currency : 'MVR'}} </div>
     </div>
   </div>
 
@@ -178,9 +178,9 @@
       <div class="table-row">
         <div class="row" id="product{{i}}" *ngFor="let product of invoiceableProduct;let i=index">
           <div id="productName{{i}}"> {{product.productName}} </div>
-          <div id="productPrice{{i}}"> {{product.price | currency : 'LKR'}} </div>
+          <div id="productPrice{{i}}"> {{product.price | currency : 'MVR'}} </div>
           <div id="productQuantity{{i}}"> {{product.quantity}} </div>
-          <div id="productAmount{{i}}"> {{product?.price * product.quantity | currency : 'LKR'}} </div>
+          <div id="productAmount{{i}}"> {{product?.price * product.quantity | currency : 'MVR'}} </div>
           <div id="productRec{{i}}"> {{product.recomendedByName}} </div>
           <div>
             <button class="icon-btn" (click)="removeProduct(i)">
@@ -197,15 +197,15 @@
     <div class="total-label">Products</div>
     <div class="checkout-total-row">
       <div class="total-label"> Sub Total </div>
-      <div class="total-amount"> {{productSubTotal | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{productSubTotal | currency : 'MVR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Tax 6% </div>
-      <div class="total-amount"> {{productsTaxAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{productsTaxAmount | currency : 'MVR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Due Amount </div>
-      <div class="total-amount"> {{productDueAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{productDueAmount | currency : 'MVR'}} </div>
     </div>
   </div>
 
@@ -213,23 +213,23 @@
   <div class="checkout-total checkout-total-block">
     <div class="checkout-total-row">
       <div class="total-label"> Grand Sub Total </div>
-      <div class="total-amount"> {{treatmentSubTotal + productSubTotal | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentSubTotal + productSubTotal | currency : 'MVR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label"> Treatment Discount</div>
-      <div class="total-amount"> {{treatmentsDiscountAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentsDiscountAmount | currency : 'MVR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label">Grand Net Amount </div>
-      <div class="total-amount"> {{treatmentNetAmount + productSubTotal | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentNetAmount + productSubTotal | currency : 'MVR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label">Total Tax 6% </div>
-      <div class="total-amount"> {{treatmentsTaxAmount + productsTaxAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentsTaxAmount + productsTaxAmount | currency : 'MVR'}} </div>
     </div>
     <div class="checkout-total-row">
       <div class="total-label">Grand Due Total </div>
-      <div class="total-amount"> {{treatmentDueAmount + productDueAmount | currency : 'LKR'}} </div>
+      <div class="total-amount"> {{treatmentDueAmount + productDueAmount | currency : 'MVR'}} </div>
     </div>
   </div>
   <div class="il-f-submit-btn">

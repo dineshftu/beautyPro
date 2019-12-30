@@ -62,33 +62,14 @@
           <div>{{appointment.time }}</div>
           <div>{{appointment.duration}}</div>
           <div>{{appointment.therapist}}</div>
-          <div>{{appointment.price | currency : 'LKR'}}</div>
+          <div>{{appointment.price | currency : 'MVR'}}</div>
           <div>
-            <span class="ap-status"
-              [class.confirmed-color]="appointment.status=='Confirmed'"
+            <span class="ap-status" [class.confirmed-color]="appointment.status=='Confirmed'"
               [class.cancelled-color]="appointment.status=='Cancelled'"
               [class.pending-color]="appointment.status=='Pending'">
               {{appointment.status}}
             </span>
           </div>
-          <!-- <div>
-            <div class="form-group">
-              <select [(ngModel)]="appointment.status" name="status{{i}}" class="form-control select"
-                (change)='onStatusChange($event, appointment)'>
-                <option value="{{status}}" *ngFor="let status of appointmentStatus">{{status}}
-                </option>
-              </select>
-            </div>
-            <div class="action-btns align-right">
-                <button class="icon-btn">
-                <i class="material-icons" (click)="addEditAppointment(appointment)">edit</i>
-              </button>
-              <button [disabled]="appointment.status!='confirmed'" class="icon-btn"
-                (click)="deleteAppointment(appointment)">
-                <i class="material-icons">delete</i>
-              </button>
-            </div>
-          </div> -->
 
         </div>
       </div>

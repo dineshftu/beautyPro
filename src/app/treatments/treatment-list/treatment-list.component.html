@@ -39,12 +39,12 @@
           <div>{{treatment.ttname}}</div>
           <div>{{treatment.department}}</div>
           <div>{{treatment.duration}}</div>
-          <div>{{treatment.price | currency : 'LKR'}}</div>
-          <div>{{treatment.cost | currency : 'LKR'}}</div>
+          <div>{{treatment.price | currency : 'MVR'}}</div>
+          <div>{{treatment.cost | currency : 'MVR'}}</div>
           <div class="action-btns align-right">
-            <button class="icon-btn">
+            <!-- <button class="icon-btn">
               <i class="material-icons">pageview</i>
-            </button>
+            </button> -->
             <button class="icon-btn">
               <i class="material-icons" (click)='addEditTreatment(treatment)'>edit</i>
             </button>

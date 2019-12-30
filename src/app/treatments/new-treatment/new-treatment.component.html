@@ -53,7 +53,7 @@
 
         <div class="form-group form-amnt w-1/4">
           <label>Price</label>
-          <span class="form-prefix">LKR</span>
+          <span class="form-prefix">MVR</span>
           <input type="number" class="form-control" [(ngModel)]="newTreatmentRequest.price" name="price"
             placeholder="0.00" #price="ngModel" [ngClass]="{ 'is-invalid': f.submitted && price.invalid }"
             (keypress)="numericOnly($event)" required />
@@ -67,7 +67,7 @@
         <div class="form-group form-amnt w-1/4">
 
           <label>Cost</label>
-          <span class="form-prefix">LKR</span>
+          <span class="form-prefix">MVR</span>
           <input type="number" class="form-control" [(ngModel)]="newTreatmentRequest.cost" name="cost"
             placeholder="0.00" #cost="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cost.invalid }"
             (keypress)="numericOnly($event)" required />
@@ -81,8 +81,9 @@
         <div class="form-group w-1/4">
 
           <label>Color Code</label>
-          <input class="form-control" [(colorPicker)]="color" [style.background]="color" [cpToggle]="false" [cpCancelButton]="true"
-            [cpOKButton]="true" [cpOutputFormat]="hex" (colorPickerChange)="onColorPickerChange($event)" />
+          <input class="form-control" [(colorPicker)]="color" [style.background]="color" [cpToggle]="false"
+            [cpCancelButton]="true" [cpOKButton]="true" [cpOutputFormat]="hex"
+            (colorPickerChange)="onColorPickerChange($event)" />
 
           <div *ngIf="f.submitted && isColorCodeNotSelected">
             <div class="error-msg">Color Code is required</div>

@@ -34,7 +34,7 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
   public date: string;
   public status: number;
 
-  public selectedStatus = 1;
+  public selectedStatus = 4;
 
   constructor(
     private data: DataService,
@@ -76,17 +76,6 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
       })
   }
 
-  // private routeReload() {
-  //   this.route
-  //     .events
-  //     .subscribe((e: any) => {
-  //       if (e instanceof NavigationEnd) {
-  //         //this.date = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');//set current date as initial date
-  //         //this.loadAppointments();
-  //       }
-  //     })
-  // }
-
   onDateChange(e: any) {
     this.date = this.helperService.formatDate(new Date(e.target.value).toISOString(), 'yyyy-mm-dd');
 
@@ -112,37 +101,6 @@ export class AppointmentListComponent implements OnInit, AfterViewInit, OnDestro
       this.loadAppointments();
     }
   }
-
-  // onStatusChange(e: any, appointment: Appointments) {
-  //   let appointmentStatusRequest = new AppointmentStatusRequest();
-  //   appointmentStatusRequest.status = e.target.value;
-  //   appointmentStatusRequest.csId = appointment.csId;
-
-  //   const dialogConfig = new MatDialogConfig();
-  //   dialogConfig.disableClose = true;
-  //   dialogConfig.autoFocus = true;
-  //   dialogConfig.data = 'Do you want to change the status?';
-  //   // dialogConfig.width = "20%";
-  //   this.dialog.open(DiologBoxComponent, dialogConfig).afterClosed().subscribe(
-  //     (response) => {
-  //       if (response.message) {
-  //         this.appoinmentService.changeStatusOfAppointment(appointmentStatusRequest)
-  //           .subscribe(
-  //             (response) => {
-  //               this.toastr.success('Status Updated!');
-  //               this.route.navigate(['/home/appointments']);
-  //             },
-  //             (error) => {
-  //               this.toastr.error("Status Not Updated!");
-  //               console.log(error);
-  //             }
-  //           );
-  //       }
-  //     }, (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
 
   loadAppointments() {
 

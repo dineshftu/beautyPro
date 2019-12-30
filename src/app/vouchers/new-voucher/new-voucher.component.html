@@ -106,7 +106,7 @@
 
         <div class="form-group form-amnt">
           <label>Amount</label>
-          <span class="form-prefix">LKR</span>
+          <span class="form-prefix">MVR</span>
           <input class="form-control" name="dueAmount" [(ngModel)]="newVoucherRequest.dueAmount" #dueAmount="ngModel"
             [ngClass]="{ 'is-invalid': f.submitted && dueAmount.invalid }" (keypress)="numericOnly($event)" required
             placeholder="0.00" />
