@@ -98,6 +98,7 @@ export class InvoiceListComponent implements OnInit {
       .getFilteredInvoiceList(this.generateInvoiceFilterRequest())
       .subscribe((invoices: Invoices[]) => {
         this.invoiceList = invoices;
+        this.invoiceList.forEach((inv)=>{inv.invoiceDate=this.helperService.formatDate(inv.invoiceDate,'yyyy/mm/dd')});
       }, (error) => {
         this.toastr.error("Invoice List Loading Failed!");
       }

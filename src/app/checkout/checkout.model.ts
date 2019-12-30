@@ -22,6 +22,8 @@ export class InvoiceSaveRequest {
   productDueAmount: number;
   productsTax: number;
   productsTaxAmount: number;
+  ptid:number;
+  transType:string;
 }
 
 export class InvoiceableProduct {

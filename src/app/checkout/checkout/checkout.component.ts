@@ -16,7 +16,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AddDiscountComponent } from '../add-discount/add-discount.component';
-import { HelperService } from 'src/app/core/services/helper.service';
+import { PaymentType } from 'src/app/vouchers/vouchers.model';
+import { VouchersService } from 'src/app/vouchers/vouchers.service';
 
 @Component({
   selector: 'app-checkout',
@@ -71,6 +72,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   departments: Department[];
   selectedDepartment;
   // public selectedDate;
+  public paymentTypes: PaymentType[];
 
 
   constructor(
@@ -83,6 +85,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     private departmentService: DepartmentService,
     // private helperService: HelperService,
     private route: Router,
+    private voucherService: VouchersService,
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
@@ -96,6 +99,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.getProductList();
       this.getEmployees();
+      this.getPaymentTypes();
     }, 0);
 
     this.validateUserRole();
@@ -115,6 +119,14 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedDepartment = this.user.departmentId;
       this.getCustomerList();
     }
+  }
+  getPaymentTypes() {
+    this.voucherService
+      .getAllPaymentTypes()
+      .pipe(takeUntil(this.ngUnSubscription))
+      .subscribe((paymentTypes: PaymentType[]) => {
+        this.paymentTypes = paymentTypes;
+      });
   }
 
   addProduct(isFormValid: boolean) {
@@ -412,7 +424,10 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.productsTaxAmount = 0;
     }
   }
-
+  onPaymentTypeChange(e: any) {
+    if (this.invoiceSaveRequest.ptid == 1)
+      this.invoiceSaveRequest.transType = null;
+  }
 
   ngAfterViewInit() {
     this.departmentService

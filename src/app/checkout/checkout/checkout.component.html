@@ -233,7 +233,36 @@
     </div>
   </div>
   <div class="il-f-submit-btn">
-    <button (click)='saveInvoice()' class="btn-default">Save Invoice</button>
+    <div class="inline-form add-prd-form">
+      <div class="form-group">
+
+        <label>Payment Type</label>
+        <select class="form-control select" name="paymentType" required (change)="onPaymentTypeChange($event)"
+          [(ngModel)]="invoiceSaveRequest.ptid">
+          <option value="" disabled selected>Select Payment Type</option>
+          <option value={{paymentType.ptid}} *ngFor="let paymentType of paymentTypes">{{paymentType.ptname}}
+          </option>
+        </select>
+
+        <div *ngIf="f.submitted && isPaymentTypeNotSelected">
+          <div class="error-msg">Payment Type is required</div>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <label>Transaction Type</label>
+        <select class="form-control select" [disabled]="invoiceSaveRequest.ptid==1"
+          [required]="invoiceSaveRequest.ptid!=1" [(ngModel)]="invoiceSaveRequest.transType" name="transType"
+          id="transType">
+          <option value="Visa">Visa</option>
+          <option value="Master">Master</option>
+          <option value="AMEX">AMEX</option>
+        </select>
+      </div>
+      <div class="il-f-submit-btn">
+        <button (click)='saveInvoice()' class="btn-default">Save Invoice</button>
+      </div>
+    </div>
   </div>
 
 </div>

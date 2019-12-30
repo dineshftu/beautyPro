@@ -117,6 +117,9 @@ export class NewVoucherComponent implements OnInit {
   onPaymentTypeChange(e: any) {
     this.isPaymentTypeNotSelected = false;
     this.newVoucherRequest.ptid = e.target.value;
+
+    if (this.newVoucherRequest.ptid == 1)
+      this.newVoucherRequest.transType = null;
   }
 
   getCustomerList() {
