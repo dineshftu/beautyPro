@@ -278,7 +278,7 @@ export class NewAppointmentComponent implements OnInit {
 
     let tDuration = this.treatmentDuration;
 
-    if (this.treatmentQty != 0) {
+    if (this.treatmentQty > 0) {
       tDuration *= this.treatmentQty;
     }
 
@@ -404,19 +404,24 @@ export class NewAppointmentComponent implements OnInit {
 
     let treamentStartTimeMin = ((parseInt(this.startHour) * 60) + (parseInt(this.startMin)));
     let treamentEndTimeMin = ((this.endHour * 60) + this.endMin);
+
     let isNotValidTIme = false;
+
     let customerScheduleId = (this.data.selectedSchedule != undefined) ? this.data.selectedSchedule.customerScheduleId : 0;
 
-    if (this.data.scheduleResponse.schedules != null || this.data.scheduleResponse.schedule != undefined) {
+
+    if (this.data.scheduleResponse.schedules != null && this.data.scheduleResponse.schedule != undefined) {
 
       this.data.scheduleResponse.schedules.forEach(function (sched: any) {
 
         let schedStartTimeMin = (parseInt(sched.startTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
         let schedEndTimeMinu = (parseInt(sched.endTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
 
+        // isNotValidTIme = !(((treamentStartTimeMin < 1 ) && (treamentEndTimeMin < schedStartTimeMin))
+        //   || ((treamentStartTimeMin > schedEndTimeMinu) && (treamentEndTimeMin > schedEndTimeMinu)));
+
         isNotValidTIme = !(((treamentStartTimeMin < schedStartTimeMin) && (treamentEndTimeMin < schedStartTimeMin))
           || ((treamentStartTimeMin > schedEndTimeMinu) && (treamentEndTimeMin > schedEndTimeMinu)));
-
 
         isNotValidTIme = ((customerScheduleId != 0) &&
           (sched.customerScheduleId == customerScheduleId)) ? false : isNotValidTIme;

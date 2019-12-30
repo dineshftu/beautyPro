@@ -49,6 +49,8 @@ export class SchedulerListComponent implements OnInit {
     private route: Router
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
+
+    this.validateLoad();
     this.routeReload();
   }
 
@@ -93,8 +95,8 @@ export class SchedulerListComponent implements OnInit {
       .events
       .subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
-          this.validateLoad();
-          //this.loadSchedules();
+          //this.validateLoad();
+          this.loadSchedules();
         }
       })
   }
@@ -120,6 +122,12 @@ export class SchedulerListComponent implements OnInit {
   }
 
   loadSchedules() {
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+      return;
+    }
+
     this.schedulerService
       .getFilteredScheduleList(this.generateScheduleFilterRequest())
       .subscribe((schedules: ScheduleResponse[]) => {
@@ -137,9 +145,9 @@ export class SchedulerListComponent implements OnInit {
     }
   }
 
-  loadSchedulers() {
-    throw new Error("Method not implemented.");
-  }
+  // loadSchedulers() {
+  //   throw new Error("Method not implemented.");
+  // }
 
   generateTimeIndexes() {
     let timeIndexLength = (this.timeInterval.length - 1) * (60 / this.minTime),

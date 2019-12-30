@@ -96,6 +96,12 @@ export class TreatmentListComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   loadTreatments() {
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+      return;
+    }
+
     this.treatmentService
       .getFilteredTreatmentList(this.generateTreatmentFilterRequest())
       .subscribe((treatments: Treatment[]) => {
