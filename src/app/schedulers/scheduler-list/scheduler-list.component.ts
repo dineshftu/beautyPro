@@ -23,6 +23,7 @@ export class SchedulerListComponent implements OnInit {
   // public date = formatDate(new Date(), 'yyyy-mm-dd', '', '');
   public selectedDate;
   private minTime = 5;
+  private openingHour = 8;
   public selectedDepartment;
   public scheduleResponseList: ScheduleResponse[];
   departments: Department[];
@@ -152,7 +153,7 @@ export class SchedulerListComponent implements OnInit {
   generateTimeIndexes() {
     let timeIndexLength = (this.timeInterval.length - 1) * (60 / this.minTime),
       //workingMin = (this.timeInterval.length - 1) * 60,
-      openingHour = 8,
+      openingHour = this.openingHour,
       minTimeSlot = this.minTime;
 
     this.scheduleResponseList.forEach(function (emp) {

@@ -75,6 +75,8 @@ export class NewAppointmentComponent implements OnInit {
   public initialValueEmployee: string = '';
 
   private selectedStatus: string;
+  private openingHour = 8;
+  private minTimeSlot = 5;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -316,7 +318,6 @@ export class NewAppointmentComponent implements OnInit {
   }
 
   save() {
-
     if (!this.newAppointmentRequest.customerId) {
       this.isCustomerNotSelected = true;
       return;
@@ -401,42 +402,50 @@ export class NewAppointmentComponent implements OnInit {
   }
 
   getTimeValidity() {
+    // let appoinmentStartTimeMin = ((parseInt(this.startHour) * 60) + (parseInt(this.startMin)));
+    // let appoinmentEndTimeMin = ((this.endHour * 60) + this.endMin);
 
-    let appoinmentStartTimeMin = ((parseInt(this.startHour) * 60) + (parseInt(this.startMin)));
-    let appoinmentEndTimeMin = ((this.endHour * 60) + this.endMin);
+    let isNotValidTime = false,
+      customerSchedulStart = (this.data.selectedSchedule != undefined) ? this.data.selectedSchedule.startIndex : -1,
+      // customerScheduleId = (this.data.selectedSchedule != undefined) ? this.data.selectedSchedule.customerScheduleId : 0,
+      customerScheduleEnd = (this.data.selectedSchedule != undefined) ? this.data.selectedSchedule.endIndex : -1,
+      startingIndex = ((((parseInt(this.startHour) * 60) + parseInt(this.startMin)) - (this.openingHour * 60)) / this.minTimeSlot),
+      endIndex = ((((this.endHour * 60) + this.endMin) - (this.openingHour * 60)) / this.minTimeSlot);
 
-    let isNotValidTime = false;
-
-    let customerScheduleId = (this.data.selectedSchedule != undefined) ? this.data.selectedSchedule.customerScheduleId : 0;
-
-
-    if (this.data.scheduleResponse.schedules != null && this.data.scheduleResponse.schedule != undefined) {
-
-      this.data.scheduleResponse.schedules.forEach(function (sched: any) {
-
-        if (!isNotValidTime) {
-
-          let schedStartTimeMin = (parseInt(sched.startTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
-          let schedEndTimeMinu = (parseInt(sched.endTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
-
-          // isNotValidTIme = !(((treamentStartTimeMin < 1 ) && (treamentEndTimeMin < schedStartTimeMin))
-          //   || ((treamentStartTimeMin > schedEndTimeMinu) && (treamentEndTimeMin > schedEndTimeMinu)));
-
-          isNotValidTime = !(((appoinmentStartTimeMin < schedStartTimeMin) && (appoinmentEndTimeMin < schedStartTimeMin))
-            || ((appoinmentStartTimeMin > schedEndTimeMinu) && (appoinmentEndTimeMin > schedEndTimeMinu)));
-
-          //On Edit
-          isNotValidTime = ((customerScheduleId != 0) &&
-            (sched.customerScheduleId == customerScheduleId)) ? false : isNotValidTime;
-
-        }
-
-      });
-    } else {
-      isNotValidTime = false;
+    for (let index = startingIndex; index < endIndex; index++) {
+      if (!isNotValidTime && !((customerSchedulStart != -1) &&
+        (index >= customerSchedulStart && index < customerScheduleEnd))) {
+        isNotValidTime = this.data.scheduleResponse.timeIndexes[index] != 'default';
+      }
     }
 
     this.isTimeInvalid = isNotValidTime;
+
+
+    // this.data.scheduleResponse.schedules.forEach(function (sched: any) {
+
+    //   if (!isNotValidTime && !((customerScheduleId != 0) &&
+    //     (sched.customerScheduleId == customerScheduleId))) {
+
+    //     let schedStartTimeMin = (parseInt(sched.startTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
+    //     let schedEndTimeMinu = (parseInt(sched.endTime.split(":")[0]) * 60) + (parseInt(sched.startTime.split(":")[1]));
+
+    //     // isNotValidTIme = !(((treamentStartTimeMin < 1 ) && (treamentEndTimeMin < schedStartTimeMin))
+    //     //   || ((treamentStartTimeMin > schedEndTimeMinu) && (treamentEndTimeMin > schedEndTimeMinu)));
+
+    //     isNotValidTime = !(((appoinmentStartTimeMin < schedStartTimeMin) && (appoinmentEndTimeMin < schedStartTimeMin))
+    //       || ((appoinmentStartTimeMin > schedEndTimeMinu) && (appoinmentEndTimeMin > schedEndTimeMinu)));
+
+    //     //On Edit
+    //     // isNotValidTime = ((customerScheduleId != 0) &&
+    //     //   (sched.customerScheduleId == customerScheduleId)) ? false : isNotValidTime;
+
+    //   }
+
+    // });
+    // }
+
+    // this.isTimeInvalid = isNotValidTime;
   }
 
 
