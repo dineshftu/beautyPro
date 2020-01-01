@@ -1,7 +1,7 @@
 .schd-container {
   padding-left: 40px;
   position: absolute;
-  top: 161px;
+  top: 100px;
   bottom: 0;
   overflow: auto;
   left: 0;
@@ -169,4 +169,8 @@
   100% {
     transform: translateY(-16px);
   }
+}
+
+app-scheduler-list {
+  width: 100%;
 }
