@@ -259,6 +259,37 @@
           <option value="AMEX">AMEX</option>
         </select>
       </div>
+
+      <div class="form-group">
+        <div class="ng-autocomplete">
+          <ng-autocomplete [data]="voucherList" [searchKeyword]="keywordVoucher" placeHolder="Enter Voucher Number"
+            [(ngModel)]="selectedVoucher" (selected)='selectVoucherEvent($event)' [itemTemplate]="itemTemplate12"
+            [notFoundTemplate]="notFoundTemplate12">
+          </ng-autocomplete>
+
+          <ng-template #itemTemplate12 let-item>
+            <a [innerHTML]="item.voucherNo"></a>
+          </ng-template>
+
+          <ng-template #notFoundTemplate12 let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Voucher Due Asmount</label>
+        <input type="number" class="form-control" name="voucherDueAmount" placeholder="Voucher Due Asmount..."
+          [(ngModel)]='voucherDueAmount' disabled readonly />
+      </div>
+
+      <div class="form-group">
+        <label>Voucher Sub Total</label>
+        <input type="number" class="form-control" name="voucherSubTotalAmount" placeholder="Voucher Sub Total..."
+          [(ngModel)]='gVRedeemedAmount' />
+      </div>
+
       <div class="il-f-submit-btn">
         <button (click)='saveInvoice()' class="btn-default">Save Invoice</button>
       </div>

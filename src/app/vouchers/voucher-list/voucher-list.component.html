@@ -57,9 +57,9 @@
     <div id="table-body">
       <div class="table-row">
         <div class="row" *ngFor="let voucher of voucherList">
-          <div>{{voucher.gvinvoiceNo}}</div>
+          <div>{{voucher.voucherNo}}</div>
           <div>{{voucher.customerName}}</div>
-          <div>{{voucher.enteredBy}}</div>
+          <div>{{voucher.issuedBy}}</div>
           <div>{{voucher.enteredDate | date}}</div>
           <div>
             <select [(ngModel)]="voucher.status" name="status{{i}}" class="form-control select"

@@ -22,8 +22,11 @@ export class InvoiceSaveRequest {
   productDueAmount: number;
   productsTax: number;
   productsTaxAmount: number;
-  ptid:number;
-  transType:string;
+  ptid: number;
+  transType: string;
+
+  gvinvoiceNo: string;
+  gVRedeemedAmount: number;
 }
 
 export class InvoiceableProduct {

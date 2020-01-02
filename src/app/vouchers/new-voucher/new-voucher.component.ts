@@ -143,6 +143,7 @@ export class NewVoucherComponent implements OnInit {
   selectTreatmentEvent(e: any) {
     this.newVoucherRequest.ttid = e.ttid;
     this.newVoucherRequest.dueAmount = e.price;
+    this.newVoucherRequest.subTotalAmount = e.price;
   }
 
   cancel() {

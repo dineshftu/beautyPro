@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseDataService } from '../core/services/base-data.service';
 import { Observable } from 'rxjs';
-import { Vouchers, VoucherFilterRequest, NewVoucherRequest, PaymentType, VouchersDeleteRequest, ChangeVoucherStatusRequest } from './vouchers.model';
+import { Vouchers, VoucherFilterRequest, NewVoucherRequest, PaymentType, VouchersDeleteRequest, ChangeVoucherStatusRequest, IssuedVoucherFilterRequest } from './vouchers.model';
 
 
 @Injectable()
@@ -18,6 +18,11 @@ export class VouchersService {
                       &&date=${request.date}
                       &&departmentId=${request.departmentId}`;
     return this.baseDataService.makeGetCall(`${this.apiVoucherUrl}${'/filter'}?${queryString}`);
+  }
+
+  public getIssuedVoucherList(request: IssuedVoucherFilterRequest): Observable<Array<Vouchers>> {
+    let queryString = `customerId=${request.customerId}`;
+    return this.baseDataService.makeGetCall(`${this.apiVoucherUrl}${'/issued-vouchers'}?${queryString}`);
   }
 
   public addNewVoucher(body: NewVoucherRequest): Observable<any> {

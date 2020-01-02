@@ -16,7 +16,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AddDiscountComponent } from '../add-discount/add-discount.component';
-import { PaymentType } from 'src/app/vouchers/vouchers.model';
+import { PaymentType, Vouchers, VoucherFilterRequest, IssuedVoucherFilterRequest } from 'src/app/vouchers/vouchers.model';
 import { VouchersService } from 'src/app/vouchers/vouchers.service';
 import { PdfGenerateService } from 'src/app/core/services/pdf-generate.service';
 
@@ -31,6 +31,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   public user: any;
   public isSuperUser: boolean = false;
   public selectedCustomer: Customer;
+  public selectedVoucher: Vouchers;
 
   module: string;
   public customers: Customer[];
@@ -48,6 +49,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   isProductNotSelected: boolean = true;
   isProductNotDuplicated: boolean = true;
   public keywordProduct = 'itemName';
+  public keywordVoucher = 'voucherNo';
 
   public invoiceSaveRequest = new InvoiceSaveRequest();
   public newInvoiceableProduct = new InvoiceableProduct();
@@ -74,6 +76,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedDepartment;
   // public selectedDate;
   public paymentTypes: PaymentType[];
+  public voucherList: Vouchers[];
+  public gVRedeemedAmount: number;
+  public voucherDueAmount: number;
 
 
   constructor(
@@ -120,6 +125,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.selectedDepartment = this.user.departmentId;
       this.getCustomerList();
+      //this.loadVouchers();
     }
   }
 
@@ -228,6 +234,29 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
+  loadVouchers() {
+
+    if (!this.selectedDepartment && this.isSuperUser) {
+      this.toastr.error("Please Select a Department!");
+      return;
+    }
+
+    this.voucherService
+      .getIssuedVoucherList(this.generateVoucherFilterRequest())
+      .subscribe((vouchers: Vouchers[]) => {
+        this.voucherList = vouchers;
+        this.voucherList.map(voucher => voucher.status = (voucher.isRedeem ? "Redeemed" : voucher.isCanceled ? "Cancelled" : "Issued"));
+      }, (error) => {
+        this.toastr.error("Voucher List Loading Failed!");
+      });
+  }
+
+  private generateVoucherFilterRequest() {
+    return <IssuedVoucherFilterRequest>{
+      customerId: this.invoiceSaveRequest.customerId
+    }
+  }
+
   getCustomerList() {
 
     if (!this.selectedDepartment && this.isSuperUser) {
@@ -268,6 +297,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.invoiceSaveRequest.customerId = e.customerId;
     this.invoiceSaveRequest.departmentId = this.selectedDepartment;
     this.getInvoiceTreatmentList();
+    this.loadVouchers();
+  }
+
+  selectVoucherEvent(e: any) {
+    console.log('eeeee', e);
+    this.invoiceSaveRequest.gvinvoiceNo = e.gvinvoiceNo;
+    this.voucherDueAmount = e.dueAmount;
   }
 
   saveInvoice() {
@@ -292,6 +328,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.invoiceSaveRequest.productSubTotal = this.productSubTotal;
     this.invoiceSaveRequest.productsTax = this.productsTax;
     this.invoiceSaveRequest.productsTaxAmount = this.productsTaxAmount;
+    this.invoiceSaveRequest.gVRedeemedAmount = this.gVRedeemedAmount;
 
     this.checkoutService
       .saveInvoice(this.invoiceSaveRequest)
@@ -409,6 +446,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.toastr.error("Please Select a Department!");
     } else {
       this.getCustomerList();
+      //this.loadVouchers();
       this.isCustomerNotSelected = true;
       this.invoiceableTreatment = new Array<InvoiceableTreatment>();
       this.invoiceableProduct = new Array<InvoiceableProduct>();

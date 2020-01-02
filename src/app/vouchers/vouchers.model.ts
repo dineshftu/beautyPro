@@ -16,6 +16,11 @@ export interface VoucherFilterRequest {
   date: string;
 }
 
+export interface IssuedVoucherFilterRequest {
+  departmentId: number;
+  customerId: string;
+}
+
 export class NewVoucherRequest {
   customerId: string;
   voucherNo: string;
@@ -24,6 +29,7 @@ export class NewVoucherRequest {
   ttid: number;
   departmentId: number;
   transType: string;
+  subTotalAmount: number;
 }
 
 export interface PaymentType {
