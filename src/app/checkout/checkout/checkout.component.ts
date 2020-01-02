@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { AddDiscountComponent } from '../add-discount/add-discount.component';
 import { PaymentType } from 'src/app/vouchers/vouchers.model';
 import { VouchersService } from 'src/app/vouchers/vouchers.service';
+import { PdfGenerateService } from 'src/app/core/services/pdf-generate.service';
 
 @Component({
   selector: 'app-checkout',
@@ -86,6 +87,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     // private helperService: HelperService,
     private route: Router,
     private voucherService: VouchersService,
+    private pdfGenerateServie: PdfGenerateService
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
@@ -291,10 +293,10 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.invoiceSaveRequest.productsTax = this.productsTax;
     this.invoiceSaveRequest.productsTaxAmount = this.productsTaxAmount;
 
-
     this.checkoutService
       .saveInvoice(this.invoiceSaveRequest)
       .subscribe((response: any[]) => {
+        this.pdfGenerateServie.getInvoicePdf(this.invoiceSaveRequest, this.selectedCustomer);
         this.toastr.success("Invoice Saved!");
         this.route.navigate(['home/checkout']);
       }, (error) => {
