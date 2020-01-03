@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ScheduleResponse } from '../scheduler.model';
+import { ScheduleResponse, Schedules } from '../scheduler.model';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { NewAppointmentComponent } from 'src/app/shared/new-appointments/new-appointments.component';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { Appointments, AppointmentStatusRequest } from 'src/app/appointments/app
 import { DiologBoxComponent } from 'src/app/shared/components/diolog-box/diolog-box.component';
 import { AppointmentsService } from 'src/app/appointments/appointments.service';
 import { ToastrService } from 'ngx-toastr';
+import { DataService } from 'src/app/core/services/data.service';
 
 @Component({
   selector: 'app-scheduler-item',
@@ -18,6 +19,9 @@ export class SchedulerItemComponent implements OnInit {
   @Input() selectedDate: Date
   @Input() selectedDepartment: number
 
+  customerId: string;
+  customerName: string;
+  departmentId: number;
 
   appointmentList: Appointments[];
   // appointmentStatus = ["pending", "confirmed", "cancelled"];
@@ -26,17 +30,38 @@ export class SchedulerItemComponent implements OnInit {
     private appoinmentService: AppointmentsService,
     private toastr: ToastrService,
     private route: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private data: DataService
   ) { }
 
   ngOnInit() {
+    this.data.scheduledCustomerId.subscribe(id => this.customerId = id);
+    this.data.scheduledCustomerName.subscribe(name => this.customerName = name);
+    this.data.scheduledDepartmentId.subscribe(id => this.departmentId = parseInt(id));
   }
 
   onDivClick() {
     alert('hi');
   }
 
-  addEditAppointment(selectedIndex: number, selectedSchedule: any) {
+
+  addEditAppointment(selectedIndex: number, selectedSchedule: Schedules) {
+    if (selectedSchedule) {
+      if (selectedSchedule.scheduleStatus == 'Confirmed') {
+        this.data.changeCustomerId(selectedSchedule.customerId);
+        this.data.changeDepartmentId(selectedSchedule.departmentId.toString());
+        this.data.changeCustomerName(selectedSchedule.clientName);
+        this.toastr.info('Navigating to Checkout!')
+        this.route.navigate(['/home/checkout']);
+      } else {
+        this.addEditAppointmentPopUp(selectedIndex, selectedSchedule);
+      }
+    } else {
+      this.addEditAppointmentPopUp(selectedIndex, selectedSchedule);
+    }
+  }
+
+  addEditAppointmentPopUp(selectedIndex: number, selectedSchedule: any) {
     console.log('scheduleResponse', this.scheduleResponse);
     console.log('selectedSchedule', selectedSchedule);
 

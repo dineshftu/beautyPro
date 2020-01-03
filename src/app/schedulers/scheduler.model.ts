@@ -18,5 +18,8 @@ export class Schedules {
   endTime: string;
   startIndex: number;
   endIndex: number;
+  customerId: string;
+  departmentId: number;
+  ttId: number;
   // timeIndexes: Array<string>;
 }

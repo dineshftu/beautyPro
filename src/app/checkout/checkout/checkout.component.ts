@@ -25,7 +25,7 @@ import { PdfGenerateService } from 'src/app/core/services/pdf-generate.service';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CheckoutComponent implements OnInit, OnDestroy {
   private ngUnSubscription = new Subject();
 
   public user: any;
@@ -34,6 +34,10 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedVoucher: Vouchers;
 
   module: string;
+  customerId: string;
+  customerName: string;
+  departmentId: number;
+
   public customers: Customer[];
   public invoiceableTreatment = new Array<InvoiceableTreatment>();
   public invoiceableProduct = new Array<InvoiceableProduct>();
@@ -80,6 +84,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   public gVRedeemedAmount: number;
   public voucherDueAmount: number;
 
+  isPaymentTypeNotSelected: boolean = true;
+  selectedCustomerfullName = '';
 
   constructor(
     public clientsService: ClientsService,
@@ -101,6 +107,12 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.data.currentModule.subscribe(module => this.module = module);
     this.data.changeModule("Checkout");
 
+    this.data.scheduledCustomerId.subscribe(id => this.customerId = id);
+    this.data.scheduledCustomerName.subscribe(name => this.customerName = name);
+    this.data.scheduledDepartmentId.subscribe(id => this.departmentId = parseInt(id));
+
+    console.log(this.customerId + " " + this.departmentId + " " + this.customerName);
+
     this.isSuperUser = (this.user.userType == "GeneralManager" || this.user.userType == "SystemAdmin" || this.user.userType == "Director");
 
     setTimeout(() => {
@@ -109,9 +121,25 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getPaymentTypes();
     }, 0);
 
+    this.initializeRidirectedFromScheduler();
     this.validateUserRole();
+    this.getAllDepartments();
   }
 
+  initializeRidirectedFromScheduler() {
+    if (this.departmentId && this.customerId && this.customerName) {
+      this.selectedDepartment = this.departmentId;
+      this.getCustomerList('');
+
+      this.checkoutTreatmentRequest.customerId = this.customerId;
+      this.checkoutTreatmentRequest.departmentId = this.selectedDepartment;
+      this.invoiceSaveRequest.customerId = this.customerId;
+      this.invoiceSaveRequest.departmentId = this.selectedDepartment;
+      this.getInvoiceTreatmentList();
+      this.loadVouchers();
+    }
+
+  }
 
   validateUserRole() {
     // this.selectedDate = this.helperService.formatDate(new Date().toISOString(), 'yyyy-mm-dd');
@@ -122,11 +150,15 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.selectedDepartment) {
         this.toastr.error("Please Select a Department!");
       }
-    } else {
+    } else if (!this.selectedDepartment) {
       this.selectedDepartment = this.user.departmentId;
-      this.getCustomerList();
       //this.loadVouchers();
+      this.getCustomerList('');
+    } else if (this.selectedDepartment != this.user.departmentId) {
+      this.toastr.error("Unauthorized action! Page realoding!");
+      this.route.navigate(['/home/checkout']);
     }
+
   }
 
   getPaymentTypes() {
@@ -247,6 +279,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.voucherList = vouchers;
         this.voucherList.map(voucher => voucher.status = (voucher.isRedeem ? "Redeemed" : voucher.isCanceled ? "Cancelled" : "Issued"));
       }, (error) => {
+        this.voucherList = null;
         this.toastr.error("Voucher List Loading Failed!");
       });
   }
@@ -257,17 +290,29 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  getCustomerList() {
-
+  getCustomerList(search: string) {
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
       return;
     }
 
     this.clientsService
-      .getScheduleCustomerList(this.createCustomerRequest())
+      .getScheduleCustomerList(this.createCustomerRequest(search))
       .subscribe((customers: Customer[]) => {
-        this.customers = customers
+        this.customers = customers;
+        if (this.customerId) {
+          for (let index = 0; index < this.customers.length; index++) {
+            if (this.customers[index].customerId == this.customerId) {
+              this.selectedCustomer = this.customers[index];
+              this.selectedCustomerfullName = this.selectedCustomer.fullName;
+            }
+          }
+
+          if (!this.selectedCustomer) {
+            this.toastr.error("Available Customer not found!");
+          }
+        }
+
       }, (error) => {
         this.toastr.error("Client List Loading Failed!");
       });
@@ -284,20 +329,36 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  createCustomerRequest() {
+  createCustomerRequest(search: string) {
     return <CustomerSearchRequest>{
-      searchText: '',
+      searchText: search,
       departmentId: this.selectedDepartment
     };
   }
 
   selectCustomerEvent(e: any) {
+    this.data.changeCustomerId(null);
+    // this.data.changeDepartmentId(null);
+    this.data.changeCustomerName(null);
+
     this.checkoutTreatmentRequest.customerId = e.customerId;
     this.checkoutTreatmentRequest.departmentId = this.selectedDepartment;
     this.invoiceSaveRequest.customerId = e.customerId;
     this.invoiceSaveRequest.departmentId = this.selectedDepartment;
     this.getInvoiceTreatmentList();
     this.loadVouchers();
+  }
+
+  clearCustomerEvent(e: any) {
+    if (this.customerId && this.customerName) {
+      // this.toastr.info("Wait! Customer List is Loading!");
+      this.data.changeCustomerId(null);
+      // this.data.changeDepartmentId(null);
+      this.data.changeCustomerName(null);
+      this.selectedCustomer = null;
+      this.selectedCustomerfullName = '';
+      this.getCustomerList('');
+    }
   }
 
   selectVoucherEvent(e: any) {
@@ -307,8 +368,23 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveInvoice() {
-    if (!this.selectedDepartment && this.isSuperUser && this.invoiceableTreatment.length > 0) {
+    if (!this.selectedDepartment) {
+      this.toastr.error("Please Select a Department!");
+      return;
+    }
+
+    if (!this.selectedCustomer && this.invoiceableTreatment.length < 1) {
       this.toastr.error("Please Select a Customer!");
+      return;
+    }
+
+    if (this.isPaymentTypeNotSelected) {
+      this.toastr.error("Please Select Payment Type!");
+      return;
+    }
+
+    if (this.invoiceSaveRequest.ptid != 1 && !this.invoiceSaveRequest.transType) {
+      this.toastr.error("Please Select a Transaction Type!");
       return;
     }
 
@@ -334,9 +410,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       .saveInvoice(this.invoiceSaveRequest)
       .subscribe((response: any) => {
         this.invoiceSaveRequest.gvinvoiceNo = response;
-        this.pdfGenerateServie.getInvoicePdf(this.invoiceSaveRequest, this.selectedCustomer);
-        this.toastr.success("Invoice Saved!");
         this.route.navigate(['home/checkout']);
+        this.toastr.success("Invoice Saved!");
+        this.pdfGenerateServie.getInvoicePdf(this.invoiceSaveRequest, this.selectedCustomer);
       }, (error) => {
         this.toastr.error("Invoice Failed!");
       });
@@ -356,6 +432,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isCustomerNotSelected = false;
         this.calculate();
       }, (error) => {
+        this.invoiceableTreatment = null;
         this.toastr.error("Treatment List Loading Failed!");
       });
   }
@@ -443,11 +520,16 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   onDepartmentChange(e: any) {
     this.selectedDepartment = e.target.value;
 
+    this.data.changeCustomerId(null);
+    this.data.changeDepartmentId(null);
+    this.data.changeCustomerName(null);
+    this.selectedCustomerfullName = '';
+
     if (!this.selectedDepartment && this.isSuperUser) {
       this.toastr.error("Please Select a Department!");
     } else {
-      this.getCustomerList();
       //this.loadVouchers();
+      this.getCustomerList('');
       this.isCustomerNotSelected = true;
       this.invoiceableTreatment = new Array<InvoiceableTreatment>();
       this.invoiceableProduct = new Array<InvoiceableProduct>();
@@ -465,14 +547,19 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.productDueAmount = 0;
       this.productsTax = 0.06;
       this.productsTaxAmount = 0;
+
+      this.voucherList = null;
     }
   }
+
   onPaymentTypeChange(e: any) {
-    if (this.invoiceSaveRequest.ptid == 1)
+    if (this.invoiceSaveRequest.ptid == 1) {
       this.invoiceSaveRequest.transType = null;
+      this.isPaymentTypeNotSelected = false;
+    }
   }
 
-  ngAfterViewInit() {
+  getAllDepartments() {
     this.departmentService
       .getAllDepartments()
       .pipe(takeUntil(this.ngUnSubscription))
@@ -483,6 +570,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnDestroy() {
+    this.data.changeCustomerId(null);
+    this.data.changeDepartmentId(null);
+    this.data.changeCustomerName(null);
     this.ngUnSubscription.next(true);
     this.ngUnSubscription.complete();
   }
