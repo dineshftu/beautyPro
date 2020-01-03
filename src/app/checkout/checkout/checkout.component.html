@@ -3,7 +3,7 @@
   <!-- start: filter section -->
   <div id="filter-section">
     <div class="form-group" *ngIf="isSuperUser">
-      <select class="form-control select" (change)="onDepartmentChange($event)">
+      <select class="form-control select" (change)="onDepartmentChange($event)" [(ngModel)]='selectedDepartment'>
         <option value="" disabled selected>Select departmnet</option>
         <option value="{{department.departmentId}}" *ngFor="let department of departments">{{department.name}}
         </option>
@@ -12,8 +12,8 @@
 
     <div class="form-group">
       <div class="ng-autocomplete">
-        <ng-autocomplete [data]="customers" [searchKeyword]="keyword" placeHolder="Enter Customer Name"
-          [(ngModel)]="selectedCustomer" (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate1"
+        <ng-autocomplete [(ngModel)]="selectedCustomerfullName" [data]="customers" [searchKeyword]="keyword"
+          placeHolder="Enter Customer Name" (selected)='selectCustomerEvent($event)' [itemTemplate]="itemTemplate1"
           [notFoundTemplate]="notFoundTemplate">
         </ng-autocomplete>
 
@@ -251,13 +251,18 @@
       </div>
       <div class="form-group">
         <label>Transaction Type</label>
-        <select class="form-control select" [disabled]="invoiceSaveRequest.ptid==1"
+        <select class="form-control select" [disabled]="invoiceSaveRequest.ptid==1 || isPaymentTypeNotSelected"
           [required]="invoiceSaveRequest.ptid!=1" [(ngModel)]="invoiceSaveRequest.transType" name="transType"
           id="transType">
           <option value="Visa">Visa</option>
           <option value="Master">Master</option>
           <option value="AMEX">AMEX</option>
         </select>
+
+        <div
+          *ngIf="f.submitted && !isPaymentTypeNotSelected && invoiceSaveRequest.ptid!=1 && invoiceSaveRequest.transType==null">
+          <div class="error-msg">Transaction Type is required</div>
+        </div>
       </div>
 
       <div class="form-group" style="padding-top: 17px">
