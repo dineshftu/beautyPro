@@ -68,7 +68,7 @@
 
   <!-- start: treatment total section -->
   <div class="checkout-total checkout-total-block">
-    <div class="total-label">Treatments <br></div>
+    <div class="total-label  head-total">Treatments <br></div>
     <div class="checkout-total-row">
       <div class="total-label"> Sub Total </div>
       <div class="total-amount">{{treatmentSubTotal | currency : 'MVR'}}</div>
@@ -194,7 +194,7 @@
 
   <!-- start: product table total section -->
   <div class="checkout-total checkout-total-block">
-    <div class="total-label">Products</div>
+    <div class="total-label head-total">Products</div>
     <div class="checkout-total-row">
       <div class="total-label"> Sub Total </div>
       <div class="total-amount"> {{productSubTotal | currency : 'MVR'}} </div>
@@ -260,7 +260,8 @@
         </select>
       </div>
 
-      <div class="form-group" style="padding-top: 17px">
+      <div class="form-group">
+        <label>Enter Voucher Number</label>
         <div class="ng-autocomplete">
           <ng-autocomplete [data]="voucherList" [searchKeyword]="keywordVoucher" placeHolder="Enter Voucher Number"
             [(ngModel)]="selectedVoucher" (selected)='selectVoucherEvent($event)' [itemTemplate]="itemTemplate12"
