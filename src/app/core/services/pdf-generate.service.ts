@@ -29,7 +29,7 @@ export class PdfGenerateService {
     pdf.text(pdf.internal.pageSize.width / 2, startVertical += 14, "+960 795-0077", 'center');
 
     pdf.text(40, startVertical += 16, `Invoice No : ${data.gvinvoiceNo}`);
-    pdf.text(pdf.internal.pageSize.width / 2 + 30, startVertical, `Customer Name : ${customer}`);
+    pdf.text(pdf.internal.pageSize.width / 2 + 30, startVertical, `Customer Name : ${customer.fullName}`);
 
     pdf.line(40, startVertical += 5, pdf.internal.pageSize.width - 40, startVertical);//line
 

@@ -332,7 +332,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.checkoutService
       .saveInvoice(this.invoiceSaveRequest)
-      .subscribe((response: any[]) => {
+      .subscribe((response: any) => {
+        this.invoiceSaveRequest.gvinvoiceNo = response;
         this.pdfGenerateServie.getInvoicePdf(this.invoiceSaveRequest, this.selectedCustomer);
         this.toastr.success("Invoice Saved!");
         this.route.navigate(['home/checkout']);
